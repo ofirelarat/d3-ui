@@ -1,6 +1,8 @@
 import { PageHeader } from "@/app/components/PageHeader";
 import { Section } from "@/app/components/Section";
-import LineChart from "../../../../../components/LineChart";
+import fs from "fs";
+import path from "path";
+import Heatmap from "../../../../../components/Heatmap";
 import {
   Tabs,
   TabsContent,
@@ -8,25 +10,25 @@ import {
   TabsTrigger,
 } from "@/app/components/Tabs";
 import { CodeBlock } from "@/app/components/CodeBlock";
-import path from "path";
-import fs from "fs";
 
-const data = [
-  { x: 0, y: 10 },
-  { x: 1, y: 30 },
-  { x: 2, y: 20 },
+const data: number[][] = [
+  [10, 20, 30, 40, 50],
+  [15, 25, 35, 45, 55],
+  [5, 15, 25, 35, 45],
+  [0, 10, 20, 30, 40],
+  [12, 22, 32, 42, 52],
 ];
 
 // Dynamically read source file
-const lineChartFile = path.join(process.cwd(), "../components/LineChart.tsx");
-const lineChartCode = fs.readFileSync(lineChartFile, "utf-8");
+const filePath = path.join(process.cwd(), "../components/Heatmap.tsx");
+const sourceCode = fs.readFileSync(filePath, "utf-8");
 
-export default function LineChartDocsPage() {
+export default function HeatmapPage() {
   return (
-    <div className="mx-auto max-w-3xl py-16 px-6 space-y-12">
+    <div className="mx-auto max-w-3xl space-y-12">
       <PageHeader
-        title="Line Chart"
-        subtitle="A responsive line chart built with D3.js and styled using Tailwind."
+        title="Heatmap"
+        subtitle="A heatmap chat built with D3 primitives and React."
       />
 
       {/* Example */}
@@ -38,23 +40,26 @@ export default function LineChartDocsPage() {
           </TabsList>
           <TabsContent value="preview">
             <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 flex justify-center">
-              <LineChart data={data} />
+              <Heatmap data={data} />
             </div>
           </TabsContent>
           <TabsContent value="code">
             <CodeBlock
               title="Example Usage"
-              code={`import LineChart from "@/components/LineChart";
-
-const data = [
-  { x: 0, y: 10 },
-  { x: 1, y: 30 },
-  { x: 2, y: 20 },
+              code={`import Heapmap from "@/components/Heatmap";
+                
+const data: number[][] = [
+  [10, 20, 30, 40, 50],
+  [15, 25, 35, 45, 55],
+  [5, 15, 25, 35, 45],
+  [0, 10, 20, 30, 40],
+  [12, 22, 32, 42, 52],
 ];
 
-export default function Example() {
-  return <LineChart data={data} />;
-}`}
+<div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 flex justify-center">
+  <Heatmap data={data} />
+</div>
+`}
             />
           </TabsContent>
         </Tabs>
@@ -65,16 +70,12 @@ export default function Example() {
         <Tabs defaultValue="manual" className="w-full">
           <TabsList>
             <TabsTrigger value="manual">Manual</TabsTrigger>
-            <TabsTrigger value="cli">CLI</TabsTrigger>
           </TabsList>
           <TabsContent value="manual">
             <CodeBlock
-              title="./components/charts/LineChart.tsx"
-              code={lineChartCode}
+              title="components/charts/Heatmap.tsx"
+              code={sourceCode}
             />
-          </TabsContent>
-          <TabsContent value="cli">
-            <CodeBlock code="Comming Soon..." />
           </TabsContent>
         </Tabs>
       </Section>
@@ -82,10 +83,10 @@ export default function Example() {
       {/* How it works */}
       <Section title="How It Works">
         <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-          This chart uses <code>d3.scaleLinear</code> for both axes and{" "}
-          <code>d3.line</code> to draw the SVG path. It automatically scales
-          based on the data range. You can extend it with tooltips, transitions,
-          and responsive layouts.
+          This chart uses <code>Axis</code> and <code>Tooltip</code> primitives
+          to render axes and show interactive data points. Each circle
+          represents a data point and shows its values on hover. The axes scale
+          dynamically based on the data extent.
         </p>
       </Section>
     </div>

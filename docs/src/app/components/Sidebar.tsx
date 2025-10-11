@@ -1,38 +1,98 @@
-// apps/docs/app/components/Sidebar.tsx
 "use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import clsx from "clsx";
+import { useState } from "react";
 
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/getting-started", label: "Getting Started" },
-  { href: "/charts/line", label: "Line Chart" },
-  // More components later...
-];
+export default function DocsLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [chartsOpen, setChartsOpen] = useState(true);
+  const [primitivesOpen, setPrimitivesOpen] = useState(true);
 
-export default function Sidebar() {
-  const pathname = usePathname();
+  const generalLinks = [
+    { title: "Home", href: "/" },
+    { title: "Getting Started", href: "/getting-started" },
+  ];
+
+  const chartLinks = [
+    { title: "Line Chart", href: "/charts/line" },
+    { title: "Scatter Plot", href: "/charts/scatter-plot" },
+    { title: "Heatmap", href: "/charts/heatmap" },
+  ];
+
+  const primitiveLinks = [
+    { title: "Axis", href: "/components/primitives/axis" },
+    { title: "Legend", href: "/components/primitives/legend" },
+    { title: "Tooltip", href: "/components/primitives/tooltip" },
+  ];
+
+  const renderLinks = (links: { title: string; href: string }[]) =>
+    links.map((link) => (
+      <Link
+        key={link.href}
+        href={link.href}
+        className="block px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-800"
+      >
+        {link.title}
+      </Link>
+    ));
+
   return (
-    <aside className="w-60 border-r border-gray-200 bg-white h-screen p-4 sticky top-0">
-      <h2 className="font-semibold text-lg mb-6">d3-ui</h2>
-      <nav className="flex flex-col gap-2">
-        {links.map(({ href, label }) => (
-          <Link
-            key={href}
-            href={href}
-            className={clsx(
-              "px-3 py-2 rounded-md text-sm font-medium transition-colors",
-              pathname === href
-                ? "bg-sky-100 text-sky-700"
-                : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-            )}
+    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      {/* Sidebar */}
+      <aside className="w-64 p-6 border-r border-gray-200 dark:border-gray-800 fixed h-full overflow-y-auto">
+        <h1 className="text-2xl font-bold mb-6">D3-UI Docs</h1>
+
+        {/* General */}
+        <div className="mb-4">
+          <h2 className="text-sm font-semibold uppercase text-gray-500 dark:text-gray-400 mb-2">
+            General
+          </h2>
+          {renderLinks(generalLinks)}
+        </div>
+
+        {/* Charts */}
+        <div className="mb-4">
+          <button
+            onClick={() => setChartsOpen(!chartsOpen)}
+            className="w-full flex justify-between items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 hover:text-blue-500"
           >
-            {label}
-          </Link>
-        ))}
-      </nav>
-    </aside>
+            Charts
+            <span
+              className={`transition-transform ${
+                chartsOpen ? "rotate-90" : "rotate-0"
+              }`}
+            >
+              &gt;
+            </span>
+          </button>
+          {chartsOpen && <div className="pl-4">{renderLinks(chartLinks)}</div>}
+        </div>
+
+        {/* Primitives */}
+        <div className="mb-4">
+          <button
+            onClick={() => setPrimitivesOpen(!primitivesOpen)}
+            className="w-full flex justify-between items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 hover:text-blue-500"
+          >
+            Primitives
+            <span
+              className={`transition-transform ${
+                primitivesOpen ? "rotate-90" : "rotate-0"
+              }`}
+            >
+              &gt;
+            </span>
+          </button>
+          {primitivesOpen && (
+            <div className="pl-4">{renderLinks(primitiveLinks)}</div>
+          )}
+        </div>
+      </aside>
+
+      {/* Main content */}
+      <main className="ml-64 flex-1 p-10">{children}</main>
+    </div>
   );
 }
