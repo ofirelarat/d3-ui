@@ -1,16 +1,15 @@
 {
   "name": "d3-ui",
   "version": "1.0.0",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "cd docs && npm run dev",
+    "build": "cd docs && npm run build",
+    "start": "cd docs && npm run start"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "author": "Ofir Elarat",
+  "license": "MIT",
+  "description": "Beautiful React Chart Components built with D3.js",
   "dependencies": {
     "@radix-ui/react-tooltip": "^1.2.8",
     "clsx": "^2.1.1",
