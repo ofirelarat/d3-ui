@@ -34,7 +34,7 @@ export default function LineChartDocsPage() {
       {/* Example */}
       <Section title="Example">
         <Tabs defaultValue="preview" className="w-full">
-          <TabsList className="w-full">
+          <TabsList>
             <TabsTrigger value="preview">Preview</TabsTrigger>
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
