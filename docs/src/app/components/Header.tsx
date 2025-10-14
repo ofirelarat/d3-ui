@@ -14,7 +14,7 @@ export default function Header() {
       </div>
       <nav className="flex gap-4 text-sm text-gray-600">
         <a
-          href="https://github.com/yourusername/d3-ui"
+          href="https://github.com/ofirelarat/d3-ui"
           target="_blank"
           className="hover:text-sky-600 transition-colors"
         >
