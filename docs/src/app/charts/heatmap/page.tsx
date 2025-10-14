@@ -2,7 +2,7 @@ import { PageHeader } from "@/app/components/PageHeader";
 import { Section } from "@/app/components/Section";
 import fs from "fs";
 import path from "path";
-import Heatmap from "../../../../../components/Heatmap";
+import Heatmap from "@d3-ui/Heatmap";
 import {
   Tabs,
   TabsContent,

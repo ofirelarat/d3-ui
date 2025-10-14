@@ -2,7 +2,7 @@ import { PageHeader } from "@/app/components/PageHeader";
 import { Section } from "@/app/components/Section";
 import fs from "fs";
 import path from "path";
-import ScatterPlot from "../../../../../components/ScatterPlot";
+import ScatterPlot from "@d3-ui/ScatterPlot";
 import {
   Tabs,
   TabsContent,
