@@ -1,6 +1,6 @@
 import { PageHeader } from "@/app/components/PageHeader";
 import { Section } from "@/app/components/Section";
-import LineChart from "@d3-ui/LineChart";
+import LineChart from "../../../../../components/LineChart";
 import {
   Tabs,
   TabsContent,
@@ -19,10 +19,7 @@ const data = [
 
 // Dynamically read source file
 const lineChartFile = path.join(process.cwd(), "../components/LineChart.tsx");
-// Ensure the file exists before reading
-const lineChartCode = fs.existsSync(lineChartFile) 
-  ? fs.readFileSync(lineChartFile, "utf-8")
-  : "// Loading...";
+const lineChartCode = fs.readFileSync(lineChartFile, "utf-8");
 
 export default function LineChartDocsPage() {
   return (
