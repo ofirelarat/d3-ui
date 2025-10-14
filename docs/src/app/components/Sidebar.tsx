@@ -22,9 +22,9 @@ export default function DocsLayout({
   ];
 
   const primitiveLinks = [
-    { title: "Axis", href: "/components/primitives/axis" },
-    { title: "Legend", href: "/components/primitives/legend" },
-    { title: "Tooltip", href: "/components/primitives/tooltip" },
+    { title: "Axis", href: "/primitives/axis" },
+    { title: "Legend", href: "/primitives/legend" },
+    { title: "Tooltip", href: "/primitives/tooltip" },
   ];
 
   const renderLinks = (links: { title: string; href: string }[]) =>
