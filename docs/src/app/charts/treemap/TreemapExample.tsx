@@ -11,9 +11,10 @@ const data = {
     { name: "Furniture", value: 900, color: "#6baed6" },
     {
       name: "Clothing",
+      color: "red",
       children: [
-        { name: "Men", value: 600, color: "#9ecae1" },
-        { name: "Women", value: 800, color: "#c6dbef" },
+        { name: "Men", value: 600, },
+        { name: "Women", value: 800, },
       ],
     },
   ],
@@ -34,8 +35,8 @@ const data = {
       name: "Clothing",
       color: "red",
       children: [
-        { name: "Men", value: 600, color: "#9ecae1" },
-        { name: "Women", value: 800, color: "#c6dbef" },
+        { name: "Men", value: 600, },
+        { name: "Women", value: 800, },
       ],
     },
   ],
