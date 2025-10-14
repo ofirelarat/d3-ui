@@ -1,6 +1,6 @@
 import { PageHeader } from "@/app/components/PageHeader";
 import { Section } from "@/app/components/Section";
-import LineChart from "../../../../../components/LineChart";
+import LineChart from "@d3-ui/LineChart";
 import {
   Tabs,
   TabsContent,
