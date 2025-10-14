@@ -1,7 +1,6 @@
 "use client";
 
 import { CodeBlock } from "@/app/components/CodeBlock";
-import { useState } from "react";
 import { TooltipProvider, useTooltip } from "@d3-ui/primitives/Tooltip";
 
 const code = `import { TooltipProvider, useTooltip } from "@d3-ui/primitives/Tooltip";
@@ -92,7 +91,15 @@ function TooltipExample() {
   );
 }
 
-function TooltipItem({ label, value, color }: { label: string; value: string; color: string }) {
+function TooltipItem({
+  label,
+  value,
+  color,
+}: {
+  label: string;
+  value: string;
+  color: string;
+}) {
   const { show, hide } = useTooltip();
 
   return (
@@ -122,18 +129,19 @@ export default function TooltipPage() {
       <div>
         <h1 className="text-3xl font-bold mb-2">Tooltip</h1>
         <p className="text-gray-600">
-          The Tooltip primitive component provides a flexible way to show contextual
-          information when users hover over elements. It uses React Context for state
-          management and supports customizable content with titles and color indicators.
+          The Tooltip primitive component provides a flexible way to show
+          contextual information when users hover over elements. It uses React
+          Context for state management and supports customizable content with
+          titles and color indicators.
         </p>
       </div>
 
       <div>
         <h2 className="text-2xl font-semibold mb-4">Usage</h2>
         <p className="mb-4">
-          The Tooltip system consists of a provider component and a hook. Wrap your
-          application or chart component with TooltipProvider, then use the useTooltip
-          hook to show and hide tooltips:
+          The Tooltip system consists of a provider component and a hook. Wrap
+          your application or chart component with TooltipProvider, then use the
+          useTooltip hook to show and hide tooltips:
         </p>
         <CodeBlock code={code} />
       </div>
@@ -147,8 +155,8 @@ export default function TooltipPage() {
       <div>
         <h2 className="text-2xl font-semibold mb-4">Context Usage</h2>
         <p className="mb-4">
-          The tooltip system uses React Context to manage state. Here's how to
-          implement it in your components:
+          {`The tooltip system uses React Context to manage state. Here's how to
+          implement it in your components:`}
         </p>
         <CodeBlock code={contextCode} />
       </div>
@@ -178,8 +186,8 @@ export default function TooltipPage() {
             Keep tooltip content concise and relevant to the hovered element.
           </li>
           <li>
-            Use the color indicator when you want to associate the tooltip with a
-            specific data series or category.
+            Use the color indicator when you want to associate the tooltip with
+            a specific data series or category.
           </li>
           <li>
             Remember to call hide() when the mouse leaves the target element.
@@ -194,8 +202,8 @@ export default function TooltipPage() {
       <div>
         <h2 className="text-2xl font-semibold mb-4">Styling</h2>
         <p>
-          The Tooltip component uses Tailwind CSS for styling and includes built-in
-          dark mode support. You can customize the appearance using the
+          The Tooltip component uses Tailwind CSS for styling and includes
+          built-in dark mode support. You can customize the appearance using the
           contentClassName prop on TooltipProvider. The tooltip automatically
           positions itself relative to the mouse cursor and handles overflow.
         </p>
