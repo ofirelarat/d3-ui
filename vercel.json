@@ -1,5 +1,4 @@
 {
   "buildCommand": "npm install && node scripts/copy-components.js && cd docs && npm run build",
   "installCommand": "cd docs && npm install",
-  "outputDirectory": "docs/.next"
 }
