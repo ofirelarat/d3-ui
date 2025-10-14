@@ -1,5 +1,7 @@
 import { PageHeader } from "@/app/components/PageHeader";
 import { Section } from "@/app/components/Section";
+import fs from "fs";
+import path from "path";
 import LineChart from "@d3-ui/LineChart";
 import {
   Tabs,
@@ -8,8 +10,6 @@ import {
   TabsTrigger,
 } from "@/app/components/Tabs";
 import { CodeBlock } from "@/app/components/CodeBlock";
-import path from "path";
-import fs from "fs";
 
 const data = [
   { x: 0, y: 10 },
