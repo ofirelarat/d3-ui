@@ -2,6 +2,21 @@ import Link from "next/link";
 import { PageHeader } from "../components/PageHeader";
 import { Section } from "../components/Section";
 import { CodeBlock } from "../components/CodeBlock";
+import path from "path";
+import fs from "fs";
+
+const axisFile = path.join(process.cwd(), "../components/primitives/Axis.tsx");
+const asixCode = fs.readFileSync(axisFile, "utf-8");
+const tooltipFile = path.join(
+  process.cwd(),
+  "../components/primitives/Tooltip.tsx"
+);
+const tooltipCode = fs.readFileSync(tooltipFile, "utf-8");
+const legendFile = path.join(
+  process.cwd(),
+  "../components/primitives/Legend.tsx"
+);
+const legendCode = fs.readFileSync(legendFile, "utf-8");
 
 export default function GettingStartedPage() {
   return (
@@ -34,7 +49,27 @@ export default function GettingStartedPage() {
       </Section>
 
       <Section title="Install D3.js">
-        <CodeBlock code={`npm install d3`} />
+        <CodeBlock title="Installing d3" code={`npm install d3`} />
+      </Section>
+
+      <Section title="Add the primitives components">
+        <div className="space-y-4">
+          <CodeBlock
+            defaultExpanded={false}
+            title="./components/primitives/Axis.tsx"
+            code={asixCode}
+          />
+          <CodeBlock
+            defaultExpanded={false}
+            title="./components/primitives/Tooltip.tsx"
+            code={tooltipCode}
+          />
+          <CodeBlock
+            defaultExpanded={false}
+            title="./components/primitives/Tooltip.tsx"
+            code={legendCode}
+          />
+        </div>
       </Section>
 
       <Section title="Add Components">
@@ -49,6 +84,7 @@ export default function GettingStartedPage() {
           into your project’s <code>components</code> folder:
         </p>
         <CodeBlock
+          defaultExpanded={true}
           code={`src/
   components/
     charts/
@@ -58,6 +94,7 @@ export default function GettingStartedPage() {
 
       <Section title="Use the Component">
         <CodeBlock
+          defaultExpanded={true}
           code={`import LineChart from "@/components/charts/LineChart";
 
 const data = [

@@ -49,6 +49,7 @@ export default function ScatterPlotDocsPage() {
           </TabsList>
           <TabsContent value="manual">
             <CodeBlock
+              defaultExpanded={false}
               title="components/charts/ScatterPlot.tsx"
               code={sourceCode}
             />

@@ -36,7 +36,11 @@ export default function LineChartDocsPage() {
             </div>
           </TabsContent>
           <TabsContent value="code">
-            <CodeBlock title="Example Usage" code={code} />
+            <CodeBlock
+              defaultExpanded={true}
+              title="Example Usage"
+              code={code}
+            />
           </TabsContent>
         </Tabs>
       </Section>
@@ -49,13 +53,16 @@ export default function LineChartDocsPage() {
             <TabsTrigger value="cli">CLI</TabsTrigger>
           </TabsList>
           <TabsContent value="manual">
-            <CodeBlock
-              title="./components/charts/LineChart.tsx"
-              code={lineChartCode}
-            />
+            <div className="space-y-4">
+              <CodeBlock
+                defaultExpanded={false}
+                title="./components/charts/LineChart.tsx"
+                code={lineChartCode}
+              />
+            </div>
           </TabsContent>
           <TabsContent value="cli">
-            <CodeBlock code="Coming Soon..." />
+            <CodeBlock title="Coming Soon..." code="Coming Soon..." />
           </TabsContent>
         </Tabs>
       </Section>
