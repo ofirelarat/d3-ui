@@ -2,7 +2,6 @@ import { PageHeader } from "@/app/components/PageHeader";
 import { Section } from "@/app/components/Section";
 import fs from "fs";
 import path from "path";
-import LineChart from "@d3-ui/LineChart";
 import {
   Tabs,
   TabsContent,
@@ -10,12 +9,7 @@ import {
   TabsTrigger,
 } from "@/app/components/Tabs";
 import { CodeBlock } from "@/app/components/CodeBlock";
-
-const data = [
-  { x: 0, y: 10 },
-  { x: 1, y: 30 },
-  { x: 2, y: 20 },
-];
+import { LineChartExample, code } from "./LineChartExample";
 
 // Dynamically read source file
 const lineChartFile = path.join(process.cwd(), "../components/LineChart.tsx");
@@ -26,7 +20,7 @@ export default function LineChartDocsPage() {
     <div className="mx-auto max-w-3xl py-16 px-6 space-y-12">
       <PageHeader
         title="Line Chart"
-        subtitle="A responsive line chart built with D3.js and styled using Tailwind."
+        subtitle="A flexible and composable line chart built with D3.js and styled using Tailwind."
       />
 
       {/* Example */}
@@ -38,24 +32,11 @@ export default function LineChartDocsPage() {
           </TabsList>
           <TabsContent value="preview">
             <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 flex justify-center">
-              <LineChart data={data} />
+              <LineChartExample />
             </div>
           </TabsContent>
           <TabsContent value="code">
-            <CodeBlock
-              title="Example Usage"
-              code={`import LineChart from "@/components/LineChart";
-
-const data = [
-  { x: 0, y: 10 },
-  { x: 1, y: 30 },
-  { x: 2, y: 20 },
-];
-
-export default function Example() {
-  return <LineChart data={data} />;
-}`}
-            />
+            <CodeBlock title="Example Usage" code={code} />
           </TabsContent>
         </Tabs>
       </Section>
@@ -74,18 +55,42 @@ export default function Example() {
             />
           </TabsContent>
           <TabsContent value="cli">
-            <CodeBlock code="Comming Soon..." />
+            <CodeBlock code="Coming Soon..." />
           </TabsContent>
         </Tabs>
       </Section>
 
       {/* How it works */}
       <Section title="How It Works">
+        <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+          This chart uses a compound component pattern to provide maximum
+          flexibility and composability. The chart is built using{" "}
+          <code>d3.scaleLinear</code> for both axes and <code>d3.line</code> to
+          draw the SVG paths.
+        </p>
+        <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+          The main components are:
+        </p>
+        <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+          <li>
+            <code>LineChart.Container</code> - The main container that provides
+            context for all child components
+          </li>
+          <li>
+            <code>LineChart.Line</code> - Renders a single line series with data
+            points
+          </li>
+          <li>
+            <code>LineChart.XAxis</code> - Renders the X axis
+          </li>
+          <li>
+            <code>LineChart.YAxis</code> - Renders the Y axis
+          </li>
+        </ul>
         <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-          This chart uses <code>d3.scaleLinear</code> for both axes and{" "}
-          <code>d3.line</code> to draw the SVG path. It automatically scales
-          based on the data range. You can extend it with tooltips, transitions,
-          and responsive layouts.
+          Each line series can have its own color and label, which automatically
+          updates the legend. The chart automatically scales based on the
+          combined data range of all series.
         </p>
       </Section>
     </div>

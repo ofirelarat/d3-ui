@@ -2,7 +2,6 @@ import { PageHeader } from "@/app/components/PageHeader";
 import { Section } from "@/app/components/Section";
 import fs from "fs";
 import path from "path";
-import ScatterPlot from "@d3-ui/ScatterPlot";
 import {
   Tabs,
   TabsContent,
@@ -10,14 +9,7 @@ import {
   TabsTrigger,
 } from "@/app/components/Tabs";
 import { CodeBlock } from "@/app/components/CodeBlock";
-
-const data = [
-  { x: 0, y: 10 },
-  { x: 1, y: 30 },
-  { x: 2, y: 20 },
-  { x: 3, y: 15 },
-  { x: 4, y: 25 },
-];
+import ScatterPlotExample, { code } from "./ScatterPlotExample";
 
 // Dynamically read source file
 const filePath = path.join(process.cwd(), "../components/ScatterPlot.tsx");
@@ -40,27 +32,11 @@ export default function ScatterPlotDocsPage() {
           </TabsList>
           <TabsContent value="preview">
             <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 flex justify-center">
-              <ScatterPlot data={data} />
+              <ScatterPlotExample />
             </div>
           </TabsContent>
           <TabsContent value="code">
-            <CodeBlock
-              title="Example Usage"
-              code={`import ScatterPlot from "@/components/ScatterPlot";
-                
-const data = [
-  { x: 0, y: 10 },
-  { x: 1, y: 30 },
-  { x: 2, y: 20 },
-  { x: 3, y: 15 },
-  { x: 4, y: 25 },
-];
-
-<div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 flex justify-center">
-  <ScatterPlot data={data} />
-</div>
-`}
-            />
+            <CodeBlock title="Example Usage" code={code} />
           </TabsContent>
         </Tabs>
       </Section>

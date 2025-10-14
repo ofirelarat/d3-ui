@@ -1,6 +1,27 @@
 "use client";
-import { useRef, useState } from "react";
-import { cn } from "@/app/lib/utils";
+import { createContext, useContext, useRef, useState, ReactNode } from "react";
+import { cn } from "../lib/utils";
+
+type TooltipContextType = {
+  show: (options: { content: string; title?: string; color?: string }, e: React.MouseEvent) => void;
+  hide: () => void;
+} | null;
+
+const TooltipContext = createContext<TooltipContextType>(null);
+
+export const useTooltip = () => {
+  const context = useContext(TooltipContext);
+  if (!context) {
+    throw new Error("useTooltip must be used within a TooltipProvider");
+  }
+  return context;
+};
+
+interface TooltipProviderProps {
+  children: ReactNode;
+  className?: string;
+  contentClassName?: string;
+}
 
 interface TooltipProps {
   children: (props: {
@@ -11,7 +32,7 @@ interface TooltipProps {
   contentClassName?: string;
 }
 
-export function Tooltip({ children, className, contentClassName }: TooltipProps) {
+export function TooltipProvider({ children, className, contentClassName }: TooltipProviderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [tooltipData, setTooltipData] = useState<{ content: string; title?: string; color?: string }>({ content: "" });
@@ -29,9 +50,13 @@ export function Tooltip({ children, className, contentClassName }: TooltipProps)
 
   const hide = () => setVisible(false);
 
+  const value = { show, hide };
+
   return (
     <div ref={containerRef} className={cn("relative w-fit h-fit", className)}>
-      {children({ show, hide })}
+      <TooltipContext.Provider value={value}>
+        {children}
+      </TooltipContext.Provider>
 
       {visible && (
         <div

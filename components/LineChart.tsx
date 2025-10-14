@@ -1,87 +1,213 @@
 "use client";
 import * as d3 from "d3";
+import React, { createContext, useContext, useMemo, ReactNode } from "react";
 import { Axis } from "./primitives/Axis";
 import { Legend } from "./primitives/Legend";
-import { Tooltip } from "./primitives/Tooltip";
+import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 
-interface LineChartProps {
-  data: { x: number; y: number }[];
+// Types
+type DataPoint = { x: number; y: number };
+type LineData = {
+  [key: string]: {
+    data: DataPoint[];
+    color: string;
+    label: string;
+  };
+};
+
+interface ContainerProps {
+  data: LineData;
   width?: number;
   height?: number;
-  color?: string;
+  children: ReactNode;
 }
 
-export default function LineChart({
+interface LineProps {
+  dataKey: string;
+}
+
+// Context
+type LineChartContext = {
+  data: LineData;
+  width: number;
+  height: number;
+  margin: { top: number; right: number; bottom: number; left: number };
+  xScale: d3.ScaleLinear<number, number>;
+  yScale: d3.ScaleLinear<number, number>;
+};
+
+const LineChartContext = createContext<LineChartContext | null>(null);
+
+const useLineChart = () => {
+  const context = useContext(LineChartContext);
+  if (!context) {
+    throw new Error("Line chart components must be used within a Line.Container");
+  }
+  return context;
+};
+
+// Components
+const Container = ({
   data,
   width = 400,
   height = 200,
-  color = "#3b82f6",
-}: LineChartProps) {
+  children,
+}: ContainerProps) => {
   const margin = { top: 20, right: 20, bottom: 30, left: 40 };
 
-  const xScale = d3
-    .scaleLinear()
-    .domain(d3.extent(data, (d) => d.x) as [number, number])
-    .range([margin.left, width - margin.right]);
+  const allPoints = Object.values(data).flatMap((series) => series.data);
 
-  const yScale = d3
-    .scaleLinear()
-    .domain([0, d3.max(data, (d) => d.y)!])
-    .nice()
-    .range([height - margin.bottom, margin.top]);
+  const scales = useMemo(() => {
+    const xScale = d3
+      .scaleLinear()
+      .domain(d3.extent(allPoints, (d) => d.x) as [number, number])
+      .range([margin.left, width - margin.right]);
+
+    const yScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(allPoints, (d) => d.y)!])
+      .nice()
+      .range([height - margin.bottom, margin.top]);
+
+    return { xScale, yScale };
+  }, [allPoints, width, height, margin]);
+
+  const contextValue = {
+    data,
+    width,
+    height,
+    margin,
+    ...scales,
+  };
+
+  // Split children into SVG elements and non-SVG elements (like Legend)
+  const { svgChildren, otherChildren } = React.Children.toArray(children).reduce(
+    (acc, child) => {
+      if (React.isValidElement(child)) {
+        if (child.type === ChartLegend) {
+          acc.otherChildren.push(child);
+        } else {
+          acc.svgChildren.push(child);
+        }
+      }
+      return acc;
+    },
+    { svgChildren: [], otherChildren: [] } as { svgChildren: React.ReactNode[], otherChildren: React.ReactNode[] }
+  );
+
+  return (
+    <LineChartContext.Provider value={contextValue}>
+      <TooltipProvider>
+        <div className="flex flex-col items-center gap-4">
+          <svg 
+          width={width} 
+          height={height}
+          xmlns="http://www.w3.org/2000/svg"
+          className="overflow-visible"
+        >
+          {svgChildren}
+        </svg>
+        {otherChildren}
+        </div>
+      </TooltipProvider>
+    </LineChartContext.Provider>
+  );
+};
+
+interface LineProps {
+  dataKey: string;
+}
+
+const Line = ({ dataKey }: LineProps) => {
+  const { data, xScale, yScale } = useLineChart();
+  const seriesData = data[dataKey];
+
+  if (!seriesData) {
+    console.warn(`No data found for key: ${dataKey}`);
+    return null;
+  }
 
   const line = d3
-    .line<{ x: number; y: number }>()
+    .line<DataPoint>()
     .x((d) => xScale(d.x))
     .y((d) => yScale(d.y));
 
   return (
-    <div className="relative">
-      <Tooltip className="inline-block">
-        {({ show, hide }) => (
-          <svg width={width} height={height}>
-            <path
-              d={line(data) || ""}
-              fill="none"
-              stroke={color}
-              strokeWidth={2}
+    <g>
+      <path
+        d={line(seriesData.data) || ""}
+        fill="none"
+        stroke={seriesData.color}
+        strokeWidth={2}
+      />
+      <g>
+        {seriesData.data.map((d, i) => {
+          const { show, hide } = useTooltip();
+          return (
+            <circle
+              key={i}
+              cx={xScale(d.x)}
+              cy={yScale(d.y)}
+              r={4}
+              fill={seriesData.color}
+              onMouseEnter={(e: React.MouseEvent) => 
+                show({
+                  title: seriesData.label,
+                  color: seriesData.color,
+                  content: `x: ${d.x.toLocaleString()}\ny: ${d.y.toLocaleString()}`
+                }, e)
+              }
+              onMouseLeave={hide}
+              className="cursor-pointer transition-all hover:r-6"
             />
-
-            {data.map((d, i) => (
-              <circle
-                key={i}
-                cx={xScale(d.x)}
-                cy={yScale(d.y)}
-                r={4}
-                fill={color}
-                onMouseEnter={(e) => 
-                  show({
-                    title: "Data Point",
-                    color: color,
-                    content: `x: ${d.x.toLocaleString()}\ny: ${d.y.toLocaleString()}`
-                  }, e)
-                }
-                onMouseLeave={hide}
-                className="cursor-pointer transition-all hover:r-[6]"
-              />
-            ))}
-
-            {/* Axes */}
-            <Axis
-              scale={xScale}
-              orient="bottom"
-              transform={`translate(0,${height - margin.bottom})`}
-            />
-            <Axis
-              scale={yScale}
-              orient="left"
-              transform={`translate(${margin.left},0)`}
-            />
-          </svg>
-        )}
-      </Tooltip>
-
-      <Legend items={[{ label: "Data Series", color }]} />
-    </div>
+          );
+        })}
+      </g>
+    </g>
   );
-}
+};
+
+const ChartXAxis = () => {
+  const { xScale, height, margin } = useLineChart();
+  return (
+    <Axis
+      scale={xScale}
+      orient="bottom"
+      transform={`translate(0,${height - margin.bottom})`}
+    />
+  );
+};
+
+const ChartYAxis = () => {
+  const { yScale, margin } = useLineChart();
+  return (
+    <Axis
+      scale={yScale}
+      orient="left"
+      transform={`translate(${margin.left},0)`}
+    />
+  );
+};
+
+const ChartLegend = () => {
+  const { data } = useLineChart();
+  return (
+    <Legend
+      items={Object.entries(data).map(([key, { color, label }]) => ({
+        label,
+        color,
+      }))}
+    />
+  );
+};
+
+// Export as compound component
+const LineChart = {
+  Container,
+  Line,
+  XAxis: ChartXAxis,
+  YAxis: ChartYAxis,
+  Legend: ChartLegend,
+};
+
+export default LineChart;
