@@ -19,6 +19,7 @@ export default function DocsLayout({
     { title: "Line Chart", href: "/charts/line" },
     { title: "Scatter Plot", href: "/charts/scatter-plot" },
     { title: "Heatmap", href: "/charts/heatmap" },
+    { title: "Treemap", href: "/charts/treemap" },
   ];
 
   const primitiveLinks = [
