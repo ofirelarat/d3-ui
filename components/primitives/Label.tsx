@@ -31,7 +31,12 @@ export const Label: React.FC<LabelProps> = ({
   offset = { x: 0, y: 0 },
 }) => {
   const renderContent = () => {
-    if (formatter) return formatter(value);
+    if (formatter)
+      return (
+        <foreignObject x={x} y={y} width={80} height={30}>
+          {formatter(value)}
+        </foreignObject>
+      );
 
     switch (variant) {
       case "circle":

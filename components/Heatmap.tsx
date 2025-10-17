@@ -104,25 +104,29 @@ const Container = ({
 };
 
 const Tile = ({ dataKey, label }: TileProps) => {
-  const { data, width, height, cellDimensions } = useHeatmap();
+  const { data, width, height } = useHeatmap();
   const seriesData = data[dataKey];
   const { show, hide } = useTooltip();
 
-  if (!seriesData) {
-    console.warn(`No data found for key: ${dataKey}`);
-    return null;
-  }
+  if (!seriesData) return null;
 
   const datasetKeys = Object.keys(data);
-  const datasetIndex = datasetKeys.indexOf(dataKey);
   const totalDatasets = datasetKeys.length;
 
-  const tilesPerRow = Math.ceil(Math.sqrt(totalDatasets));
-  const tileWidth = width / tilesPerRow;
-  const tileHeight = height / Math.ceil(totalDatasets / tilesPerRow);
+  // --- Adaptive tile sizing ---
+  let tileWidth = width;
+  let tileHeight = height;
+  let offsetX = 0;
+  let offsetY = 0;
 
-  const row = Math.floor(datasetIndex / tilesPerRow);
-  const col = datasetIndex % tilesPerRow;
+  if (totalDatasets > 1) {
+    const datasetIndex = datasetKeys.indexOf(dataKey);
+    const tilesPerRow = Math.ceil(Math.sqrt(totalDatasets));
+    tileWidth = width / tilesPerRow;
+    tileHeight = height / Math.ceil(totalDatasets / tilesPerRow);
+    offsetX = (datasetIndex % tilesPerRow) * tileWidth;
+    offsetY = Math.floor(datasetIndex / tilesPerRow) * tileHeight;
+  }
 
   const values = seriesData.data.flat();
   const min = d3.min(values) || 0;
@@ -131,7 +135,6 @@ const Tile = ({ dataKey, label }: TileProps) => {
   const colorScale = d3
     .scaleSequential()
     .interpolator((t) => {
-      // Use pow scale internally for better color distribution
       const adjustedT = Math.pow(t, 0.4);
       return d3.interpolate(
         d3.rgb(seriesData.color).brighter(2),
@@ -140,27 +143,22 @@ const Tile = ({ dataKey, label }: TileProps) => {
     })
     .domain([min, max]);
 
-  // Calculate cell dimensions based on tile size
   const cellWidth = tileWidth / seriesData.data[0].length;
   const cellHeight = tileHeight / seriesData.data.length;
 
   return (
-    <g transform={`translate(${col * tileWidth}, ${row * tileHeight})`}>
-      {seriesData.data.map((row, i) =>
-        row.map((value, j) => (
+    <g transform={`translate(${offsetX}, ${offsetY})`}>
+      {seriesData.data.map((rowArr, i) =>
+        rowArr.map((value, j) => (
           <g
             key={`${i}-${j}`}
             transform={`translate(${j * cellWidth}, ${i * cellHeight})`}
-            x={j * cellWidth}
-            y={i * cellHeight}
             onMouseEnter={(e) =>
               show(
                 {
-                  title: `${seriesData.label}`,
+                  title: seriesData.label,
                   color: seriesData.color,
-                  content: `Value: ${value.toLocaleString()}\nRow: ${
-                    i + 1
-                  }, Col: ${j + 1}`,
+                  content: `Value: ${value}\nRow: ${i + 1}, Col: ${j + 1}`,
                 },
                 e
               )
@@ -168,12 +166,7 @@ const Tile = ({ dataKey, label }: TileProps) => {
             onMouseLeave={hide}
             className="cursor-pointer transition-all hover:opacity-75"
           >
-            <rect
-              key={`${i}-${j}`}
-              width={cellWidth}
-              height={cellHeight}
-              fill={colorScale(value)}
-            />
+            <rect width={cellWidth} height={cellHeight} fill={colorScale(value)} />
             <Label
               x={5}
               y={10}
@@ -189,6 +182,7 @@ const Tile = ({ dataKey, label }: TileProps) => {
     </g>
   );
 };
+
 
 const ChartLegend = () => {
   const { data } = useHeatmap();
