@@ -1,7 +1,7 @@
 "use client";
 
 import { CodeBlock } from "@/app/components/CodeBlock";
-import { Label } from "@d3-ui/primitives/Label";
+import { Label, LabelProps, LabelVariant } from "@d3-ui/primitives/Label";
 
 const code = `import { Label } from "@d3-ui/primitives/Label";
 
@@ -60,7 +60,7 @@ function LabelExamples() {
                 y={30}
                 value={ex.label}
                 color={ex.color}
-                variant={ex.variant as any}
+                variant={ex.variant as LabelVariant}
                 className="text-sm"
               />
             </svg>
