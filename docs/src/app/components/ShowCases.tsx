@@ -53,7 +53,7 @@ export function HeatmapExamples() {
           <CardContent className="p-6 flex flex-col gap-4 items-center">
             <h2 className="text-xl font-semibold mb-2">Hidden Labels</h2>
             <p className="text-gray-500 text-sm">
-              Using <code>label.variant="none"</code> hides labels completely.
+              Using <code>{`label.variant="none"`}</code> hides labels completely.
             </p>
             <Heatmap.Container
               data={{ profit: baseData.profit }}
