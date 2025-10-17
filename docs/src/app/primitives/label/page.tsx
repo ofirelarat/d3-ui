@@ -116,7 +116,7 @@ export default function LabelPage() {
       <div>
         <h2 className="text-2xl font-semibold mb-4">Best Practices</h2>
         <ul className="list-disc pl-6 space-y-2">
-          <li>Use <code>variant="none"</code> when the label should be hidden dynamically.</li>
+          <li>Use <code>{`variant="none"`}</code> when the label should be hidden dynamically.</li>
           <li>Prefer <code>circle</code> or <code>square</code> variants for minimal markers.</li>
           <li>Use <code>circle-text</code> or <code>square-text</code> for combined visuals and labels.</li>
           <li>Leverage the <code>formatter</code> function to customize label content dynamically.</li>
