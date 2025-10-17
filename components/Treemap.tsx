@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { Legend } from "./primitives/Legend";
 import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
+import { Label, LabelProps } from "./primitives/Label";
 
 // ---- Types ----
 interface NodeData {
@@ -28,6 +29,14 @@ interface ContainerProps {
   width?: number;
   height?: number;
   children: ReactNode;
+}
+
+interface TileProps {
+  label?: {
+    labelFormatter?: (value: any) => React.ReactNode;
+    variant?: LabelProps["variant"];
+    className?: string;
+  };
 }
 
 // ---- Context ----
@@ -66,8 +75,7 @@ const Container = ({
   }, [data]);
 
   const treemapLayout = useMemo(
-    () =>
-      d3.treemap<NodeData>().size([width, height]).padding(2).round(true),
+    () => d3.treemap<NodeData>().size([width, height]).padding(2).round(true),
     [width, height]
   );
 
@@ -77,7 +85,9 @@ const Container = ({
   );
 
   // Separate Legend from SVG children
-  const { svgChildren, otherChildren } = React.Children.toArray(children).reduce(
+  const { svgChildren, otherChildren } = React.Children.toArray(
+    children
+  ).reduce(
     (acc, child) => {
       if (React.isValidElement(child)) {
         if (child.type === TreemapLegend) acc.otherChildren.push(child);
@@ -105,7 +115,7 @@ const Container = ({
   );
 };
 
-const Tile = () => {
+const Tile = ({ label }: TileProps) => {
   const { root, treemapLayout } = useTreemap();
   const { show, hide } = useTooltip();
   const svgRef = useRef<SVGGElement | null>(null);
@@ -124,14 +134,11 @@ const Tile = () => {
         }
 
         return (
-          <rect
+          <g
+            transform={`translate(${leaf.x0}, ${leaf.y0})`}
             key={i}
             x={leaf.x0}
             y={leaf.y0}
-            width={leaf.x1 - leaf.x0}
-            height={leaf.y1 - leaf.y0}
-            fill={color || "#ccc"}
-            stroke="#fff"
             onMouseEnter={(e) =>
               show(
                 {
@@ -144,7 +151,23 @@ const Tile = () => {
             }
             onMouseLeave={hide}
             className="cursor-pointer transition-all hover:opacity-75"
-          />
+          >
+            <rect
+              width={leaf.x1 - leaf.x0}
+              height={leaf.y1 - leaf.y0}
+              fill={color || "#ccc"}
+              stroke="#fff"
+            />
+            <Label
+              x={10}
+              y={20}
+              color={color}
+              value={`${leaf.data.name} - ${leaf.value?.toLocaleString()}`}
+              formatter={label?.labelFormatter}
+              className={label?.className}
+              variant={label?.variant || "text"}
+            />
+          </g>
         );
       })}
     </g>

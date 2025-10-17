@@ -18,11 +18,10 @@ export default function RootLayout({
       <body className="bg-gray-50 text-gray-900">
         <Header />
         <div className="flex">
-          <Sidebar>
-            <main className="flex-1 p-8 overflow-y-auto min-h-screen">
-              {children}
-            </main>
-          </Sidebar>
+          <Sidebar />
+          <main className="flex-1 p-8 overflow-y-auto min-h-screen">
+            {children}
+          </main>
         </div>
       </body>
     </html>

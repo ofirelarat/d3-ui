@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import React, { createContext, useContext, useMemo, ReactNode } from "react";
 import { Legend } from "./primitives/Legend";
 import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
+import { Label, LabelProps } from "./primitives/Label";
 
 // Types
 type HeatmapData = {
@@ -22,6 +23,11 @@ interface ContainerProps {
 
 interface TileProps {
   dataKey: string;
+  label?: {
+    labelFormatter?: (value: any) => React.ReactNode;
+    variant?: LabelProps["variant"];
+    className?: string;
+  };
 }
 
 // Context
@@ -40,7 +46,9 @@ const HeatmapContext = createContext<HeatmapContext | null>(null);
 const useHeatmap = () => {
   const context = useContext(HeatmapContext);
   if (!context) {
-    throw new Error("Heatmap components must be used within a Heatmap.Container");
+    throw new Error(
+      "Heatmap components must be used within a Heatmap.Container"
+    );
   }
   return context;
 };
@@ -52,15 +60,19 @@ const Container = ({
   height = 400,
   children,
 }: ContainerProps) => {
-  const contextValue = useMemo(() => ({
-    data,
-    width,
-    height,
-    cellDimensions: { width: 0, height: 0 }, // Individual tiles will calculate their own cell dimensions
-  }), [data, width, height]);
+  const contextValue = useMemo(
+    () => ({
+      data,
+      width,
+      height,
+      cellDimensions: { width: 0, height: 0 }, // Individual tiles will calculate their own cell dimensions
+    }),
+    [data, width, height]
+  );
 
-  // Split children into SVG elements and non-SVG elements (like Legend)
-  const { svgChildren, otherChildren } = React.Children.toArray(children).reduce(
+  const { svgChildren, otherChildren } = React.Children.toArray(
+    children
+  ).reduce(
     (acc, child) => {
       if (React.isValidElement(child)) {
         if (child.type === ChartLegend) {
@@ -71,18 +83,17 @@ const Container = ({
       }
       return acc;
     },
-    { svgChildren: [], otherChildren: [] } as { svgChildren: React.ReactNode[], otherChildren: React.ReactNode[] }
+    { svgChildren: [], otherChildren: [] } as {
+      svgChildren: React.ReactNode[];
+      otherChildren: React.ReactNode[];
+    }
   );
 
   return (
     <HeatmapContext.Provider value={contextValue}>
       <TooltipProvider>
         <div className="flex flex-col items-center gap-4">
-          <svg 
-            width={width} 
-            height={height}
-            className="overflow-visible"
-          >
+          <svg width={width} height={height} className="overflow-visible">
             {svgChildren}
           </svg>
           {otherChildren}
@@ -92,7 +103,7 @@ const Container = ({
   );
 };
 
-const Tile = ({ dataKey }: TileProps) => {
+const Tile = ({ dataKey, label }: TileProps) => {
   const { data, width, height, cellDimensions } = useHeatmap();
   const seriesData = data[dataKey];
   const { show, hide } = useTooltip();
@@ -102,25 +113,21 @@ const Tile = ({ dataKey }: TileProps) => {
     return null;
   }
 
-  // Calculate this tile's position in the grid
   const datasetKeys = Object.keys(data);
   const datasetIndex = datasetKeys.indexOf(dataKey);
   const totalDatasets = datasetKeys.length;
 
-  // Calculate grid layout
   const tilesPerRow = Math.ceil(Math.sqrt(totalDatasets));
   const tileWidth = width / tilesPerRow;
   const tileHeight = height / Math.ceil(totalDatasets / tilesPerRow);
-  
-  // Calculate tile position
+
   const row = Math.floor(datasetIndex / tilesPerRow);
   const col = datasetIndex % tilesPerRow;
 
-  // Create a normalized color scale for better distribution
   const values = seriesData.data.flat();
   const min = d3.min(values) || 0;
   const max = d3.max(values) || 1;
-  
+
   const colorScale = d3
     .scaleSequential()
     .interpolator((t) => {
@@ -141,26 +148,42 @@ const Tile = ({ dataKey }: TileProps) => {
     <g transform={`translate(${col * tileWidth}, ${row * tileHeight})`}>
       {seriesData.data.map((row, i) =>
         row.map((value, j) => (
-          <rect
+          <g
             key={`${i}-${j}`}
+            transform={`translate(${j * cellWidth}, ${i * cellHeight})`}
             x={j * cellWidth}
             y={i * cellHeight}
-            width={cellWidth}
-            height={cellHeight}
-            fill={colorScale(value)}
             onMouseEnter={(e) =>
               show(
                 {
                   title: `${seriesData.label}`,
                   color: seriesData.color,
-                  content: `Value: ${value.toLocaleString()}\nRow: ${i + 1}, Col: ${j + 1}`,
+                  content: `Value: ${value.toLocaleString()}\nRow: ${
+                    i + 1
+                  }, Col: ${j + 1}`,
                 },
                 e
               )
             }
             onMouseLeave={hide}
             className="cursor-pointer transition-all hover:opacity-75"
-          />
+          >
+            <rect
+              key={`${i}-${j}`}
+              width={cellWidth}
+              height={cellHeight}
+              fill={colorScale(value)}
+            />
+            <Label
+              x={5}
+              y={10}
+              color={seriesData.color}
+              value={value}
+              variant={label?.variant || "text"}
+              formatter={label?.labelFormatter}
+              className={label?.className}
+            />
+          </g>
         ))
       )}
     </g>

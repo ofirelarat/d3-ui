@@ -1,99 +1,89 @@
 "use client";
-import Link from "next/link";
+
 import { useState } from "react";
+import Link from "next/link";
+import { ChevronDown, ChevronRight } from "lucide-react";
 
-export default function DocsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [chartsOpen, setChartsOpen] = useState(true);
-  const [primitivesOpen, setPrimitivesOpen] = useState(true);
+interface NavGroup {
+  title: string;
+  items: { label: string; href: string }[];
+}
 
-  const generalLinks = [
-    { title: "Home", href: "/" },
-    { title: "Getting Started", href: "/getting-started" },
-  ];
+const navGroups: NavGroup[] = [
+  {
+    title: "General",
+    items: [
+      { label: "Home", href: "/" },
+      { label: "Getting Started", href: "/getting-started" },
+    ],
+  },
+  {
+    title: "Charts",
+    items: [
+      { label: "Line Chart", href: "/charts/line" },
+      { label: "Scatter Plot", href: "/charts/scatter-plot" },
+      { label: "Heatmap", href: "/charts/heatmap" },
+      { label: "Treemap", href: "/charts/treemap" },
+    ],
+  },
+  {
+    title: "Primitives",
+    items: [
+      { label: "Axis", href: "/primitives/axis" },
+      { label: "Legend", href: "/primitives/legend" },
+      { label: "Tooltip", href: "/primitives/tooltip" },
+      { label: "Label", href: "/primitives/label" },
+    ],
+  },
+];
 
-  const chartLinks = [
-    { title: "Line Chart", href: "/charts/line" },
-    { title: "Scatter Plot", href: "/charts/scatter-plot" },
-    { title: "Heatmap", href: "/charts/heatmap" },
-    { title: "Treemap", href: "/charts/treemap" },
-  ];
+export default function Sidebar() {
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
+    General: true,
+    Charts: true,
+    Primitives: true,
+  });
 
-  const primitiveLinks = [
-    { title: "Axis", href: "/primitives/axis" },
-    { title: "Legend", href: "/primitives/legend" },
-    { title: "Tooltip", href: "/primitives/tooltip" },
-  ];
-
-  const renderLinks = (links: { title: string; href: string }[]) =>
-    links.map((link) => (
-      <Link
-        key={link.href}
-        href={link.href}
-        className="block px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-800"
-      >
-        {link.title}
-      </Link>
-    ));
+  const toggleGroup = (title: string) => {
+    setOpenGroups((prev) => ({ ...prev, [title]: !prev[title] }));
+  };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-      {/* Sidebar */}
-      <aside className="w-64 p-6 border-r border-gray-200 dark:border-gray-800 fixed h-full overflow-y-auto">
-        <h1 className="text-2xl font-bold mb-6">D3-UI Docs</h1>
-
-        {/* General */}
-        <div className="mb-4">
-          <h2 className="text-sm font-semibold uppercase text-gray-500 dark:text-gray-400 mb-2">
-            General
-          </h2>
-          {renderLinks(generalLinks)}
-        </div>
-
-        {/* Charts */}
-        <div className="mb-4">
-          <button
-            onClick={() => setChartsOpen(!chartsOpen)}
-            className="w-full flex justify-between items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 hover:text-blue-500"
-          >
-            Charts
-            <span
-              className={`transition-transform ${
-                chartsOpen ? "rotate-90" : "rotate-0"
-              }`}
-            >
-              &gt;
-            </span>
-          </button>
-          {chartsOpen && <div className="pl-4">{renderLinks(chartLinks)}</div>}
-        </div>
-
-        {/* Primitives */}
-        <div className="mb-4">
-          <button
-            onClick={() => setPrimitivesOpen(!primitivesOpen)}
-            className="w-full flex justify-between items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 hover:text-blue-500"
-          >
-            Primitives
-            <span
-              className={`transition-transform ${
-                primitivesOpen ? "rotate-90" : "rotate-0"
-              }`}
-            >
-              &gt;
-            </span>
-          </button>
-          {primitivesOpen && (
-            <div className="pl-4">{renderLinks(primitiveLinks)}</div>
-          )}
-        </div>
-      </aside>
-
-      {/* Main content */}
-      <main className="ml-64 flex-1 p-10">{children}</main>
-    </div>
+    <aside className="h-screen w-64 bg-gray-50 border-r border-gray-200 dark:bg-gray-900 dark:border-gray-800 flex flex-col">
+      <div className="overflow-y-auto flex-1 p-4 space-y-4">
+        {navGroups.map((group) => {
+          const isOpen = openGroups[group.title];
+          return (
+            <div key={group.title}>
+              <button
+                onClick={() => toggleGroup(group.title)}
+                className="flex items-center justify-between w-full text-left font-semibold text-gray-800 dark:text-gray-100 mb-2"
+              >
+                <span>{group.title}</span>
+                {isOpen ? (
+                  <ChevronDown className="w-4 h-4 text-gray-500" />
+                ) : (
+                  <ChevronRight className="w-4 h-4 text-gray-500" />
+                )}
+              </button>
+              {isOpen && (
+                <ul className="ml-2 border-l border-gray-200 dark:border-gray-700 pl-3 space-y-1">
+                  {group.items.map((item) => (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className="block text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </aside>
   );
 }
