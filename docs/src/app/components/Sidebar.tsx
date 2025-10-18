@@ -24,6 +24,7 @@ const navGroups: NavGroup[] = [
       { label: "Scatter Plot", href: "/charts/scatter-plot" },
       { label: "Heatmap", href: "/charts/heatmap" },
       { label: "Treemap", href: "/charts/treemap" },
+      { label: "Gauge", href: "/charts/gauge" },
     ],
   },
   {

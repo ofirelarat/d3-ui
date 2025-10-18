@@ -1,5 +1,6 @@
 import { LineChart } from "lucide-react";
 import {
+  GaugeChartExamples,
   HeatmapExamples,
   LineChartExamples,
   ScatterPlotExamples,
@@ -32,6 +33,7 @@ export default function HomePage() {
         <LineChartExamples />
         <ScatterPlotExamples />
         <TreemapExamples />
+        <GaugeChartExamples />
       </div>
     </section>
   );

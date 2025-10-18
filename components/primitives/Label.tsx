@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import clsx from "clsx";
+import { cn } from "../lib/utils";
 
 export type LabelVariant =
   | "text"
@@ -71,7 +72,7 @@ export const Label: React.FC<LabelProps> = ({
             y={y + (offset.y ?? 0)}
             fill={"black"}
             fontSize={12}
-            className="select-none"
+            className={cn("select-none", className)}
           >
             {value}
           </text>

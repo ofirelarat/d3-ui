@@ -5,6 +5,8 @@ import { Card, CardContent } from "./Card";
 import LineChart from "@d3-ui/LineChart";
 import ScatterPlot from "@d3-ui/ScatterPlot";
 import Treemap from "@d3-ui/Treemap";
+import GaugeChart from "@d3-ui/Gauge";
+import { useState } from "react";
 
 function generateMatrix(rows: number, cols: number, min = 0, max = 100) {
   return Array.from({ length: rows }, () =>
@@ -53,7 +55,8 @@ export function HeatmapExamples() {
           <CardContent className="p-6 flex flex-col gap-4 items-center">
             <h2 className="text-xl font-semibold mb-2">Hidden Labels</h2>
             <p className="text-gray-500 text-sm">
-              Using <code>{`label.variant="none"`}</code> hides labels completely.
+              Using <code>{`label.variant="none"`}</code> hides labels
+              completely.
             </p>
             <Heatmap.Container
               data={{ profit: baseData.profit }}
@@ -470,6 +473,131 @@ export function TreemapExamples() {
               <Treemap.Tile label={{ variant: "text" }} />
               <Treemap.Legend />
             </Treemap.Container>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+const exampleData0 = [{ label: "Completed", value: 100, color: "#34d399" }];
+
+const exampleData1 = [
+  { label: "Completed", value: 60, color: "#34d399" },
+  { label: "Pending", value: 40, color: "#f59e0b" },
+];
+
+const exampleData2 = [
+  { label: "Low", value: 30, color: "#f87171" },
+  { label: "Medium", value: 40, color: "#fbbf24" },
+  { label: "High", value: 30, color: "#34d399" },
+];
+
+export function GaugeChartExamples() {
+  const [value, setValue] = useState(65);
+
+  return (
+    <div className="flex flex-col gap-10 p-8">
+      <h1 className="text-3xl font-bold">Gauge Chart Examples</h1>
+      <p className="text-gray-600">
+        The GaugeChart component visualizes values on a semi-circular gauge.
+        Below are examples with multiple segments, dynamic needles, and dark
+        mode.
+      </p>
+
+      <div className="flex gap-4 flex-wrap">
+        <Card className="w-[280px]">
+          <CardContent className="p-6 flex flex-col gap-4 items-center">
+            <h2 className="text-xl font-semibold mb-2">Simple Gauge</h2>
+            <p className="text-gray-500 text-sm">
+              Shows simple gauge with a needle for current value.
+            </p>
+            <GaugeChart.Container
+              data={exampleData0}
+              min={0}
+              max={100}
+              width={280}
+              height={180}
+            >
+              <GaugeChart.Arc />
+              <GaugeChart.Needle value={value} />
+              <GaugeChart.Label value={value} />
+              <GaugeChart.Legend />
+            </GaugeChart.Container>
+          </CardContent>
+        </Card>
+
+        <Card className="w-[280px]">
+          <CardContent className="p-6 flex flex-col gap-4 items-center">
+            <h2 className="text-xl font-semibold mb-2">Multi-segment Gauge</h2>
+            <p className="text-gray-500 text-sm">
+              Gauge with Low / Medium / High segments, demonstrating multiple
+              ranges.
+            </p>
+            <GaugeChart.Container
+              data={exampleData2}
+              min={0}
+              max={100}
+              width={280}
+              height={180}
+            >
+              <GaugeChart.Arc />
+              <GaugeChart.Needle value={50} color="#111" />
+              <GaugeChart.Label value={50} />
+              <GaugeChart.Legend />
+            </GaugeChart.Container>
+          </CardContent>
+        </Card>
+
+        <Card className="w-[280px]">
+          <CardContent className="p-6 flex flex-col gap-4 items-center">
+            <h2 className="text-xl font-semibold mb-2">Dynamic Needle</h2>
+            <p className="text-gray-500 text-sm">
+              Use the slider to change the needle value dynamically.
+            </p>
+            <GaugeChart.Container
+              data={exampleData1}
+              min={0}
+              max={100}
+              width={280}
+              height={180}
+            >
+              <GaugeChart.Arc />
+              <GaugeChart.Needle value={value} />
+              <GaugeChart.Label value={value} />
+              <GaugeChart.Legend />
+            </GaugeChart.Container>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={value}
+              onChange={(e) => setValue(Number(e.target.value))}
+              className="w-full mt-2"
+            />
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-900 text-white w-full">
+          <CardContent className="p-6 flex flex-col gap-4 items-center">
+            <h2 className="text-xl font-semibold mb-2 text-white">
+              Dark Mode Gauge
+            </h2>
+            <p className="text-gray-400 text-sm">
+              Large gauge (600x300) for high contrast viewing.
+            </p>
+            <GaugeChart.Container
+              data={exampleData2}
+              min={0}
+              max={100}
+              width={600}
+              height={300}
+            >
+              <GaugeChart.Arc />
+              <GaugeChart.Needle value={75} color="#fff" />
+              <GaugeChart.Label value={75} />
+              <GaugeChart.Legend />
+            </GaugeChart.Container>
           </CardContent>
         </Card>
       </div>
