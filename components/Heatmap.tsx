@@ -4,6 +4,7 @@ import React, { createContext, useContext, useMemo, ReactNode } from "react";
 import { Legend } from "./primitives/Legend";
 import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
+import { useD3GroupTransition } from "./hooks/useGroupTransition";
 
 // Types
 type HeatmapData = {
@@ -146,8 +147,14 @@ const Tile = ({ dataKey, label }: TileProps) => {
   const cellWidth = tileWidth / seriesData.data[0].length;
   const cellHeight = tileHeight / seriesData.data.length;
 
+  const groupRef = useD3GroupTransition<SVGRectElement>({
+    before: (sel) => sel.attr("opacity", 0),
+    apply: (t) => t.attr("opacity", 1),
+    deps: [data],
+  });
+
   return (
-    <g transform={`translate(${offsetX}, ${offsetY})`}>
+    <g transform={`translate(${offsetX}, ${offsetY})`} ref={groupRef}>
       {seriesData.data.map((rowArr, i) =>
         rowArr.map((value, j) => (
           <g
@@ -166,7 +173,11 @@ const Tile = ({ dataKey, label }: TileProps) => {
             onMouseLeave={hide}
             className="cursor-pointer transition-all hover:opacity-75"
           >
-            <rect width={cellWidth} height={cellHeight} fill={colorScale(value)} />
+            <rect
+              width={cellWidth}
+              height={cellHeight}
+              fill={colorScale(value)}
+            />
             <Label
               x={5}
               y={10}
@@ -182,7 +193,6 @@ const Tile = ({ dataKey, label }: TileProps) => {
     </g>
   );
 };
-
 
 const ChartLegend = () => {
   const { data } = useHeatmap();

@@ -5,6 +5,7 @@ import { Axis } from "./primitives/Axis";
 import { Legend } from "./primitives/Legend";
 import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
+import { useD3Transition } from "./hooks/useTransition";
 
 // Types
 type DataPoint = { x: number; y: number };
@@ -132,6 +133,7 @@ interface LineProps {
 }
 
 const Line = ({ dataKey, label }: LineProps) => {
+  // const pathRef = React.useRef<SVGPathElement | null>(null);
   const { data, xScale, yScale } = useLineChart();
   const seriesData = data[dataKey];
 
@@ -139,6 +141,14 @@ const Line = ({ dataKey, label }: LineProps) => {
     console.warn(`No data found for key: ${dataKey}`);
     return null;
   }
+
+  const pathRef = useD3Transition<SVGPathElement>({
+    before: (sel) => {
+      const total = sel.node()?.getTotalLength() || 0;
+      sel.attr("stroke-dasharray", total).attr("stroke-dashoffset", total);
+    },
+    apply: (t) => t.attr("stroke-dashoffset", 0),
+  });
 
   const line = d3
     .line<DataPoint>()
@@ -148,6 +158,7 @@ const Line = ({ dataKey, label }: LineProps) => {
   return (
     <g>
       <path
+        ref={pathRef}
         d={line(seriesData.data) || ""}
         fill="none"
         stroke={seriesData.color}

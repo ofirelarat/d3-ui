@@ -5,6 +5,7 @@ import { Axis } from "./primitives/Axis";
 import { Legend } from "./primitives/Legend";
 import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
+import { useD3GroupTransition } from "./hooks/useGroupTransition";
 
 // Types
 type DataPoint = { x: number; y: number };
@@ -127,13 +128,19 @@ const Dots = ({ dataKey, label }: DotsProps) => {
   const seriesData = data[dataKey];
   const { show, hide } = useTooltip();
 
+  const groupRef = useD3GroupTransition<SVGRectElement>({
+    before: (sel) => sel.attr("opacity", 0),
+    apply: (t) => t.attr("opacity", 1),
+    deps: [seriesData],
+  });
+
   if (!seriesData) {
     console.warn(`No data found for key: ${dataKey}`);
     return null;
   }
 
   return (
-    <g>
+    <g ref={groupRef}>
       {seriesData.data.map((d, i) => {
         const cx = xScale(d.x);
         const cy = yScale(d.y);

@@ -10,6 +10,8 @@ import React, {
 import { Legend } from "./primitives/Legend";
 import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
+import { useD3Transition } from "./hooks/useTransition";
+import { useD3GroupTransition } from "./hooks/useGroupTransition";
 
 // ---- Types ----
 interface NodeData {
@@ -118,12 +120,17 @@ const Container = ({
 const Tile = ({ label }: TileProps) => {
   const { root, treemapLayout } = useTreemap();
   const { show, hide } = useTooltip();
-  const svgRef = useRef<SVGGElement | null>(null);
 
   const treemapData = treemapLayout(root);
 
+  const groupRef = useD3GroupTransition<SVGRectElement>({
+    before: (sel) => sel.attr("opacity", 0),
+    apply: (t) => t.attr("opacity", 1),
+    deps: [treemapData],
+  });
+
   return (
-    <g ref={svgRef}>
+    <g ref={groupRef}>
       {treemapData.leaves().map((leaf, i) => {
         // Walk up hierarchy to find nearest color
         let node: d3.HierarchyNode<NodeData> | null = leaf;
