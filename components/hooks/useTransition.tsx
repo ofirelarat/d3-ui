@@ -2,19 +2,16 @@ import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
 interface TransitionOptions {
-  /** duration in ms */
   duration?: number;
-  /** easing function */
   ease?: (t: number) => number;
-  /** optional callback to apply before transition starts */
   before?: (selection: d3.Selection<any, unknown, null, undefined>) => void;
-  /** callback that applies during transition */
   apply: (transition: d3.Transition<any, unknown, null, undefined>) => void;
+  deps?: React.DependencyList;
 }
 
 /**
  * Generic D3 transition hook that works for any SVG element.
- * 
+ *
  * Example:
  * const ref = useD3Transition({
  *   duration: 800,
@@ -26,6 +23,7 @@ export const useD3Transition = <T extends SVGElement>({
   ease = d3.easeCubicInOut,
   before,
   apply,
+  deps = [],
 }: TransitionOptions) => {
   const ref = useRef<T | null>(null);
 
@@ -35,7 +33,7 @@ export const useD3Transition = <T extends SVGElement>({
     before?.(selection);
     const t = selection.transition().duration(duration).ease(ease);
     apply(t);
-  });
+  }, deps);
 
   return ref;
 };

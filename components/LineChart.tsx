@@ -148,6 +148,7 @@ const Line = ({ dataKey, label }: LineProps) => {
       sel.attr("stroke-dasharray", total).attr("stroke-dashoffset", total);
     },
     apply: (t) => t.attr("stroke-dashoffset", 0),
+    deps: [seriesData],
   });
 
   const line = d3
