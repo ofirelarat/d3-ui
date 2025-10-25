@@ -1,5 +1,11 @@
 import { createMcpHandler } from "@vercel/mcp-adapter";
+import z from "zod";
 // /app/api/mcp/route.ts
+import { code as GaugeCode } from "../charts/gauge/GaugeExample";
+import { code as HitmapCode } from "../charts/heatmap/HeatmapExample";
+import { code as LineCode } from "../charts/line/LineChartExample";
+import { code as ScatterPlotCode } from "../charts/scatter-plot/ScatterPlotExample";
+import { code as TreemapCode } from "../charts/treemap/TreemapExample";
 
 const tools: string[] = [];
 const mcpHandler = createMcpHandler(
@@ -37,60 +43,50 @@ const mcpHandler = createMcpHandler(
     server.tool(
       "example_chart",
       "Return an example chart configuration",
-      {},
-      async () => {
-        const example = {
-          type: "bar",
-          data: [
-            { label: "A", value: 30 },
-            { label: "B", value: 80 },
-            { label: "C", value: 45 },
-          ],
-          options: { width: 400, height: 300, color: "steelblue" },
-        };
-        return {
-          content: [{ type: "text", text: "Example chart returned" }],
-          structuredContent: { chart: example },
-        };
+      {
+        chartType: z.enum(["gauge", "heatmap", "line", "scatter", "treemap"]),
+      },
+      async ({ chartType }) => {
+        switch (chartType) {
+          case "gauge":
+            return {
+              content: [
+                { type: "text", text: GaugeCode, language: "typescript" },
+              ],
+            };
+          case "heatmap":
+            return {
+              content: [
+                { type: "text", text: HitmapCode, language: "typescript" },
+              ],
+            };
+          case "line":
+            return {
+              content: [
+                { type: "text", text: LineCode, language: "typescript" },
+              ],
+            };
+          case "scatter":
+            return {
+              content: [
+                { type: "text", text: ScatterPlotCode, language: "typescript" },
+              ],
+            };
+          case "treemap":
+            return {
+              content: [
+                { type: "text", text: TreemapCode, language: "typescript" },
+              ],
+            };
+          default:
+            return {
+              content: [{ type: "text", text: "Please specify a chart type." }],
+            };
+        }
       }
     );
     tools.push("example_chart");
 
-    // Tool 3: Render chart from input data
-    server.tool(
-      "render_chart",
-      "Receive data and return chart configuration",
-      {
-        data: {
-          type: "array",
-          description: "Array of {label, value} objects",
-        },
-        type: {
-          type: "string",
-          description: "Type of chart (bar, line, pie)",
-          default: "bar",
-        },
-      },
-      async ({ data, type }) => {
-        const chartConfig = {
-          type,
-          data,
-          options: { width: 500, height: 300, color: "steelblue" },
-        };
-        return {
-          content: [
-            {
-              type: "text",
-              text: `Chart of type '${type}' created with ${data.length} points.`,
-            },
-          ],
-          structuredContent: { chart: chartConfig },
-        };
-      }
-    );
-    tools.push("render_chart");
-
-    // Tool 4: List all tools
     server.tool("list_tools", "List all available tools", {}, async () => {
       return { content: [{ type: "text", text: tools.join(", ") }] };
     });
@@ -104,9 +100,6 @@ const mcpHandler = createMcpHandler(
           description: "Get sections of D3-UI documentation",
         },
         example_chart: { description: "Return an example chart configuration" },
-        render_chart: {
-          description: "Receive data and return chart configuration",
-        },
         list_tools: { description: "List all available tools" },
       },
     },
