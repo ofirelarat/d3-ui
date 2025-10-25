@@ -1,2 +1,5 @@
 node_modules/
 docs/d3-components/
+.env
+
+test.txt
