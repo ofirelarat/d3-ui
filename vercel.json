@@ -1,4 +1,4 @@
 {
   "installCommand": "cd docs && npm install",
-  "buildCommand": "npm install && node scripts/copy-components.js && cd docs && npm run build",
+  "buildCommand": "npm install && node scripts/copy-components.js && cd docs && npm run build"
 }
