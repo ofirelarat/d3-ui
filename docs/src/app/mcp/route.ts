@@ -4,56 +4,110 @@ import { createMcpHandler } from "@vercel/mcp-adapter";
 const tools: string[] = [];
 const mcpHandler = createMcpHandler(
   (server) => {
+    // List of tool names
+    const tools: string[] = [];
+
+    // Tool 1: Documentation sections
     server.tool(
-      "echo",
-      "Echo tool",
-      { message: "string" },
-      async ({ message }) => {
-        return {
-          content: [{ type: "text", text: message }],
-          structuredContent: { message },
-        };
-      }
-    );
-    tools.push("echo");
-    server.tool(
-      "dice and roll",
-      "Roll a dice and get a random number between 1 and 6",
-      {
-        sides: {
-          type: "number",
-          description: "Number of sides on the dice",
-          default: 6,
-        },
-      },
-      async ({ sides }) => {
-        const roll = Math.floor(Math.random() * sides) + 1;
+      "doc_sections",
+      "Get sections of D3-UI documentation",
+      {},
+      async () => {
+        const sections = [
+          "Getting Started",
+          "Components",
+          "Charts",
+          "Customization",
+          "Examples",
+        ];
         return {
           content: [
             {
               type: "text",
-              text: `You rolled a ${roll} on a ${sides}-sided dice.`,
+              text: "Available doc sections: " + sections.join(", "),
             },
           ],
+          structuredContent: { sections },
         };
       }
     );
+    tools.push("doc_sections");
+
+    // Tool 2: Example chart
+    server.tool(
+      "example_chart",
+      "Return an example chart configuration",
+      {},
+      async () => {
+        const example = {
+          type: "bar",
+          data: [
+            { label: "A", value: 30 },
+            { label: "B", value: 80 },
+            { label: "C", value: 45 },
+          ],
+          options: { width: 400, height: 300, color: "steelblue" },
+        };
+        return {
+          content: [{ type: "text", text: "Example chart returned" }],
+          structuredContent: { chart: example },
+        };
+      }
+    );
+    tools.push("example_chart");
+
+    // Tool 3: Render chart from input data
+    server.tool(
+      "render_chart",
+      "Receive data and return chart configuration",
+      {
+        data: {
+          type: "array",
+          description: "Array of {label, value} objects",
+        },
+        type: {
+          type: "string",
+          description: "Type of chart (bar, line, pie)",
+          default: "bar",
+        },
+      },
+      async ({ data, type }) => {
+        const chartConfig = {
+          type,
+          data,
+          options: { width: 500, height: 300, color: "steelblue" },
+        };
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Chart of type '${type}' created with ${data.length} points.`,
+            },
+          ],
+          structuredContent: { chart: chartConfig },
+        };
+      }
+    );
+    tools.push("render_chart");
+
+    // Tool 4: List all tools
     server.tool("list_tools", "List all available tools", {}, async () => {
       return { content: [{ type: "text", text: tools.join(", ") }] };
     });
     tools.push("list_tools");
   },
   {
-    serverInfo: { name: "My MCP", version: "1.0" },
+    serverInfo: { name: "d3-ui MCP", version: "1.0" },
     capabilities: {
       tools: {
-        echo: {
-          description: "Echo tool",
+        doc_sections: {
+          description: "Get sections of D3-UI documentation",
+        },
+        example_chart: { description: "Return an example chart configuration" },
+        render_chart: {
+          description: "Receive data and return chart configuration",
         },
         list_tools: { description: "List all available tools" },
-        "dice and roll": {
-          description: "Roll a dice and get a random number between 1 and 6",
-        },
       },
     },
   },
