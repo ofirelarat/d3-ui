@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "node ../scripts/copy-components.js && next build --turbopack",
+    "prebuild": "node ../scripts/copy-components.js",
+    "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint"
   },
