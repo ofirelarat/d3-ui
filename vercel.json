@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm install && node scripts/copy-components.js && cd docs && npm run build",
   "installCommand": "cd docs && npm install",
-  "outputDirectory": "docs/.vercel/output"
+  "buildCommand": "npm install && node scripts/copy-components.js && cd docs && npm run build",
+  "outputDirectory": "docs/.next"
 }
