@@ -1,11 +1,11 @@
 import { createMcpHandler } from "@vercel/mcp-adapter";
 import z from "zod";
 // /app/api/mcp/route.ts
-import { code as GaugeCode } from "../charts/gauge/GaugeExample";
-import { code as HitmapCode } from "../charts/heatmap/HeatmapExample";
-import { code as LineCode } from "../charts/line/LineChartExample";
-import { code as ScatterPlotCode } from "../charts/scatter-plot/ScatterPlotExample";
-import { code as TreemapCode } from "../charts/treemap/TreemapExample";
+import { code as GaugeCode } from "../charts/gauge/GaugeCode";
+import { code as HitmapCode } from "../charts/heatmap/HeatmapCode";
+import { code as LineCode } from "../charts/line/LineCode";
+import { code as ScatterPlotCode } from "../charts/scatter-plot/ScatterCode";
+import { code as TreemapCode } from "../charts/treemap/TreemapCode";
 
 const tools: string[] = [];
 const mcpHandler = createMcpHandler(

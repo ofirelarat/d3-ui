@@ -9,7 +9,8 @@ import {
   TabsTrigger,
 } from "@/app/components/Tabs";
 import { CodeBlock } from "@/app/components/CodeBlock";
-import { LineChartExample, code } from "./LineChartExample";
+import { LineChartExample } from "./LineChartExample";
+import { code } from "./LineCode";
 
 // Dynamically read source file
 const lineChartFile = path.join(process.cwd(), "../components/LineChart.tsx");

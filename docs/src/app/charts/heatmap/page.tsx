@@ -8,8 +8,9 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/app/components/Tabs";
-import { HeatmapExample, code } from "./HeatmapExample";
+import { HeatmapExample } from "./HeatmapExample";
 import { CodeBlock } from "@/app/components/CodeBlock";
+import { code } from "./HeatmapCode";
 
 // Dynamically read source file
 const filePath = path.join(process.cwd(), "../components/Heatmap.tsx");

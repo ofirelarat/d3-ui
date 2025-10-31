@@ -9,7 +9,8 @@ import {
   TabsTrigger,
 } from "@/app/components/Tabs";
 import { CodeBlock } from "@/app/components/CodeBlock";
-import { GaugeChartExample, code } from "./GaugeExample";
+import { GaugeChartExample } from "./GaugeExample";
+import { code } from "./GaugeCode";
 
 const gaugeChartFile = path.join(process.cwd(), "../components/Gauge.tsx");
 const gaugeChartCode = fs.readFileSync(gaugeChartFile, "utf-8");

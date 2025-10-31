@@ -1,6 +1,5 @@
-"use client";
 
-import Treemap from "@d3-ui/Treemap";
+export const code = `import Treemap from "@/components/Treemap";
 
 const data = {
   name: "root",
@@ -18,11 +17,8 @@ const data = {
   ],
 };
 
-export function TreemapExample() {
-  return (
-    <Treemap.Container data={data} width={500} height={400}>
-      <Treemap.Tile />
-      <Treemap.Legend />
-    </Treemap.Container>
-  );
-}
+<Treemap.Container data={data} width={500} height={400}>
+  <Treemap.Tile />
+  <Treemap.Legend />
+</Treemap.Container>
+`;

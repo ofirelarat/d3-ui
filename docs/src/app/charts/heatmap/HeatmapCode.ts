@@ -1,16 +1,4 @@
-"use client";
-
-import Heatmap from "@d3-ui/Heatmap";
-
-interface Props {
-  data: {
-    [key: string]: {
-      data: number[][];
-      color: string;
-      label: string;
-    };
-  };
-}
+export const code = `import Heatmap from "@/components/Heatmap";
 
 const data = {
   temperatures: {
@@ -22,7 +10,7 @@ const data = {
       [12, 22, 32, 42, 52],
     ],
     color: "#1e40af", // Blue
-    label: "Temperature (°C)",
+    label: "Temperature (°C)"
   },
   humidity: {
     data: [
@@ -33,7 +21,7 @@ const data = {
       [100, 95, 90, 85, 80],
     ],
     color: "#059669", // Green
-    label: "Humidity (%)",
+    label: "Humidity (%)"
   },
   pressure: {
     data: [
@@ -44,7 +32,7 @@ const data = {
       [1008, 1010, 1012, 1014, 1016],
     ],
     color: "#dc2626", // Red
-    label: "Pressure (hPa)",
+    label: "Pressure (hPa)"
   },
   windSpeed: {
     data: [
@@ -55,18 +43,15 @@ const data = {
       [7, 11, 15, 18, 21],
     ],
     color: "#7c3aed", // Purple
-    label: "Wind Speed (m/s)",
-  },
+    label: "Wind Speed (m/s)"
+  }
 };
 
-export function HeatmapExample() {
-  return (
-    <Heatmap.Container data={data} width={500} height={400}>
-      <Heatmap.Tile dataKey="temperatures" />
-      <Heatmap.Tile dataKey="humidity" />
-      <Heatmap.Tile dataKey="pressure" />
-      <Heatmap.Tile dataKey="windSpeed" />
-      <Heatmap.Legend />
-    </Heatmap.Container>
-  );
-}
+<Heatmap.Container data={data} width={500} height={400}>
+  <Heatmap.Tile dataKey="temperatures" />
+  <Heatmap.Tile dataKey="humidity" />
+  <Heatmap.Tile dataKey="pressure" />
+  <Heatmap.Tile dataKey="windSpeed" />
+  <Heatmap.Legend />
+</Heatmap.Container>
+`;

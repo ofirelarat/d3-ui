@@ -9,7 +9,8 @@ import {
   TabsTrigger,
 } from "@/app/components/Tabs";
 import { CodeBlock } from "@/app/components/CodeBlock";
-import ScatterPlotExample, { code } from "./ScatterPlotExample";
+import ScatterPlotExample from "./ScatterPlotExample";
+import { code } from "./ScatterCode";
 
 // Dynamically read source file
 const filePath = path.join(process.cwd(), "../components/ScatterPlot.tsx");

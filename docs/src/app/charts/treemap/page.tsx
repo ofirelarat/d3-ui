@@ -8,8 +8,9 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/app/components/Tabs";
-import { TreemapExample, code } from "./TreemapExample";
+import { TreemapExample } from "./TreemapExample";
 import { CodeBlock } from "@/app/components/CodeBlock";
+import { code } from "./TreemapCode";
 
 // Dynamically read source file
 const filePath = path.join(process.cwd(), "../components/Treemap.tsx");
