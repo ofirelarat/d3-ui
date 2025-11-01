@@ -58,8 +58,9 @@ const Container = ({
   const centerY = height / 2;
 
   const pieData = useMemo(() => {
-    const pie = d3.pie<PieDataEntry>()
-      .value(d => d[1].value)
+    const pie = d3
+      .pie<PieDataEntry>()
+      .value((d) => d[1].value)
       .sort(null);
     return pie(Object.entries(data));
   }, [data]);
@@ -72,10 +73,12 @@ const Container = ({
     innerRadius,
     centerX,
     centerY,
-    pieData
+    pieData,
   };
 
-  const { svgChildren, otherChildren } = React.Children.toArray(children).reduce(
+  const { svgChildren, otherChildren } = React.Children.toArray(
+    children
+  ).reduce(
     (acc, child) => {
       if (React.isValidElement(child)) {
         if (child.type === ChartLegend || child.type === CenterLabel) {
@@ -86,7 +89,10 @@ const Container = ({
       }
       return acc;
     },
-    { svgChildren: [], otherChildren: [] } as { svgChildren: React.ReactNode[], otherChildren: React.ReactNode[] }
+    { svgChildren: [], otherChildren: [] } as {
+      svgChildren: React.ReactNode[];
+      otherChildren: React.ReactNode[];
+    }
   );
 
   return (
@@ -99,9 +105,7 @@ const Container = ({
             xmlns="http://www.w3.org/2000/svg"
             className="overflow-visible"
           >
-            <g transform={`translate(${centerX},${centerY})`}>
-              {svgChildren}
-            </g>
+            <g transform={`translate(${centerX},${centerY})`}>{svgChildren}</g>
           </svg>
           {otherChildren}
         </div>
@@ -122,25 +126,28 @@ interface SliceProps {
 const Slice = ({ label }: SliceProps) => {
   const { pieData, radius, innerRadius } = usePieChart();
 
-  const arcGenerator = d3.arc<any>()
+  const arcGenerator = d3
+    .arc<any>()
     .innerRadius(innerRadius)
     .outerRadius(radius);
 
   const pathRef = useD3GroupTransition<SVGPathElement>({
-    before: sel => sel.attr("d", function(this: SVGPathElement) {
-      const startAngle = parseFloat(this.dataset.startAngle || "0");
-      return arcGenerator({ startAngle, endAngle: startAngle, padAngle: 0 });
-    }),
-    apply: t => t.attrTween("d", function(this: SVGPathElement) {
-      const startAngle = parseFloat(this.dataset.startAngle || "0");
-      const endAngle = parseFloat(this.dataset.endAngle || "0");
-      const interpolate = d3.interpolate(
-        { startAngle, endAngle: startAngle, padAngle: 0 },
-        { startAngle, endAngle, padAngle: 0 }
-      );
-      return (t: number) => arcGenerator(interpolate(t))!;
-    }),
-    deps: [pieData, radius, innerRadius]
+    before: (sel) =>
+      sel.attr("d", function (this: SVGPathElement) {
+        const startAngle = parseFloat(this.dataset.startAngle || "0");
+        return arcGenerator({ startAngle, endAngle: startAngle, padAngle: 0 });
+      }),
+    apply: (t) =>
+      t.attrTween("d", function (this: SVGPathElement) {
+        const startAngle = parseFloat(this.dataset.startAngle || "0");
+        const endAngle = parseFloat(this.dataset.endAngle || "0");
+        const interpolate = d3.interpolate(
+          { startAngle, endAngle: startAngle, padAngle: 0 },
+          { startAngle, endAngle, padAngle: 0 }
+        );
+        return (t: number) => arcGenerator(interpolate(t))!;
+      }),
+    deps: [pieData, radius, innerRadius],
   });
 
   return (
@@ -148,7 +155,10 @@ const Slice = ({ label }: SliceProps) => {
       {pieData.map((slice, i) => {
         const { show, hide } = useTooltip();
         const centroid = arcGenerator.centroid(slice);
-        const percentage = ((slice.endAngle - slice.startAngle) / (2 * Math.PI) * 100).toFixed(1);
+        const percentage = (
+          ((slice.endAngle - slice.startAngle) / (2 * Math.PI)) *
+          100
+        ).toFixed(1);
 
         return (
           <g
@@ -192,8 +202,9 @@ const Slice = ({ label }: SliceProps) => {
 // Center Label
 interface CenterLabelProps {
   children: ReactNode;
+  className?: string;
 }
-const CenterLabel = ({ children }: CenterLabelProps) => {
+const CenterLabel = ({ children, className }: CenterLabelProps) => {
   const { centerX, centerY } = usePieChart();
   return (
     <div
@@ -204,6 +215,7 @@ const CenterLabel = ({ children }: CenterLabelProps) => {
         transform: "translate(-50%, -50%)",
         pointerEvents: "none",
       }}
+      className={className}
     >
       {children}
     </div>
@@ -228,7 +240,7 @@ const PieChart = {
   Container,
   Slice,
   Legend: ChartLegend,
-  CenterLabel
+  CenterLabel,
 };
 
 export default PieChart;
