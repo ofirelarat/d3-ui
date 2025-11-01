@@ -6,29 +6,31 @@ import LineChart from "@d3-ui/LineChart";
 import ScatterPlot from "@d3-ui/ScatterPlot";
 import Treemap from "@d3-ui/Treemap";
 import GaugeChart from "@d3-ui/Gauge";
+import BarChart from "@d3-ui/BarChart";
+import PieChart from "@d3-ui/PieChart";
+import AreaChart from "@d3-ui/AreaChart";
 import { useState } from "react";
 
-function generateMatrix(rows: number, cols: number, min = 0, max = 100) {
-  return Array.from({ length: rows }, () =>
-    Array.from({ length: cols }, () =>
-      Math.floor(Math.random() * (max - min) + min)
-    )
-  );
-}
-
-const baseData = {
-  sales: { data: generateMatrix(4, 4), color: "#2563eb", label: "Sales" },
-  profit: { data: generateMatrix(4, 4), color: "#16a34a", label: "Profit" },
-  loss: { data: generateMatrix(4, 4), color: "#dc2626", label: "Loss" },
-};
-
-const darkData = {
-  energy: { data: generateMatrix(6, 6), color: "#9333ea", label: "Energy" },
-  water: { data: generateMatrix(6, 6), color: "#3b82f6", label: "Water" },
-  waste: { data: generateMatrix(6, 6), color: "#f97316", label: "Waste" },
-};
-
 export function HeatmapExamples() {
+  function generateMatrix(rows: number, cols: number, min = 0, max = 100) {
+    return Array.from({ length: rows }, () =>
+      Array.from({ length: cols }, () =>
+        Math.floor(Math.random() * (max - min) + min)
+      )
+    );
+  }
+
+  const baseData = {
+    sales: { data: generateMatrix(4, 4), color: "#2563eb", label: "Sales" },
+    profit: { data: generateMatrix(4, 4), color: "#16a34a", label: "Profit" },
+    loss: { data: generateMatrix(4, 4), color: "#dc2626", label: "Loss" },
+  };
+
+  const darkData = {
+    energy: { data: generateMatrix(6, 6), color: "#9333ea", label: "Energy" },
+    water: { data: generateMatrix(6, 6), color: "#3b82f6", label: "Water" },
+    waste: { data: generateMatrix(6, 6), color: "#f97316", label: "Waste" },
+  };
   return (
     <div className="flex flex-col gap-10 p-8">
       <h1 className="text-3xl font-bold">Heatmap Examples</h1>
@@ -114,36 +116,35 @@ export function HeatmapExamples() {
   );
 }
 
-function generateLineData(points: number, min = 0, max = 100) {
-  return Array.from({ length: points }, (_, i) => ({
-    x: i + 1,
-    y: Math.floor(Math.random() * (max - min) + min),
-  }));
-}
-
-const multiLineData = {
-  sales: {
-    data: generateLineData(8, 10, 100),
-    color: "#2563eb",
-    label: "Sales",
-  },
-  profit: {
-    data: generateLineData(8, 5, 50),
-    color: "#16a34a",
-    label: "Profit",
-  },
-  loss: { data: generateLineData(8, 0, 30), color: "#dc2626", label: "Loss" },
-};
-
-const singleLineData = {
-  revenue: {
-    data: generateLineData(12, 20, 200),
-    color: "#f97316",
-    label: "Revenue",
-  },
-};
-
 export function LineChartExamples() {
+  function generateLineData(points: number, min = 0, max = 100) {
+    return Array.from({ length: points }, (_, i) => ({
+      x: i + 1,
+      y: Math.floor(Math.random() * (max - min) + min),
+    }));
+  }
+
+  const multiLineData = {
+    sales: {
+      data: generateLineData(8, 10, 100),
+      color: "#2563eb",
+      label: "Sales",
+    },
+    profit: {
+      data: generateLineData(8, 5, 50),
+      color: "#16a34a",
+      label: "Profit",
+    },
+    loss: { data: generateLineData(8, 0, 30), color: "#dc2626", label: "Loss" },
+  };
+
+  const singleLineData = {
+    revenue: {
+      data: generateLineData(12, 20, 200),
+      color: "#f97316",
+      label: "Revenue",
+    },
+  };
   return (
     <div className="flex flex-col gap-10 p-8">
       <h1 className="text-3xl font-bold">Line Chart Examples</h1>
@@ -230,48 +231,48 @@ export function LineChartExamples() {
   );
 }
 
-// Helper: generate random scatter data
-function generateScatterData(
-  points: number,
-  xMin = 0,
-  xMax = 100,
-  yMin = 0,
-  yMax = 100
-) {
-  return Array.from({ length: points }, () => ({
-    x: Math.floor(Math.random() * (xMax - xMin) + xMin),
-    y: Math.floor(Math.random() * (yMax - yMin) + yMin),
-  }));
-}
-
 // Example datasets
-const multiSeriesData = {
-  sales: {
-    data: generateScatterData(12, 10, 100, 0, 50),
-    color: "#2563eb",
-    label: "Sales",
-  },
-  profit: {
-    data: generateScatterData(12, 10, 100, 0, 50),
-    color: "#16a34a",
-    label: "Profit",
-  },
-  loss: {
-    data: generateScatterData(12, 10, 100, 0, 50),
-    color: "#dc2626",
-    label: "Loss",
-  },
-};
-
-const singleSeriesData = {
-  revenue: {
-    data: generateScatterData(15, 0, 100, 0, 200),
-    color: "#f97316",
-    label: "Revenue",
-  },
-};
 
 export function ScatterPlotExamples() {
+  // Helper: generate random scatter data
+  function generateScatterData(
+    points: number,
+    xMin = 0,
+    xMax = 100,
+    yMin = 0,
+    yMax = 100
+  ) {
+    return Array.from({ length: points }, () => ({
+      x: Math.floor(Math.random() * (xMax - xMin) + xMin),
+      y: Math.floor(Math.random() * (yMax - yMin) + yMin),
+    }));
+  }
+  const multiSeriesData = {
+    sales: {
+      data: generateScatterData(12, 10, 100, 0, 50),
+      color: "#2563eb",
+      label: "Sales",
+    },
+    profit: {
+      data: generateScatterData(12, 10, 100, 0, 50),
+      color: "#16a34a",
+      label: "Profit",
+    },
+    loss: {
+      data: generateScatterData(12, 10, 100, 0, 50),
+      color: "#dc2626",
+      label: "Loss",
+    },
+  };
+
+  const singleSeriesData = {
+    revenue: {
+      data: generateScatterData(15, 0, 100, 0, 200),
+      color: "#f97316",
+      label: "Revenue",
+    },
+  };
+
   return (
     <div className="flex flex-col gap-10 p-8">
       <h1 className="text-3xl font-bold">Scatter Plot Examples</h1>
@@ -377,38 +378,39 @@ export function ScatterPlotExamples() {
 }
 
 // Example datasets
-const baseDataTreeMap = {
-  name: "root",
-  children: [
-    { name: "Electronics", value: 1500, color: "#3182bd" },
-    { name: "Clothing", value: 1200, color: "#16a34a" },
-    { name: "Furniture", value: 900, color: "#f59e0b" },
-  ],
-};
-
-const nestedData = {
-  name: "root",
-  children: [
-    {
-      name: "Men",
-      color: "#2563eb",
-      children: [
-        { name: "Shirts", value: 500, color: "#60a5fa" },
-        { name: "Pants", value: 300, color: "#3b82f6" },
-      ],
-    },
-    {
-      name: "Women",
-      color: "#16a34a",
-      children: [
-        { name: "Dresses", value: 400, color: "#34d399" },
-        { name: "Shoes", value: 250, color: "#10b981" },
-      ],
-    },
-  ],
-};
 
 export function TreemapExamples() {
+  const baseDataTreeMap = {
+    name: "root",
+    children: [
+      { name: "Electronics", value: 1500, color: "#3182bd" },
+      { name: "Clothing", value: 1200, color: "#16a34a" },
+      { name: "Furniture", value: 900, color: "#f59e0b" },
+    ],
+  };
+
+  const nestedData = {
+    name: "root",
+    children: [
+      {
+        name: "Men",
+        color: "#2563eb",
+        children: [
+          { name: "Shirts", value: 500, color: "#60a5fa" },
+          { name: "Pants", value: 300, color: "#3b82f6" },
+        ],
+      },
+      {
+        name: "Women",
+        color: "#16a34a",
+        children: [
+          { name: "Dresses", value: 400, color: "#34d399" },
+          { name: "Shoes", value: 250, color: "#10b981" },
+        ],
+      },
+    ],
+  };
+
   return (
     <div className="flex flex-col gap-10 p-8">
       <h1 className="text-3xl font-bold">Treemap Examples</h1>
@@ -480,20 +482,19 @@ export function TreemapExamples() {
   );
 }
 
-const exampleData0 = [{ label: "Completed", value: 100, color: "#34d399" }];
-
-const exampleData1 = [
-  { label: "Completed", value: 60, color: "#34d399" },
-  { label: "Pending", value: 40, color: "#f59e0b" },
-];
-
-const exampleData2 = [
-  { label: "Low", value: 30, color: "#f87171" },
-  { label: "Medium", value: 40, color: "#fbbf24" },
-  { label: "High", value: 30, color: "#34d399" },
-];
-
 export function GaugeChartExamples() {
+  const exampleData0 = [{ label: "Completed", value: 100, color: "#34d399" }];
+
+  const exampleData1 = [
+    { label: "Completed", value: 60, color: "#34d399" },
+    { label: "Pending", value: 40, color: "#f59e0b" },
+  ];
+
+  const exampleData2 = [
+    { label: "Low", value: 30, color: "#f87171" },
+    { label: "Medium", value: 40, color: "#fbbf24" },
+    { label: "High", value: 30, color: "#34d399" },
+  ];
   const [value, setValue] = useState(65);
 
   return (
@@ -601,6 +602,364 @@ export function GaugeChartExamples() {
           </CardContent>
         </Card>
       </div>
+    </div>
+  );
+}
+
+export function BarChartExamples() {
+  const [dynamicValue, setDynamicValue] = useState(50);
+
+  const barData = {
+    apples: {
+      data: [
+        { x: "Jan", y: 30 },
+        { x: "Feb", y: 50 },
+      ],
+      color: "#34d399",
+      label: "Apples",
+    },
+    oranges: {
+      data: [
+        { x: "Jan", y: 20 },
+        { x: "Feb", y: 40 },
+      ],
+      color: "#f59e0b",
+      label: "Oranges",
+    },
+  };
+
+  return (
+    <div className="flex flex-col gap-10 p-8">
+      <h1 className="text-3xl font-bold">Bar Chart Examples</h1>
+      <p className="text-gray-600">
+        Examples show how different props and styles change its appearance.
+      </p>
+      <div className="flex gap-4 flex-wrap">
+        {/* Small Spread Chart */}
+        <Card className="w-[280px]">
+          <CardContent className="p-6 flex flex-col gap-4 items-center">
+            <h2 className="text-xl font-semibold">Grouped Bar Chart</h2>
+            <BarChart.Container
+              data={barData}
+              variant="spread"
+              width={280}
+              height={180}
+            >
+              <BarChart.Bar dataKey="apples" />
+              <BarChart.Bar dataKey="oranges" />
+              <BarChart.XAxis />
+              <BarChart.YAxis />
+              <BarChart.Legend />
+            </BarChart.Container>
+          </CardContent>
+        </Card>
+
+        {/* Small Stacked Chart */}
+        <Card className="w-[280px]">
+          <CardContent className="p-6 flex flex-col gap-4 items-center">
+            <h2 className="text-xl font-semibold">Stacked Bar Chart</h2>
+            <BarChart.Container
+              data={barData}
+              variant="stacked"
+              width={280}
+              height={180}
+            >
+              <BarChart.Bar dataKey="apples" />
+              <BarChart.Bar dataKey="oranges" />
+              <BarChart.XAxis />
+              <BarChart.YAxis />
+              <BarChart.Legend />
+            </BarChart.Container>
+          </CardContent>
+        </Card>
+
+        {/* Small Dynamic Bar */}
+        <Card className="w-[280px]">
+          <CardContent className="p-6 flex flex-col gap-4 items-center">
+            <h2 className="text-xl font-semibold">Dynamic Value Bar</h2>
+            <BarChart.Container
+              data={{
+                apples: {
+                  ...barData.apples,
+                  data: [{ x: "Jan", y: dynamicValue }],
+                },
+              }}
+              variant="spread"
+              width={280}
+              height={180}
+            >
+              <BarChart.Bar dataKey="apples" />
+              <BarChart.XAxis />
+              <BarChart.YAxis />
+            </BarChart.Container>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={dynamicValue}
+              onChange={(e) => setDynamicValue(Number(e.target.value))}
+              className="w-full mt-2"
+            />
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Big Dark Chart */}
+      <Card className="bg-gray-900 text-white w-full">
+        <CardContent className="p-6 flex flex-col gap-4 items-center">
+          <h2 className="text-xl font-semibold text-white">
+            Big Dark Stacked Bar
+          </h2>
+          <BarChart.Container
+            data={barData}
+            variant="stacked"
+            width={600}
+            height={300}
+          >
+            <BarChart.Bar dataKey="apples" />
+            <BarChart.Bar dataKey="oranges" />
+            <BarChart.XAxis />
+            <BarChart.YAxis />
+            <BarChart.Legend />
+          </BarChart.Container>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+export function PieChartExamples() {
+  const pieData0 = {
+    apples: { value: 100, color: "#34d399", label: "Completed" },
+  };
+
+  const pieData1 = {
+    completed: { value: 60, color: "#34d399", label: "Completed" },
+    pending: { value: 40, color: "#f59e0b", label: "Pending" },
+  };
+
+  const pieData2 = {
+    low: { value: 30, color: "#f87171", label: "Low" },
+    medium: { value: 40, color: "#fbbf24", label: "Medium" },
+    high: { value: 30, color: "#34d399", label: "High" },
+  };
+
+  return (
+    <div className="flex flex-col gap-10 p-8">
+      <h1 className="text-3xl font-bold">Pie Chart Examples</h1>
+      <p className="text-gray-600">
+        Examples show how different props and styles change its appearance.
+      </p>
+      <div className="flex gap-4 flex-wrap">
+        {/* Simple Pie */}
+        <Card className="w-[280px]">
+          <CardContent className="p-6 flex flex-col gap-4 items-center">
+            <h2 className="text-xl font-semibold">Simple Pie</h2>
+            <PieChart.Container data={pieData0} width={280} height={180}>
+              <PieChart.Slice label={{ variant: "text" }} />
+              <PieChart.Legend />
+            </PieChart.Container>
+          </CardContent>
+        </Card>
+
+        {/* Multi-segment Pie */}
+        <Card className="w-[280px]">
+          <CardContent className="p-6 flex flex-col gap-4 items-center">
+            <h2 className="text-xl font-semibold">Multi-segment Pie</h2>
+            <PieChart.Container data={pieData2} width={280} height={180}>
+              <PieChart.Slice label={{ variant: "text" }} />
+              <PieChart.Legend />
+            </PieChart.Container>
+          </CardContent>
+        </Card>
+
+        {/* Dynamic Pie */}
+        <Card className="w-[280px]">
+          <CardContent className="p-6 flex flex-col gap-4 items-center">
+            <h2 className="text-xl font-semibold">Dynamic Pie</h2>
+            <PieChart.Container data={pieData1} width={280} height={180}>
+              <PieChart.Slice label={{ variant: "text" }} />
+              <PieChart.Legend />
+            </PieChart.Container>
+          </CardContent>
+        </Card>
+      </div>
+      {/* Big Dark Pie */}
+      <Card className="bg-gray-900 text-white w-full">
+        <CardContent className="p-6 flex flex-col gap-4 items-center">
+          <h2 className="text-xl font-semibold text-white">Big Dark Pie</h2>
+          <PieChart.Container data={pieData2} width={600} height={300}>
+            <PieChart.Slice label={{ variant: "text" }} />
+            <PieChart.Legend />
+          </PieChart.Container>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+export function AreaChartExamples() {
+  const areaData1 = {
+    series1: {
+      label: "Revenue",
+      color: "#3b82f6",
+      data: [
+        { x: 0, y: 30 },
+        { x: 1, y: 50 },
+        { x: 2, y: 40 },
+        { x: 3, y: 60 },
+        { x: 4, y: 80 },
+        { x: 5, y: 70 },
+      ],
+    },
+  };
+
+  const areaData2 = {
+    series1: {
+      label: "Revenue",
+      color: "#3b82f6",
+      data: [
+        { x: 0, y: 30 },
+        { x: 1, y: 50 },
+        { x: 2, y: 40 },
+        { x: 3, y: 60 },
+        { x: 4, y: 80 },
+        { x: 5, y: 70 },
+      ],
+    },
+    series2: {
+      label: "Expenses",
+      color: "#f59e0b",
+      data: [
+        { x: 0, y: 20 },
+        { x: 1, y: 30 },
+        { x: 2, y: 25 },
+        { x: 3, y: 40 },
+        { x: 4, y: 50 },
+        { x: 5, y: 45 },
+      ],
+    },
+  };
+
+  const areaData3 = {
+    series1: {
+      label: "Revenue",
+      color: "#3b82f6",
+      data: [
+        { x: 0, y: 20 },
+        { x: 1, y: 25 },
+        { x: 2, y: 30 },
+        { x: 3, y: 35 },
+        { x: 4, y: 40 },
+        { x: 5, y: 45 },
+      ],
+    },
+    series2: {
+      label: "Expenses",
+      color: "#f59e0b",
+      data: [
+        { x: 0, y: 15 },
+        { x: 1, y: 20 },
+        { x: 2, y: 25 },
+        { x: 3, y: 30 },
+        { x: 4, y: 35 },
+        { x: 5, y: 40 },
+      ],
+    },
+    series3: {
+      label: "Profit",
+      color: "#10b981",
+      data: [
+        { x: 0, y: 5 },
+        { x: 1, y: 5 },
+        { x: 2, y: 5 },
+        { x: 3, y: 5 },
+        { x: 4, y: 5 },
+        { x: 5, y: 5 },
+      ],
+    },
+  };
+  return (
+    <div className="flex flex-col gap-10 p-8">
+      <h1 className="text-3xl font-bold">Area Chart Examples</h1>
+      <p className="text-gray-600">
+        Demonstrating stacked and multi-series area charts, with labels and
+        legends.
+      </p>
+
+      {/* Small charts row */}
+      <div className="flex gap-4 flex-wrap">
+        <Card className="w-[280px]">
+          <CardContent className="p-4 flex flex-col gap-2 items-center">
+            <h2 className="text-lg font-semibold">Single Series</h2>
+            <AreaChart.Container data={areaData1} width={280} height={180}>
+              <AreaChart.YAxis />
+              <AreaChart.XAxis />
+              <AreaChart.Area dataKey="series1" label={{ variant: "circle" }} />
+              <AreaChart.Legend />
+            </AreaChart.Container>
+          </CardContent>
+        </Card>
+
+        <Card className="w-[280px]">
+          <CardContent className="p-4 flex flex-col gap-2 items-center">
+            <h2 className="text-lg font-semibold">Two Series Stacked</h2>
+            <AreaChart.Container
+              data={areaData2}
+              width={280}
+              height={180}
+              variant="stacked"
+            >
+              <AreaChart.YAxis />
+              <AreaChart.XAxis />
+              <AreaChart.Area dataKey="series1" label={{ variant: "circle" }} />
+              <AreaChart.Area dataKey="series2" label={{ variant: "circle" }} />
+              <AreaChart.Legend />
+            </AreaChart.Container>
+          </CardContent>
+        </Card>
+
+        <Card className="w-[280px]">
+          <CardContent className="p-4 flex flex-col gap-2 items-center">
+            <h2 className="text-lg font-semibold">Three Series Spread</h2>
+            <AreaChart.Container
+              data={areaData3}
+              width={280}
+              height={180}
+              variant="spread"
+            >
+              <AreaChart.YAxis />
+              <AreaChart.XAxis />
+              <AreaChart.Area dataKey="series1" label={{ variant: "circle" }} />
+              <AreaChart.Area dataKey="series2" label={{ variant: "circle" }} />
+              <AreaChart.Area dataKey="series3" label={{ variant: "circle" }} />
+              <AreaChart.Legend />
+            </AreaChart.Container>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Large dark background chart */}
+      <Card className="bg-gray-900 text-white w-full">
+        <CardContent className="p-6 flex flex-col gap-4 items-center">
+          <h2 className="text-xl font-semibold text-white">
+            Large Stacked Chart
+          </h2>
+          <AreaChart.Container
+            data={areaData3}
+            width={600}
+            height={400}
+            variant="stacked"
+          >
+            <AreaChart.YAxis />
+            <AreaChart.XAxis />
+            <AreaChart.Area dataKey="series1" label={{ variant: "circle" }} />
+            <AreaChart.Area dataKey="series2" label={{ variant: "circle" }} />
+            <AreaChart.Area dataKey="series3" label={{ variant: "circle" }} />
+            <AreaChart.Legend />
+          </AreaChart.Container>
+        </CardContent>
+      </Card>
     </div>
   );
 }

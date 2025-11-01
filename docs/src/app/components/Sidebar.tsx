@@ -21,6 +21,9 @@ const navGroups: NavGroup[] = [
     title: "Charts",
     items: [
       { label: "Line Chart", href: "/charts/line" },
+      { label: "Bar Chart", href: "/charts/bar-chart" },
+      { label: "Area Chart", href: "/charts/area-chart" },
+      { label: "Pie Chart", href: "/charts/pie-chart" },
       { label: "Scatter Plot", href: "/charts/scatter-plot" },
       { label: "Heatmap", href: "/charts/heatmap" },
       { label: "Treemap", href: "/charts/treemap" },

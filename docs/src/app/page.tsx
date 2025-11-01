@@ -1,8 +1,10 @@
-import { LineChart } from "lucide-react";
 import {
+  AreaChartExamples,
+  BarChartExamples,
   GaugeChartExamples,
   HeatmapExamples,
   LineChartExamples,
+  PieChartExamples,
   ScatterPlotExamples,
   TreemapExamples,
 } from "./components/ShowCases";
@@ -34,6 +36,9 @@ export default function HomePage() {
         <ScatterPlotExamples />
         <TreemapExamples />
         <GaugeChartExamples />
+        <BarChartExamples />
+        <PieChartExamples />
+        <AreaChartExamples />
       </div>
     </section>
   );
