@@ -777,9 +777,17 @@ export function PieChartExamples() {
         <Card className="w-[280px]">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
             <h2 className="text-xl font-semibold">Dynamic Pie</h2>
-            <PieChart.Container data={pieData1} width={280} height={180}>
-              <PieChart.Slice label={{ variant: "text" }} />
+            <PieChart.Container
+              data={pieData1}
+              width={280}
+              height={180}
+              innerRadius={25}
+            >
+              <PieChart.Slice label={{ variant: "none" }} />
               <PieChart.Legend />
+              <PieChart.CenterLabel>
+                <div className="text-sm font-medium">100</div>
+              </PieChart.CenterLabel>
             </PieChart.Container>
           </CardContent>
         </Card>
@@ -788,9 +796,17 @@ export function PieChartExamples() {
       <Card className="bg-gray-900 text-white w-full">
         <CardContent className="p-6 flex flex-col gap-4 items-center">
           <h2 className="text-xl font-semibold text-white">Big Dark Pie</h2>
-          <PieChart.Container data={pieData2} width={600} height={300}>
+          <PieChart.Container
+            data={pieData2}
+            width={600}
+            height={300}
+            innerRadius={50}
+          >
             <PieChart.Slice label={{ variant: "text" }} />
             <PieChart.Legend />
+            <PieChart.CenterLabel>
+              <div className="text-lg font-medium text-white">All - 100</div>
+            </PieChart.CenterLabel>
           </PieChart.Container>
         </CardContent>
       </Card>

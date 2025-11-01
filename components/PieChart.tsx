@@ -4,7 +4,6 @@ import React, { createContext, useContext, useMemo, ReactNode } from "react";
 import { Legend } from "./primitives/Legend";
 import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
-import { useD3Transition } from "./hooks/useTransition";
 import { useD3GroupTransition } from "./hooks/useGroupTransition";
 
 // Types
@@ -20,21 +19,17 @@ interface ContainerProps {
   data: PieData;
   width?: number;
   height?: number;
+  innerRadius?: number; // 👈 added for donut
   children: ReactNode;
 }
 
-// Context
 type PieDataEntry = [string, { value: number; color: string; label: string }];
-
-interface PieArcDatum extends d3.DefaultArcObject {
-  data: PieDataEntry;
-}
-
 type PieChartContext = {
   data: PieData;
   width: number;
   height: number;
   radius: number;
+  innerRadius: number;
   centerX: number;
   centerY: number;
   pieData: d3.PieArcDatum<PieDataEntry>[];
@@ -50,11 +45,12 @@ const usePieChart = () => {
   return context;
 };
 
-// Components
+// Container
 const Container = ({
   data,
   width = 400,
   height = 400,
+  innerRadius = 0,
   children,
 }: ContainerProps) => {
   const radius = Math.min(width, height) / 2 - 40;
@@ -62,18 +58,18 @@ const Container = ({
   const centerY = height / 2;
 
   const pieData = useMemo(() => {
-    const pie = d3.pie<[string, { value: number; color: string; label: string }]>()
+    const pie = d3.pie<PieDataEntry>()
       .value(d => d[1].value)
       .sort(null);
-    
     return pie(Object.entries(data));
   }, [data]);
 
-  const contextValue = {
+  const contextValue: PieChartContext = {
     data,
     width,
     height,
     radius,
+    innerRadius,
     centerX,
     centerY,
     pieData
@@ -82,7 +78,7 @@ const Container = ({
   const { svgChildren, otherChildren } = React.Children.toArray(children).reduce(
     (acc, child) => {
       if (React.isValidElement(child)) {
-        if (child.type === ChartLegend) {
+        if (child.type === ChartLegend || child.type === CenterLabel) {
           acc.otherChildren.push(child);
         } else {
           acc.svgChildren.push(child);
@@ -90,10 +86,7 @@ const Container = ({
       }
       return acc;
     },
-    { svgChildren: [], otherChildren: [] } as {
-      svgChildren: React.ReactNode[];
-      otherChildren: React.ReactNode[];
-    }
+    { svgChildren: [], otherChildren: [] } as { svgChildren: React.ReactNode[], otherChildren: React.ReactNode[] }
   );
 
   return (
@@ -117,6 +110,7 @@ const Container = ({
   );
 };
 
+// Slice
 interface SliceProps {
   label?: {
     labelFormatter?: (value: any) => React.ReactNode;
@@ -126,36 +120,27 @@ interface SliceProps {
 }
 
 const Slice = ({ label }: SliceProps) => {
-  const { radius, pieData } = usePieChart();
+  const { pieData, radius, innerRadius } = usePieChart();
 
   const arcGenerator = d3.arc<any>()
-    .innerRadius(0)
+    .innerRadius(innerRadius)
     .outerRadius(radius);
 
   const pathRef = useD3GroupTransition<SVGPathElement>({
-    before: (sel) => {
-      sel
-        .attr("d", function(this: SVGPathElement) {
-          const startAngle = parseFloat(this.dataset.startAngle || "0");
-          return arcGenerator({
-            startAngle,
-            endAngle: startAngle,
-            padAngle: 0,
-            value: 0
-          });
-        });
-    },
-    apply: (t) => t.attrTween("d", function(this: SVGPathElement) {
+    before: sel => sel.attr("d", function(this: SVGPathElement) {
+      const startAngle = parseFloat(this.dataset.startAngle || "0");
+      return arcGenerator({ startAngle, endAngle: startAngle, padAngle: 0 });
+    }),
+    apply: t => t.attrTween("d", function(this: SVGPathElement) {
       const startAngle = parseFloat(this.dataset.startAngle || "0");
       const endAngle = parseFloat(this.dataset.endAngle || "0");
-      
       const interpolate = d3.interpolate(
-        { startAngle, endAngle: startAngle, padAngle: 0, value: 0 },
-        { startAngle, endAngle, padAngle: 0, value: 1 }
+        { startAngle, endAngle: startAngle, padAngle: 0 },
+        { startAngle, endAngle, padAngle: 0 }
       );
       return (t: number) => arcGenerator(interpolate(t))!;
     }),
-    deps: [pieData],
+    deps: [pieData, radius, innerRadius]
   });
 
   return (
@@ -204,6 +189,28 @@ const Slice = ({ label }: SliceProps) => {
   );
 };
 
+// Center Label
+interface CenterLabelProps {
+  children: ReactNode;
+}
+const CenterLabel = ({ children }: CenterLabelProps) => {
+  const { centerX, centerY } = usePieChart();
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: centerX,
+        top: centerY,
+        transform: "translate(-50%, -50%)",
+        pointerEvents: "none",
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
+// Legend
 const ChartLegend = () => {
   const { data } = usePieChart();
   return (
@@ -216,11 +223,12 @@ const ChartLegend = () => {
   );
 };
 
-// Export as compound component
+// Export compound component
 const PieChart = {
   Container,
   Slice,
   Legend: ChartLegend,
+  CenterLabel
 };
 
 export default PieChart;

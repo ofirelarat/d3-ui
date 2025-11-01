@@ -13,8 +13,14 @@ const data = {
 export function PieChartExample() {
   return (
     <div className="flex justify-center">
-      <PieChart.Container data={data} width={400} height={400}>
+      <PieChart.Container data={data} width={400} height={400} innerRadius={60}>
         <PieChart.Slice label={{ variant: "text" }} />
+        <PieChart.CenterLabel>
+          <div className="flex flex-col justify-center items-center text-center">
+            <div className="text-lg font-semibold">Fruits</div>
+            <div>100</div>
+          </div>
+        </PieChart.CenterLabel>
         <PieChart.Legend />
       </PieChart.Container>
     </div>
