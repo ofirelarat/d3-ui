@@ -21,7 +21,7 @@ interface ContainerProps {
   data: BarData;
   width?: number;
   height?: number;
-  variant?: "spread" | "stacked"; // 👈 new
+  variant?: "spread" | "stacked";
   children: ReactNode;
 }
 
