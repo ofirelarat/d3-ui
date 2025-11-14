@@ -663,6 +663,7 @@ export function BarChartExamples() {
               variant="stacked"
               width={280}
               height={180}
+              orientation="horizontal"
             >
               <BarChart.Bar dataKey="apples" />
               <BarChart.Bar dataKey="oranges" />
@@ -681,7 +682,12 @@ export function BarChartExamples() {
               data={{
                 apples: {
                   ...barData.apples,
-                  data: [{ x: "Jan", y: dynamicValue }],
+                  data: [
+                    { x: new Date(2024, 1, 1), y: dynamicValue },
+                    { x: new Date(2024, 2, 1), y: dynamicValue + 5 },
+                    { x: new Date(2024, 3, 1), y: dynamicValue + 10 },
+                    { x: new Date(2024, 6, 1), y: dynamicValue + 5 },
+                  ],
                 },
               }}
               variant="spread"
@@ -689,7 +695,7 @@ export function BarChartExamples() {
               height={180}
             >
               <BarChart.Bar dataKey="apples" />
-              <BarChart.XAxis />
+              <BarChart.XAxis tickFormat={(d) => `${new Date(d).toLocaleDateString()}`} />
               <BarChart.YAxis />
             </BarChart.Container>
             <input

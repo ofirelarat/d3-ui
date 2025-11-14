@@ -8,7 +8,7 @@ import { Label, LabelProps } from "./primitives/Label";
 import { useD3GroupTransition } from "./hooks/useGroupTransition";
 
 // Types
-type DataPoint = { x: string | number; y: number };
+type DataPoint = { x: string | number | Date; y: number };
 type BarData = {
   [key: string]: {
     data: DataPoint[];
@@ -22,6 +22,7 @@ interface ContainerProps {
   width?: number;
   height?: number;
   variant?: "spread" | "stacked";
+  orientation?: "vertical" | "horizontal";
   children: ReactNode;
 }
 
@@ -31,9 +32,10 @@ type BarChartContext = {
   width: number;
   height: number;
   margin: { top: number; right: number; bottom: number; left: number };
-  xScale: d3.ScaleBand<string>;
-  yScale: d3.ScaleLinear<number, number>;
+  xScale: any;
+  yScale: any;
   variant: "spread" | "stacked";
+  orientation: "vertical" | "horizontal";
   groupScale?: d3.ScaleBand<string> | null;
   stackedData?: d3.Series<Record<string, number>, string>[] | null;
   seriesKeys: string[];
@@ -44,9 +46,8 @@ const BarChartContext = createContext<BarChartContext | null>(null);
 
 const useBarChart = () => {
   const context = useContext(BarChartContext);
-  if (!context) {
+  if (!context)
     throw new Error("Bar chart components must be used within a Bar.Container");
-  }
   return context;
 };
 
@@ -56,25 +57,14 @@ const Container = ({
   width = 400,
   height = 200,
   variant = "spread",
+  orientation = "vertical",
   children,
 }: ContainerProps) => {
   const margin = { top: 20, right: 20, bottom: 30, left: 40 };
   const seriesKeys = Object.keys(data);
-
   const allPoints = Object.values(data).flatMap((series) => series.data);
   const allCategories = Array.from(
     new Set(allPoints.map((d) => d.x.toString()))
-  );
-
-  // Scales
-  const xScale = useMemo(
-    () =>
-      d3
-        .scaleBand()
-        .domain(allCategories)
-        .range([margin.left, width - margin.right])
-        .padding(0.1),
-    [allCategories, width, margin]
   );
 
   const yMax =
@@ -87,35 +77,59 @@ const Container = ({
         )!
       : d3.max(allPoints, (d) => d.y)!;
 
-  const yScale = useMemo(
-    () =>
-      d3
+  // Scales
+  const xScale = useMemo(() => {
+    if (orientation === "vertical") {
+      return d3
+        .scaleBand()
+        .domain(allCategories)
+        .range([margin.left, width - margin.right])
+        .padding(0.1);
+    } else {
+      return d3
+        .scaleLinear()
+        .domain([0, yMax])
+        .range([margin.left, width - margin.right]);
+    }
+  }, [allCategories, width, margin, orientation, yMax]);
+
+  const yScale = useMemo(() => {
+    if (orientation === "vertical") {
+      return d3
         .scaleLinear()
         .domain([0, yMax])
         .nice()
-        .range([height - margin.bottom, margin.top]),
-    [yMax, height, margin]
-  );
+        .range([height - margin.bottom, margin.top]);
+    } else {
+      return d3
+        .scaleBand()
+        .domain(allCategories)
+        .range([margin.top, height - margin.bottom])
+        .padding(0.1);
+    }
+  }, [allCategories, height, margin, orientation, yMax]);
 
-  // Grouped (spread) scale
+  // Grouped scale
   const groupScale = useMemo(() => {
     if (variant === "spread") {
       return d3
         .scaleBand()
         .domain(seriesKeys)
-        .range([0, xScale.bandwidth()])
+        .range([
+          0,
+          orientation === "vertical"
+            ? (xScale as d3.ScaleBand<string>).bandwidth()
+            : (yScale as d3.ScaleBand<string>).bandwidth(),
+        ])
         .padding(0.05);
     }
     return null;
-  }, [variant, seriesKeys, xScale]);
+  }, [variant, seriesKeys, xScale, yScale, orientation]);
 
   // Stacked layout
   const stackedData = useMemo(() => {
     if (variant !== "stacked") return null;
-    const categories = Array.from(
-      new Set(allPoints.map((d) => d.x.toString()))
-    );
-    const stackedInput = categories.map((cat) => {
+    const stackedInput = allCategories.map((cat) => {
       const entry: Record<string, number> = {};
       seriesKeys.forEach((key) => {
         const point = data[key].data.find((d) => d.x.toString() === cat);
@@ -124,7 +138,7 @@ const Container = ({
       return entry;
     });
     return d3.stack<Record<string, number>>().keys(seriesKeys)(stackedInput);
-  }, [variant, data, allPoints, seriesKeys]);
+  }, [variant, data, allCategories, seriesKeys]);
 
   const contextValue: BarChartContext = {
     data,
@@ -134,13 +148,13 @@ const Container = ({
     xScale,
     yScale,
     variant,
+    orientation,
     groupScale,
     stackedData,
     seriesKeys,
     allPoints,
   };
 
-  // Split SVG and non-SVG children
   const { svgChildren, otherChildren } = React.Children.toArray(
     children
   ).reduce(
@@ -151,9 +165,9 @@ const Container = ({
       }
       return acc;
     },
-    { svgChildren: [], otherChildren: [] } as {
-      svgChildren: React.ReactNode[];
-      otherChildren: React.ReactNode[];
+    {
+      svgChildren: [] as React.ReactNode[],
+      otherChildren: [] as React.ReactNode[],
     }
   );
 
@@ -191,9 +205,11 @@ const Bar = ({ dataKey, label }: BarProps) => {
     data,
     xScale,
     yScale,
+    width,
     height,
     margin,
     variant,
+    orientation,
     groupScale,
     stackedData,
     seriesKeys,
@@ -207,57 +223,108 @@ const Bar = ({ dataKey, label }: BarProps) => {
   const barRef = useD3GroupTransition<SVGGElement>({
     before: (sel) => sel.attr("opacity", 0),
     apply: (t) => t.attr("opacity", 1),
-    deps: [seriesData, variant],
+    deps: [seriesData, variant, orientation],
   });
 
-  // Spread (grouped) bars
+  const categories = Array.from(new Set(allPoints.map((d) => d.x.toString())));
+
+  // Spread bars
   if (variant === "spread" && groupScale) {
-    const barWidth = groupScale.bandwidth();
     return (
       <g ref={barRef}>
         {seriesData.data.map((d, i) => {
-          const x = xScale(d.x.toString());
-          if (x == null) return null;
-          const barX = x + groupScale(dataKey)!;
-          const barY = yScale(d.y);
-          const barHeight = height - margin.bottom - barY;
+          const category = d.x.toString();
 
-          return (
-            <g
-              key={i}
-              onMouseEnter={(e) =>
-                show(
-                  {
-                    title: seriesData.label,
-                    color: seriesData.color,
-                    content: `x: ${d.x.toString()}\ny: ${d.y.toLocaleString()}`,
-                  },
-                  e
-                )
-              }
-              onMouseLeave={hide}
-              className="cursor-pointer transition-all hover:opacity-80"
-            >
-              <rect
-                x={barX}
-                y={barY}
-                width={barWidth}
-                height={barHeight}
-                fill={seriesData.color}
-              />
-              {label && (
-                <Label
-                  x={barX + barWidth / 2}
+          if (orientation === "vertical") {
+            const x = xScale(category);
+            if (x == null) return null;
+            const barX = x + groupScale(dataKey)!;
+            const barY = yScale(d.y);
+            const barHeight = height - margin.bottom - barY;
+            const barWidth = groupScale.bandwidth();
+
+            return (
+              <g
+                key={i}
+                onMouseEnter={(e) =>
+                  show(
+                    {
+                      title: seriesData.label,
+                      color: seriesData.color,
+                      content: `x: ${d.x}\ny: ${d.y}`,
+                    },
+                    e
+                  )
+                }
+                onMouseLeave={hide}
+                className="cursor-pointer hover:opacity-80"
+              >
+                <rect
+                  x={barX}
                   y={barY}
-                  color={seriesData.color}
-                  value={d.y}
-                  formatter={label.labelFormatter}
-                  className={label.className}
-                  variant={label.variant || "text"}
+                  width={barWidth}
+                  height={barHeight}
+                  fill={seriesData.color}
                 />
-              )}
-            </g>
-          );
+                {label && (
+                  <Label
+                    x={barX + barWidth / 2}
+                    y={barY}
+                    value={d.y}
+                    color={seriesData.color}
+                    formatter={label.labelFormatter}
+                    variant={label.variant || "text"}
+                    className={label.className}
+                  />
+                )}
+              </g>
+            );
+          } else {
+            // Horizontal
+            const y = yScale(category);
+            if (y == null) return null;
+            const barY = y + groupScale(dataKey)!;
+            const barHeight = groupScale.bandwidth();
+            const barX = margin.left;
+            const barWidth = xScale(d.y);
+
+            return (
+              <g
+                key={i}
+                onMouseEnter={(e) =>
+                  show(
+                    {
+                      title: seriesData.label,
+                      color: seriesData.color,
+                      content: `x: ${d.x}\ny: ${d.y}`,
+                    },
+                    e
+                  )
+                }
+                onMouseLeave={hide}
+                className="cursor-pointer hover:opacity-80"
+              >
+                <rect
+                  x={barX}
+                  y={barY}
+                  width={barWidth}
+                  height={barHeight}
+                  fill={seriesData.color}
+                />
+                {label && (
+                  <Label
+                    x={barX + barWidth}
+                    y={barY + barHeight / 2}
+                    value={d.y}
+                    color={seriesData.color}
+                    formatter={label.labelFormatter}
+                    variant={label.variant || "text"}
+                    className={label.className}
+                  />
+                )}
+              </g>
+            );
+          }
         })}
       </g>
     );
@@ -268,56 +335,99 @@ const Bar = ({ dataKey, label }: BarProps) => {
     const seriesIndex = seriesKeys.indexOf(dataKey);
     if (seriesIndex === -1) return null;
     const series = stackedData[seriesIndex];
-    const categories = Array.from(
-      new Set(allPoints.map((d) => d.x.toString()))
-    );
 
     return (
       <g ref={barRef}>
         {series.map((d, i) => {
-          const x = xScale(categories[i]);
-          if (x == null) return null;
-          const barY = yScale(d[1]);
-          const barHeight = yScale(d[0]) - yScale(d[1]);
+          const category = categories[i];
+          if (orientation === "vertical") {
+            const x = xScale(category);
+            if (x == null) return null;
+            const barY = yScale(d[1]);
+            const barHeight = yScale(d[0]) - yScale(d[1]);
+            const barWidth = xScale.bandwidth();
 
-          return (
-            <g
-              key={i}
-              onMouseEnter={(e) =>
-                show(
-                  {
-                    title: seriesData.label,
-                    color: seriesData.color,
-                    content: `x: ${categories[i]}\ny: ${(
-                      d[1] - d[0]
-                    ).toLocaleString()}`,
-                  },
-                  e
-                )
-              }
-              onMouseLeave={hide}
-              className="cursor-pointer transition-all hover:opacity-80"
-            >
-              <rect
-                x={x}
-                y={barY}
-                width={xScale.bandwidth()}
-                height={barHeight}
-                fill={seriesData.color}
-              />
-              {label && (
-                <Label
-                  x={x + xScale.bandwidth() / 2}
+            return (
+              <g
+                key={i}
+                onMouseEnter={(e) =>
+                  show(
+                    {
+                      title: seriesData.label,
+                      color: seriesData.color,
+                      content: `x: ${category}\ny: ${d[1] - d[0]}`,
+                    },
+                    e
+                  )
+                }
+                onMouseLeave={hide}
+                className="cursor-pointer hover:opacity-80"
+              >
+                <rect
+                  x={x}
                   y={barY}
-                  color={seriesData.color}
-                  value={d[1] - d[0]}
-                  formatter={label.labelFormatter}
-                  className={label.className}
-                  variant={label.variant || "text"}
+                  width={barWidth}
+                  height={barHeight}
+                  fill={seriesData.color}
                 />
-              )}
-            </g>
-          );
+                {label && (
+                  <Label
+                    x={x + barWidth / 2}
+                    y={barY}
+                    value={d[1] - d[0]}
+                    color={seriesData.color}
+                    formatter={label.labelFormatter}
+                    variant={label.variant || "text"}
+                    className={label.className}
+                  />
+                )}
+              </g>
+            );
+          } else {
+            // Horizontal stacked
+            const y = yScale(category);
+            if (y == null) return null;
+            const barX = xScale(d[0]);
+            const barWidth = xScale(d[1]) - xScale(d[0]);
+            const barHeight = yScale.bandwidth();
+
+            return (
+              <g
+                key={i}
+                onMouseEnter={(e) =>
+                  show(
+                    {
+                      title: seriesData.label,
+                      color: seriesData.color,
+                      content: `x: ${category}\ny: ${d[1] - d[0]}`,
+                    },
+                    e
+                  )
+                }
+                onMouseLeave={hide}
+                className="cursor-pointer hover:opacity-80"
+              >
+                <rect
+                  x={barX}
+                  y={y}
+                  width={barWidth}
+                  height={barHeight}
+                  fill={seriesData.color}
+                />
+                {label && (
+                  <Label
+                    x={barX + barWidth}
+                    y={y + barHeight / 2}
+                    value={d[1] - d[0]}
+                    color={seriesData.color}
+                    formatter={label.labelFormatter}
+                    variant={label.variant || "text"}
+                    className={label.className}
+                  />
+                )}
+              </g>
+            );
+          }
         })}
       </g>
     );
@@ -326,26 +436,35 @@ const Bar = ({ dataKey, label }: BarProps) => {
   return null;
 };
 
-// XAxis
-const ChartXAxis = () => {
-  const { xScale, height, margin } = useBarChart();
+// Axes
+const ChartXAxis = ({ tickFormat }: { tickFormat?: (d: any) => string }) => {
+  const { xScale, yScale, height, margin, orientation } = useBarChart();
   return (
     <Axis
-      scale={xScale}
-      orient="bottom"
-      transform={`translate(0,${height - margin.bottom})`}
+      scale={orientation === "vertical" ? xScale : yScale}
+      orient={orientation === "vertical" ? "bottom" : "left"}
+      transform={
+        orientation === "vertical"
+          ? `translate(0,${height - margin.bottom})`
+          : `translate(${margin.left},0)`
+      }
+      tickFormat={tickFormat}
     />
-   );
+  );
 };
 
-// YAxis
-const ChartYAxis = () => {
-  const { yScale, margin } = useBarChart();
+const ChartYAxis = ({ tickFormat }: { tickFormat?: (d: any) => string }) => {
+  const { yScale, xScale, height, margin, orientation } = useBarChart();
   return (
     <Axis
-      scale={yScale}
-      orient="left"
-      transform={`translate(${margin.left},0)`}
+      scale={orientation === "vertical" ? yScale : xScale}
+      orient={orientation === "vertical" ? "left" : "bottom"}
+      transform={
+        orientation === "vertical"
+          ? `translate(${margin.left},0)`
+          : `translate(0,${height - margin.bottom})`
+      }
+      tickFormat={tickFormat}
     />
   );
 };
@@ -355,7 +474,7 @@ const ChartLegend = () => {
   const { data } = useBarChart();
   return (
     <Legend
-      items={Object.entries(data).map(([key, { color, label }]) => ({
+      items={Object.entries(data).map(([_, { label, color }]) => ({
         label,
         color,
       }))}

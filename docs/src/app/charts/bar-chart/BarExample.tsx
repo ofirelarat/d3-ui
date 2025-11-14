@@ -32,7 +32,7 @@ const data = {
 export function BarChartExample() {
   return (
     <div className="flex justify-center">
-      <BarChart.Container data={data} width={600} height={400} variant="spread">
+      <BarChart.Container data={data} width={600} height={400} variant="spread" orientation="vertical">
         <BarChart.YAxis />
         <BarChart.XAxis />
         <BarChart.Bar dataKey="series1" label={{ variant: "none" }} />
