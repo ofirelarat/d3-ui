@@ -141,7 +141,9 @@ const Container = ({
   };
 
   // Split SVG and non-SVG children
-  const { svgChildren, otherChildren } = React.Children.toArray(children).reduce(
+  const { svgChildren, otherChildren } = React.Children.toArray(
+    children
+  ).reduce(
     (acc, child) => {
       if (React.isValidElement(child)) {
         if (child.type === ChartLegend) acc.otherChildren.push(child);
@@ -266,7 +268,9 @@ const Bar = ({ dataKey, label }: BarProps) => {
     const seriesIndex = seriesKeys.indexOf(dataKey);
     if (seriesIndex === -1) return null;
     const series = stackedData[seriesIndex];
-    const categories = Array.from(new Set(allPoints.map((d) => d.x.toString())));
+    const categories = Array.from(
+      new Set(allPoints.map((d) => d.x.toString()))
+    );
 
     return (
       <g ref={barRef}>
@@ -284,7 +288,9 @@ const Bar = ({ dataKey, label }: BarProps) => {
                   {
                     title: seriesData.label,
                     color: seriesData.color,
-                    content: `x: ${categories[i]}\ny: ${(d[1] - d[0]).toLocaleString()}`,
+                    content: `x: ${categories[i]}\ny: ${(
+                      d[1] - d[0]
+                    ).toLocaleString()}`,
                   },
                   e
                 )
@@ -324,24 +330,24 @@ const Bar = ({ dataKey, label }: BarProps) => {
 const ChartXAxis = () => {
   const { xScale, height, margin } = useBarChart();
   return (
-    <g transform={`translate(0,${height - margin.bottom})`}>
-      {xScale.domain().map((tick, i) => (
-        <g key={i} transform={`translate(${xScale(tick)! + xScale.bandwidth() / 2},0)`}>
-          <line y2={6} stroke="currentColor" />
-          <text y={9} dy="0.71em" textAnchor="middle">
-            {tick}
-          </text>
-        </g>
-      ))}
-      <line x1={xScale.range()[0]} x2={xScale.range()[1]} stroke="currentColor" />
-    </g>
-  );
+    <Axis
+      scale={xScale}
+      orient="bottom"
+      transform={`translate(0,${height - margin.bottom})`}
+    />
+   );
 };
 
 // YAxis
 const ChartYAxis = () => {
   const { yScale, margin } = useBarChart();
-  return <Axis scale={yScale} orient="left" transform={`translate(${margin.left},0)`} />;
+  return (
+    <Axis
+      scale={yScale}
+      orient="left"
+      transform={`translate(${margin.left},0)`}
+    />
+  );
 };
 
 // Legend
@@ -349,7 +355,10 @@ const ChartLegend = () => {
   const { data } = useBarChart();
   return (
     <Legend
-      items={Object.entries(data).map(([key, { color, label }]) => ({ label, color }))}
+      items={Object.entries(data).map(([key, { color, label }]) => ({
+        label,
+        color,
+      }))}
     />
   );
 };
