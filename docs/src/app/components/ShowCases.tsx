@@ -726,7 +726,7 @@ export function BarChartExamples() {
             <BarChart.Bar dataKey="oranges" />
             <BarChart.XAxis />
             <BarChart.YAxis />
-            <BarChart.Legend />
+            <BarChart.Legend/>
           </BarChart.Container>
         </CardContent>
       </Card>

@@ -15,6 +15,7 @@ const navGroups: NavGroup[] = [
     items: [
       { label: "Home", href: "/" },
       { label: "Getting Started", href: "/getting-started" },
+      { label: "MCP Documentation", href: "/mcp-docs" },
     ],
   },
   {

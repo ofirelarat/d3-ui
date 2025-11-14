@@ -470,10 +470,18 @@ const ChartYAxis = ({ tickFormat }: { tickFormat?: (d: any) => string }) => {
 };
 
 // Legend
-const ChartLegend = () => {
+const ChartLegend = ({
+  className,
+  itemClassName,
+}: {
+  className?: string;
+  itemClassName?: string;
+}) => {
   const { data } = useBarChart();
   return (
     <Legend
+      className={className}
+      itemClassName={itemClassName}
       items={Object.entries(data).map(([_, { label, color }]) => ({
         label,
         color,
