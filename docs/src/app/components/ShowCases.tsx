@@ -32,17 +32,17 @@ export function HeatmapExamples() {
     waste: { data: generateMatrix(6, 6), color: "#f97316", label: "Waste" },
   };
   return (
-    <div className="flex flex-col gap-10 p-8">
-      <h1 className="text-3xl font-bold">Heatmap Examples</h1>
-      <p className="text-gray-600">
-        The Heatmap component visualizes dense data grids with color gradients
-        and labels. Below are several examples showing how props and styles
-        change its appearance.
-      </p>
-      <div className="flex gap-4 flex-wrap">
-        <Card className="w-[280px]">
+    <section className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Heatmap</h2>
+        <p className="text-slate-600 dark:text-slate-400">
+          Visualize dense data grids with color gradients. Perfect for showing matrix data patterns.
+        </p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold mb-2">Basic Heatmap</h2>
+            <h3 className="font-semibold text-slate-900 dark:text-white">Basic Heatmap</h3>
             <Heatmap.Container
               data={{ sales: baseData.sales }}
               width={140}
@@ -53,12 +53,11 @@ export function HeatmapExamples() {
             </Heatmap.Container>
           </CardContent>
         </Card>
-        <Card className="w-[280px]">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold mb-2">Hidden Labels</h2>
-            <p className="text-gray-500 text-sm">
-              Using <code>{`label.variant="none"`}</code> hides labels
-              completely.
+            <h3 className="font-semibold text-slate-900 dark:text-white">Hidden Labels</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Using <code className="bg-slate-100 dark:bg-slate-900 px-1 rounded">{`variant="none"`}</code>
             </p>
             <Heatmap.Container
               data={{ profit: baseData.profit }}
@@ -70,14 +69,11 @@ export function HeatmapExamples() {
             </Heatmap.Container>
           </CardContent>
         </Card>
-        <Card className="w-[280px]">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold mb-2">
-              Custom Label Formatting
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Use <code>labelFormatter</code> to format cell values (e.g., add %
-              or $).
+            <h3 className="font-semibold text-slate-900 dark:text-white">Custom Formatting</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Format cell values with <code className="bg-slate-100 dark:bg-slate-900 px-1 rounded">labelFormatter</code>
             </p>
             <Heatmap.Container
               data={{ loss: baseData.loss }}
@@ -87,7 +83,7 @@ export function HeatmapExamples() {
               <Heatmap.Tile
                 dataKey="loss"
                 label={{
-                  labelFormatter: (v) => <div className="text-sm">${v}</div>,
+                  labelFormatter: (v) => <div className="text-xs">${v}</div>,
                   variant: "text",
                 }}
               />
@@ -96,13 +92,11 @@ export function HeatmapExamples() {
           </CardContent>
         </Card>
       </div>
-      <Card className="bg-gray-900 text-white">
+      <Card className="bg-slate-900 dark:bg-slate-950 border border-slate-800">
         <CardContent className="p-6 flex flex-col gap-4 items-center">
-          <h2 className="text-xl font-semibold mb-2 text-white">
-            Dark Mode Heatmap
-          </h2>
-          <p className="text-gray-400 text-sm">
-            A larger heatmap (600x600) with high-contrast colors.
+          <h3 className="font-semibold text-white">Large Heatmap (600x600)</h3>
+          <p className="text-slate-400 text-sm">
+            Multi-dataset visualization with high-contrast colors
           </p>
           <Heatmap.Container data={darkData} width={600} height={600}>
             <Heatmap.Tile dataKey="energy" label={{ variant: "text" }} />
@@ -112,7 +106,7 @@ export function HeatmapExamples() {
           </Heatmap.Container>
         </CardContent>
       </Card>
-    </div>
+    </section>
   );
 }
 
@@ -146,19 +140,19 @@ export function LineChartExamples() {
     },
   };
   return (
-    <div className="flex flex-col gap-10 p-8">
-      <h1 className="text-3xl font-bold">Line Chart Examples</h1>
-      <p className="text-gray-600">
-        The LineChart component visualizes trends over time or sequential data.
-        Below are examples with multiple lines, single line, and custom labels.
-      </p>
-
-      <div className="flex gap-4 flex-wrap">
-        <Card className="w-[280px]">
+    <section className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Line Chart</h2>
+        <p className="text-slate-600 dark:text-slate-400">
+          Track trends over time with smooth, responsive line charts.
+        </p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold mb-2">Multiple Lines</h2>
-            <p className="text-gray-500 text-sm">
-              Shows sales, profit, and loss together with different colors.
+            <h3 className="font-semibold text-slate-900 dark:text-white">Multiple Lines</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Sales, profit, and loss comparison
             </p>
             <LineChart.Container data={multiLineData} width={280} height={180}>
               <LineChart.Line dataKey="sales" />
@@ -171,11 +165,11 @@ export function LineChartExamples() {
           </CardContent>
         </Card>
 
-        <Card className="w-[280px]">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold mb-2">Single Line</h2>
-            <p className="text-gray-500 text-sm">
-              A single line representing revenue over time.
+            <h3 className="font-semibold text-slate-900 dark:text-white">Single Line</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Revenue over 12 months
             </p>
             <LineChart.Container data={singleLineData} width={280} height={180}>
               <LineChart.Line dataKey="revenue" />
@@ -186,11 +180,11 @@ export function LineChartExamples() {
           </CardContent>
         </Card>
 
-        <Card className="w-[280px]">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold mb-2">Custom Labels</h2>
-            <p className="text-gray-500 text-sm">
-              Labels formatted with a currency symbol.
+            <h3 className="font-semibold text-slate-900 dark:text-white">Custom Labels</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Formatted with currency symbol
             </p>
             <LineChart.Container data={singleLineData} width={280} height={180}>
               <LineChart.Line
@@ -205,29 +199,24 @@ export function LineChartExamples() {
             </LineChart.Container>
           </CardContent>
         </Card>
-
-        {/* Example 4: Dark mode / large chart */}
-        <Card className="bg-gray-900 text-white w-full">
-          <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold mb-2 text-white">
-              Dark Mode Chart
-            </h2>
-            <p className="text-gray-400 text-sm">
-              Large chart (600x300) with multiple lines for high contrast
-              viewing.
-            </p>
-            <LineChart.Container data={multiLineData} width={600} height={300}>
-              <LineChart.Line dataKey="sales" label={{ variant: "square" }} />
-              <LineChart.Line dataKey="profit" />
-              <LineChart.Line dataKey="loss" />
-              <LineChart.XAxis />
-              <LineChart.YAxis />
-              <LineChart.Legend />
-            </LineChart.Container>
-          </CardContent>
-        </Card>
       </div>
-    </div>
+      <Card className="bg-slate-900 dark:bg-slate-950 border border-slate-800">
+        <CardContent className="p-6 flex flex-col gap-4 items-center">
+          <h3 className="font-semibold text-white">Large Chart (600x300)</h3>
+          <p className="text-slate-400 text-sm">
+            Multiple lines with labels in high-resolution visualization
+          </p>
+          <LineChart.Container data={multiLineData} width={600} height={300}>
+            <LineChart.Line dataKey="sales" label={{ variant: "square" }} />
+            <LineChart.Line dataKey="profit" />
+            <LineChart.Line dataKey="loss" />
+            <LineChart.XAxis />
+            <LineChart.YAxis />
+            <LineChart.Legend />
+          </LineChart.Container>
+        </CardContent>
+      </Card>
+    </section>
   );
 }
 
@@ -274,21 +263,19 @@ export function ScatterPlotExamples() {
   };
 
   return (
-    <div className="flex flex-col gap-10 p-8">
-      <h1 className="text-3xl font-bold">Scatter Plot Examples</h1>
-      <p className="text-gray-600">
-        The ScatterPlot component visualizes individual points and trends in
-        data. Below are examples with multiple series, single series, and custom
-        labels.
-      </p>
-
-      <div className="flex gap-4 flex-wrap">
-        <Card className="w-[280px]">
+    <section className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Scatter Plot</h2>
+        <p className="text-slate-600 dark:text-slate-400">
+          Explore correlations between variables and identify patterns.
+        </p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold mb-2">Multiple Series</h2>
-            <p className="text-gray-500 text-sm">
-              Sales, profit, and loss points shown together with different
-              colors.
+            <h3 className="font-semibold text-slate-900 dark:text-white">Multiple Series</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Sales, profit, and loss
             </p>
             <ScatterPlot.Container
               data={multiSeriesData}
@@ -304,11 +291,11 @@ export function ScatterPlotExamples() {
             </ScatterPlot.Container>
           </CardContent>
         </Card>
-        <Card className="w-[280px]">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold mb-2">Single Series</h2>
-            <p className="text-gray-500 text-sm">
-              Only revenue points over time.
+            <h3 className="font-semibold text-slate-900 dark:text-white">Single Series</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Revenue distribution
             </p>
             <ScatterPlot.Container
               data={singleSeriesData}
@@ -326,11 +313,11 @@ export function ScatterPlotExamples() {
           </CardContent>
         </Card>
 
-        <Card className="w-[280px]">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold mb-2">Custom Labels</h2>
-            <p className="text-gray-500 text-sm">
-              Show points with currency labels.
+            <h3 className="font-semibold text-slate-900 dark:text-white">Custom Labels</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              With currency formatting
             </p>
             <ScatterPlot.Container
               data={singleSeriesData}
@@ -347,33 +334,28 @@ export function ScatterPlotExamples() {
             </ScatterPlot.Container>
           </CardContent>
         </Card>
-
-        {/* Example 4: Dark mode / large plot */}
-        <Card className="bg-gray-900 text-white w-full">
-          <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold mb-2 text-white">
-              Dark Mode Scatter
-            </h2>
-            <p className="text-gray-400 text-sm">
-              Large scatter plot (600x300) with multiple series and high
-              contrast colors.
-            </p>
-            <ScatterPlot.Container
-              data={multiSeriesData}
-              width={600}
-              height={300}
-            >
-              <ScatterPlot.Dots dataKey="sales" label={{ variant: "square" }} />
-              <ScatterPlot.Dots dataKey="profit" />
-              <ScatterPlot.Dots dataKey="loss" />
-              <ScatterPlot.XAxis />
-              <ScatterPlot.YAxis />
-              <ScatterPlot.Legend />
-            </ScatterPlot.Container>
-          </CardContent>
-        </Card>
       </div>
-    </div>
+      <Card className="bg-slate-900 dark:bg-slate-950 border border-slate-800">
+        <CardContent className="p-6 flex flex-col gap-4 items-center">
+          <h3 className="font-semibold text-white">Large Plot (600x300)</h3>
+          <p className="text-slate-400 text-sm">
+            Multi-series visualization with high contrast
+          </p>
+          <ScatterPlot.Container
+            data={multiSeriesData}
+            width={600}
+            height={300}
+          >
+            <ScatterPlot.Dots dataKey="sales" label={{ variant: "square" }} />
+            <ScatterPlot.Dots dataKey="profit" />
+            <ScatterPlot.Dots dataKey="loss" />
+            <ScatterPlot.XAxis />
+            <ScatterPlot.YAxis />
+            <ScatterPlot.Legend />
+          </ScatterPlot.Container>
+        </CardContent>
+      </Card>
+    </section>
   );
 }
 
@@ -629,19 +611,22 @@ export function BarChartExamples() {
   };
 
   return (
-    <div className="flex flex-col gap-10 p-8">
-      <h1 className="text-3xl font-bold">Bar Chart Examples</h1>
-      <p className="text-gray-600">
-        Examples show how different props and styles change its appearance.
-      </p>
-      <div className="flex gap-4 flex-wrap">
-        {/* Small Spread Chart */}
-        <Card className="w-[280px]">
+    <section className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Bar Chart</h2>
+        <p className="text-slate-600 dark:text-slate-400">
+          Compare values across categories with intuitive bar visualizations.
+        </p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold">Grouped Bar Chart</h2>
+            <h3 className="font-semibold text-slate-900 dark:text-white">Grouped Bars</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Apples and oranges
+            </p>
             <BarChart.Container
               data={barData}
-              variant="spread"
               width={280}
               height={180}
             >
@@ -654,19 +639,18 @@ export function BarChartExamples() {
           </CardContent>
         </Card>
 
-        {/* Small Stacked Chart */}
-        <Card className="w-[280px]">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold">Stacked Bar Chart</h2>
+            <h3 className="font-semibold text-slate-900 dark:text-white">Single Series</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Apples only
+            </p>
             <BarChart.Container
-              data={barData}
-              variant="stacked"
+              data={{ apples: barData.apples }}
               width={280}
               height={180}
-              orientation="horizontal"
             >
               <BarChart.Bar dataKey="apples" />
-              <BarChart.Bar dataKey="oranges" />
               <BarChart.XAxis />
               <BarChart.YAxis />
               <BarChart.Legend />
@@ -674,28 +658,28 @@ export function BarChartExamples() {
           </CardContent>
         </Card>
 
-        {/* Small Dynamic Bar */}
-        <Card className="w-[280px]">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold">Dynamic Value Bar</h2>
+            <h3 className="font-semibold text-slate-900 dark:text-white">Interactive</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Adjust with slider
+            </p>
             <BarChart.Container
               data={{
                 apples: {
                   ...barData.apples,
                   data: [
-                    { x: new Date(2024, 1, 1), y: dynamicValue },
-                    { x: new Date(2024, 2, 1), y: dynamicValue + 5 },
-                    { x: new Date(2024, 3, 1), y: dynamicValue + 10 },
-                    { x: new Date(2024, 6, 1), y: dynamicValue + 5 },
+                    { x: "Q1", y: dynamicValue },
+                    { x: "Q2", y: dynamicValue + 5 },
+                    { x: "Q3", y: dynamicValue + 10 },
                   ],
                 },
               }}
-              variant="spread"
               width={280}
               height={180}
             >
               <BarChart.Bar dataKey="apples" />
-              <BarChart.XAxis tickFormat={(d) => `${new Date(d).toLocaleDateString()}`} />
+              <BarChart.XAxis />
               <BarChart.YAxis />
             </BarChart.Container>
             <input
@@ -710,15 +694,14 @@ export function BarChartExamples() {
         </Card>
       </div>
 
-      {/* Big Dark Chart */}
-      <Card className="bg-gray-900 text-white w-full">
+      <Card className="bg-slate-900 dark:bg-slate-950 border border-slate-800">
         <CardContent className="p-6 flex flex-col gap-4 items-center">
-          <h2 className="text-xl font-semibold text-white">
-            Big Dark Stacked Bar
-          </h2>
+          <h3 className="font-semibold text-white">Large Chart (600x300)</h3>
+          <p className="text-slate-400 text-sm">
+            Multi-series visualization with detailed breakdown
+          </p>
           <BarChart.Container
             data={barData}
-            variant="stacked"
             width={600}
             height={300}
           >
@@ -730,7 +713,7 @@ export function BarChartExamples() {
           </BarChart.Container>
         </CardContent>
       </Card>
-    </div>
+    </section>
   );
 }
 
@@ -751,16 +734,20 @@ export function PieChartExamples() {
   };
 
   return (
-    <div className="flex flex-col gap-10 p-8">
-      <h1 className="text-3xl font-bold">Pie Chart Examples</h1>
-      <p className="text-gray-600">
-        Examples show how different props and styles change its appearance.
-      </p>
-      <div className="flex gap-4 flex-wrap">
-        {/* Simple Pie */}
-        <Card className="w-[280px]">
+    <section className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Pie Chart</h2>
+        <p className="text-slate-600 dark:text-slate-400">
+          Visualize parts of a whole with elegant pie and donut charts.
+        </p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold">Simple Pie</h2>
+            <h3 className="font-semibold text-slate-900 dark:text-white">Simple Pie</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Single value
+            </p>
             <PieChart.Container data={pieData0} width={280} height={180}>
               <PieChart.Slice label={{ variant: "text" }} />
               <PieChart.Legend />
@@ -768,10 +755,12 @@ export function PieChartExamples() {
           </CardContent>
         </Card>
 
-        {/* Multi-segment Pie */}
-        <Card className="w-[280px]">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold">Multi-segment Pie</h2>
+            <h3 className="font-semibold text-slate-900 dark:text-white">Multi-segment</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Low, medium, high
+            </p>
             <PieChart.Container data={pieData2} width={280} height={180}>
               <PieChart.Slice label={{ variant: "text" }} />
               <PieChart.Legend />
@@ -779,10 +768,12 @@ export function PieChartExamples() {
           </CardContent>
         </Card>
 
-        {/* Dynamic Pie */}
-        <Card className="w-[280px]">
+        <Card className="border border-slate-200 dark:border-slate-800">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
-            <h2 className="text-xl font-semibold">Dynamic Pie</h2>
+            <h3 className="font-semibold text-slate-900 dark:text-white">Donut Chart</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Completed vs pending
+            </p>
             <PieChart.Container
               data={pieData1}
               width={280}
@@ -791,17 +782,16 @@ export function PieChartExamples() {
             >
               <PieChart.Slice label={{ variant: "none" }} />
               <PieChart.Legend />
-              <PieChart.CenterLabel>
-                <div className="text-sm font-medium">100</div>
-              </PieChart.CenterLabel>
             </PieChart.Container>
           </CardContent>
         </Card>
       </div>
-      {/* Big Dark Pie */}
-      <Card className="bg-gray-900 text-white w-full">
+      <Card className="bg-slate-900 dark:bg-slate-950 border border-slate-800">
         <CardContent className="p-6 flex flex-col gap-4 items-center">
-          <h2 className="text-xl font-semibold text-white">Big Dark Pie</h2>
+          <h3 className="font-semibold text-white">Large Chart (600x300)</h3>
+          <p className="text-slate-400 text-sm">
+            Donut chart with center label
+          </p>
           <PieChart.Container
             data={pieData2}
             width={600}
@@ -810,13 +800,10 @@ export function PieChartExamples() {
           >
             <PieChart.Slice label={{ variant: "text" }} />
             <PieChart.Legend />
-            <PieChart.CenterLabel>
-              <div className="text-lg font-medium text-white">All - 100</div>
-            </PieChart.CenterLabel>
           </PieChart.Container>
         </CardContent>
       </Card>
-    </div>
+    </section>
   );
 }
 
@@ -902,18 +889,21 @@ export function AreaChartExamples() {
     },
   };
   return (
-    <div className="flex flex-col gap-10 p-8">
-      <h1 className="text-3xl font-bold">Area Chart Examples</h1>
-      <p className="text-gray-600">
-        Demonstrating stacked and multi-series area charts, with labels and
-        legends.
-      </p>
+    <section className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Area Chart</h2>
+        <p className="text-slate-600 dark:text-slate-400">
+          Show cumulative data and trends with stacked or overlapping areas.
+        </p>
+      </div>
 
-      {/* Small charts row */}
-      <div className="flex gap-4 flex-wrap">
-        <Card className="w-[280px]">
-          <CardContent className="p-4 flex flex-col gap-2 items-center">
-            <h2 className="text-lg font-semibold">Single Series</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="border border-slate-200 dark:border-slate-800">
+          <CardContent className="p-6 flex flex-col gap-4 items-center">
+            <h3 className="font-semibold text-slate-900 dark:text-white">Single Series</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Revenue
+            </p>
             <AreaChart.Container data={areaData1} width={280} height={180}>
               <AreaChart.YAxis />
               <AreaChart.XAxis />
@@ -923,14 +913,16 @@ export function AreaChartExamples() {
           </CardContent>
         </Card>
 
-        <Card className="w-[280px]">
-          <CardContent className="p-4 flex flex-col gap-2 items-center">
-            <h2 className="text-lg font-semibold">Two Series Stacked</h2>
+        <Card className="border border-slate-200 dark:border-slate-800">
+          <CardContent className="p-6 flex flex-col gap-4 items-center">
+            <h3 className="font-semibold text-slate-900 dark:text-white">Two Series</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Revenue and expenses
+            </p>
             <AreaChart.Container
               data={areaData2}
               width={280}
               height={180}
-              variant="stacked"
             >
               <AreaChart.YAxis />
               <AreaChart.XAxis />
@@ -941,14 +933,16 @@ export function AreaChartExamples() {
           </CardContent>
         </Card>
 
-        <Card className="w-[280px]">
-          <CardContent className="p-4 flex flex-col gap-2 items-center">
-            <h2 className="text-lg font-semibold">Three Series Spread</h2>
+        <Card className="border border-slate-200 dark:border-slate-800">
+          <CardContent className="p-6 flex flex-col gap-4 items-center">
+            <h3 className="font-semibold text-slate-900 dark:text-white">Three Series</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs text-center">
+              Revenue, expenses, profit
+            </p>
             <AreaChart.Container
               data={areaData3}
               width={280}
               height={180}
-              variant="spread"
             >
               <AreaChart.YAxis />
               <AreaChart.XAxis />
@@ -961,17 +955,16 @@ export function AreaChartExamples() {
         </Card>
       </div>
 
-      {/* Large dark background chart */}
-      <Card className="bg-gray-900 text-white w-full">
+      <Card className="bg-slate-900 dark:bg-slate-950 border border-slate-800">
         <CardContent className="p-6 flex flex-col gap-4 items-center">
-          <h2 className="text-xl font-semibold text-white">
-            Large Stacked Chart
-          </h2>
+          <h3 className="font-semibold text-white">Large Chart (600x400)</h3>
+          <p className="text-slate-400 text-sm">
+            Multi-series stacked visualization
+          </p>
           <AreaChart.Container
             data={areaData3}
             width={600}
             height={400}
-            variant="stacked"
           >
             <AreaChart.YAxis />
             <AreaChart.XAxis />
@@ -982,6 +975,6 @@ export function AreaChartExamples() {
           </AreaChart.Container>
         </CardContent>
       </Card>
-    </div>
+    </section>
   );
 }
