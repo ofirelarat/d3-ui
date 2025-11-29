@@ -50,6 +50,9 @@ npm install
 
 # Start the documentation site
 npm run dev
+
+# Start Storybook to test and debug components locally
+npm run storybook
 ```
 
 ## 🤝 Contributing
