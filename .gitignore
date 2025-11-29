@@ -3,3 +3,5 @@ docs/d3-components/
 .env
 
 test.txt
+*storybook.log
+storybook-static
