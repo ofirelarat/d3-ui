@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+/* Optional: shadcn CSS variables */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #0ea5e9;
+  --primary-dark: #0284c7;
+  --secondary: #64748b;
+}
