@@ -105,7 +105,7 @@ export function StaggeredCircles() {
                   {`CSS selector to find child elements. Defaults to <code className="bg-slate-100 dark:bg-slate-800 px-1 rounded">"*"</code> (all children).`}
                 </p>
                 <div className="bg-slate-100 dark:bg-slate-800 p-2 rounded text-xs font-mono text-slate-700 dark:text-slate-300">
-                  selector: 'circle' // Selects all circle elements
+                  {`selector: 'circle' // Selects all circle elements`}
                 </div>
               </div>
 
