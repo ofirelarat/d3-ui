@@ -58,7 +58,7 @@ export default function HomePage() {
               Easy to Use
             </h3>
             <p className="text-slate-600 dark:text-slate-400">
-              Intuitive compound component API that's familiar to React developers.
+              {`Intuitive compound component API that's familiar to React developers.`}
             </p>
           </div>
           <div className="p-6 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-sky-300 dark:hover:border-sky-700 transition-colors">

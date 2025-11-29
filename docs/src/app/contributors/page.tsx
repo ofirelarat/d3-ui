@@ -78,7 +78,7 @@ export default function ContributorsPage() {
 
       <Section title="Ways to Contribute">
         <p className="text-slate-600 dark:text-slate-400 mb-8">
-          Whether you're a developer, designer, writer, or simply a passionate user, there are many ways you can help:
+          {`Whether you're a developer, designer, writer, or simply a passionate user, there are many ways you can help:`}
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {contributionWays.map((way, idx) => {
@@ -209,7 +209,7 @@ changes`}
 
       <Section title="Report Issues">
         <p className="text-slate-600 dark:text-slate-400 mb-6">
-          Found a bug? Have a feature request? We'd love to hear about it! Please open an issue on GitHub.
+          {`Found a bug? Have a feature request? We'd love to hear about it! Please open an issue on GitHub.`}
         </p>
         <a
           href="https://github.com/ofirelarat/d3-ui/issues"
@@ -265,8 +265,8 @@ changes`}
                 A huge thanks to everyone who contributes!
               </h3>
               <p className="text-slate-600 dark:text-slate-400">
-                Whether it's code, documentation, feedback, or design—your contributions help make d3-ui better for everyone. 
-                We appreciate your time and effort!
+                {`Whether it's code, documentation, feedback, or design—your contributions help make d3-ui better for everyone. 
+                We appreciate your time and effort!`}
               </p>
             </div>
           </div>
