@@ -53,7 +53,7 @@ function LabelExamples() {
     <div className="flex flex-wrap gap-8">
       {examples.map((ex, i) => (
         <div key={i} className="flex flex-col items-center gap-2">
-          <div className="border rounded-lg p-4 bg-gray-50">
+          <div className="border rounded-lg p-4 bg-gray-50 dark:bg-slate-900 dark:border-slate-800">
             <svg width="120" height="60">
               <Label
                 x={60}
@@ -65,7 +65,7 @@ function LabelExamples() {
               />
             </svg>
           </div>
-          <span className="text-sm text-gray-600">{ex.variant}</span>
+          <span className="text-sm text-gray-600 dark:text-slate-400">{ex.variant}</span>
         </div>
       ))}
     </div>
@@ -77,7 +77,7 @@ export default function LabelPage() {
     <div className="flex flex-col gap-8 p-8">
       <div>
         <h1 className="text-3xl font-bold mb-2">Label</h1>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-slate-400">
           The Label primitive provides a flexible way to render labels or markers inside
           chart primitives like tiles, dots, and bars. It supports text-only, shape-only,
           and combined label variants.

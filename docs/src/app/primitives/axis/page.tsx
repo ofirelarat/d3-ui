@@ -45,7 +45,7 @@ function AxisExamples() {
     <div className="flex flex-col gap-8">
       <div>
         <h3 className="text-lg font-semibold mb-4">Bottom Axis</h3>
-        <div className="border rounded-lg p-4 bg-gray-50">
+        <div className="border rounded-lg p-4 bg-gray-50 dark:bg-slate-900 dark:border-slate-800">
           <svg width={500} height={100}>
             <Axis
               scale={scale}
@@ -58,7 +58,7 @@ function AxisExamples() {
 
       <div>
         <h3 className="text-lg font-semibold mb-4">Left Axis (with more ticks)</h3>
-        <div className="border rounded-lg p-4 bg-gray-50">
+        <div className="border rounded-lg p-4 bg-gray-50 dark:bg-slate-900 dark:border-slate-800">
           <svg width={100} height={500}>
             <Axis
               scale={scale}
@@ -78,7 +78,7 @@ export default function AxisPage() {
     <div className="flex flex-col gap-8 p-8">
       <div>
         <h1 className="text-3xl font-bold mb-2">Axis</h1>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-slate-400">
           The Axis primitive component is a foundational building block for creating
           D3-based charts. It provides a flexible way to render axis lines, ticks,
           and labels using D3 scales.

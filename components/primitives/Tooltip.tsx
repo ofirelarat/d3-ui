@@ -61,7 +61,8 @@ export function TooltipProvider({ children, className, contentClassName }: Toolt
       {visible && (
         <div
           className={cn(
-            "absolute pointer-events-none border border-gray-200 bg-white dark:bg-gray-50 text-gray-900 text-xs rounded-lg shadow-lg",
+            "absolute pointer-events-none border border-gray-200 bg-white text-gray-900 text-xs rounded-lg shadow-lg",
+            "dark:border-slate-700 dark:bg-slate-800 dark:text-slate-50",
             "transition-opacity duration-150",
             contentClassName
           )}

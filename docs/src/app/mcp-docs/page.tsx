@@ -56,7 +56,7 @@ export default function MCPDocsPage() {
     <main className="max-w-5xl mx-auto p-6 space-y-6">
       <h1 className="text-3xl font-bold">D3-UI MCP Documentation</h1>
 
-      <section className="bg-gray-50 p-4 rounded-lg">
+      <section className="bg-gray-50 dark:bg-slate-900 p-4 rounded-lg">
         <h2 className="text-2xl font-semibold mb-2">Server Information</h2>
         <ul className="list-disc pl-5 space-y-1">
           {Object.entries(MCP_DOCS.serverInfo).map(([key, value]) => (
@@ -67,26 +67,26 @@ export default function MCPDocsPage() {
         </ul>
       </section>
 
-      <section className="bg-gray-50 p-4 rounded-lg">
+      <section className="bg-gray-50 dark:bg-slate-900 p-4 rounded-lg">
         <h2 className="text-2xl font-semibold mb-4">Available Tools</h2>
         {MCP_DOCS.tools.map((tool) => (
           <div
             key={tool.name}
-            className="mb-6 p-4 border border-gray-200 rounded-lg bg-white"
+            className="mb-6 p-4 border border-gray-200 rounded-lg bg-white dark:bg-slate-900 dark:border-slate-800"
           >
             <h3 className="text-xl font-bold">{tool.name}</h3>
-            <p className="italic text-gray-600">{tool.description}</p>
+              <p className="italic text-gray-600 dark:text-slate-400">{tool.description}</p>
 
             <div className="mt-2">
               <strong>Input:</strong>
-              <pre className="bg-gray-100 p-2 rounded mt-1">
+              <pre className="bg-gray-100 dark:bg-slate-800 p-2 rounded mt-1">
                 {JSON.stringify(tool.input ?? "None", null, 2)}
               </pre>
             </div>
 
             <div className="mt-2">
               <strong>Output Example:</strong>
-              <pre className="bg-gray-100 p-2 rounded mt-1">
+              <pre className="bg-gray-100 dark:bg-slate-800 p-2 rounded mt-1">
                 {tool.outputExample ??
                   JSON.stringify(tool.output ?? {}, null, 2)}
               </pre>

@@ -396,7 +396,7 @@ export function TreemapExamples() {
   return (
     <div className="flex flex-col gap-10 p-8">
       <h1 className="text-3xl font-bold">Treemap Examples</h1>
-      <p className="text-gray-600">
+      <p className="text-gray-600 dark:text-slate-400">
         The Treemap component visualizes hierarchical data using nested
         rectangles. Examples show how different props and styles change its
         appearance.
@@ -416,7 +416,7 @@ export function TreemapExamples() {
         <Card className="w-[280px]">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
             <h2 className="text-xl font-semibold mb-2">Nested Treemap</h2>
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 dark:text-slate-400 text-sm">
               Shows hierarchical data with children nodes.
             </p>
             <Treemap.Container data={nestedData} width={280} height={180}>
@@ -429,7 +429,7 @@ export function TreemapExamples() {
         <Card className="w-[280px]">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
             <h2 className="text-xl font-semibold mb-2">Custom Labels</h2>
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 dark:text-slate-400 text-sm">
               Format labels with a unit or symbol.
             </p>
             <Treemap.Container data={baseDataTreeMap} width={280} height={180}>
@@ -482,7 +482,7 @@ export function GaugeChartExamples() {
   return (
     <div className="flex flex-col gap-10 p-8">
       <h1 className="text-3xl font-bold">Gauge Chart Examples</h1>
-      <p className="text-gray-600">
+      <p className="text-gray-600 dark:text-slate-400">
         The GaugeChart component visualizes values on a semi-circular gauge.
         Below are examples with multiple segments, dynamic needles, and dark
         mode.
@@ -492,7 +492,7 @@ export function GaugeChartExamples() {
         <Card className="w-[280px]">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
             <h2 className="text-xl font-semibold mb-2">Simple Gauge</h2>
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 dark:text-slate-400 text-sm">
               Shows simple gauge with a needle for current value.
             </p>
             <GaugeChart.Container
@@ -513,7 +513,7 @@ export function GaugeChartExamples() {
         <Card className="w-[280px]">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
             <h2 className="text-xl font-semibold mb-2">Multi-segment Gauge</h2>
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 dark:text-slate-400 text-sm">
               Gauge with Low / Medium / High segments, demonstrating multiple
               ranges.
             </p>
@@ -535,7 +535,7 @@ export function GaugeChartExamples() {
         <Card className="w-[280px]">
           <CardContent className="p-6 flex flex-col gap-4 items-center">
             <h2 className="text-xl font-semibold mb-2">Dynamic Needle</h2>
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 dark:text-slate-400 text-sm">
               Use the slider to change the needle value dynamically.
             </p>
             <GaugeChart.Container

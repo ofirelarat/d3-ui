@@ -1,46 +1,62 @@
+/* --- Tailwind v4 --- */
 @import "tailwindcss";
 
+/* --- THEME VARIABLES --- */
+/* Light theme */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
   --primary: #0ea5e9;
   --primary-dark: #0284c7;
   --secondary: #64748b;
-}
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+/* Dark theme — activated when <html class="dark"> */
+.dark {
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+
+  --primary: #0284c7;
+  --primary-dark: #0369a1;
+  --secondary: #94a3b8;
+}
+
+/* Optional: Tailwind-compatible CSS variables */
+@layer base {
   :root {
-    --background: #0f172a;
-    --foreground: #f1f5f9;
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+  }
+  .dark {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
   }
 }
 
+/* --- Base styles --- */
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-/* Code block styling */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+/* --- Code blocks --- */
 code {
-  font-family: 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-family: 'Fira Code', 'Monaco', monospace;
   font-size: 0.9em;
 }
 
@@ -48,7 +64,7 @@ pre {
   overflow-x: auto;
 }
 
-/* Scrollbar styling */
+/* --- Scrollbar --- */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -67,12 +83,11 @@ pre {
   background: #94a3b8;
 }
 
-@media (prefers-color-scheme: dark) {
-  ::-webkit-scrollbar-thumb {
-    background: #475569;
-  }
+/* Dark theme scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: #64748b;
-  }
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
 }

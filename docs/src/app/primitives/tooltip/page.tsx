@@ -128,7 +128,7 @@ export default function TooltipPage() {
     <div className="flex flex-col gap-8 p-8">
       <div>
         <h1 className="text-3xl font-bold mb-2">Tooltip</h1>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-slate-400">
           The Tooltip primitive component provides a flexible way to show
           contextual information when users hover over elements. It uses React
           Context for state management and supports customizable content with
