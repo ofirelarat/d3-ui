@@ -1,0 +1,32 @@
+name: Validate Pull Request
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: docs/package-lock.json
+
+      - name: Install dependencies
+        working-directory: docs
+        run: npm install
+
+      - name: Run lint
+        working-directory: docs
+        run: npm run lint
+
+      - name: Build project
+        working-directory: docs
+        run: npm run build
