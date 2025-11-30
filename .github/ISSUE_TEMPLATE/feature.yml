@@ -1,0 +1,33 @@
+name: Feature Request / Improvement
+description: Suggest a new component, improvement, or enhancement
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What would you like to be added or improved?
+      placeholder: Describe the idea clearly...
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why is this important?
+      placeholder: Explain your use case or why this benefits the project
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      placeholder: How should this be implemented?
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      placeholder: Screenshots, prior art, references, etc.
