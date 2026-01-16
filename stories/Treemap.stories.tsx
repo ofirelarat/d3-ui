@@ -4,6 +4,14 @@ import Treemap from "../components/Treemap";
 export default {
   title: "Charts/Treemap",
   component: Treemap.Container,
+  argTypes: {
+    width: { control: "number", description: "Width of the chart" },
+    height: { control: "number", description: "Height of the chart" },
+  },
+  args: {
+    width: 600,
+    height: 300,
+  },
 };
 
 const data = {
@@ -15,8 +23,8 @@ const data = {
   ],
 };
 
-export const Basic = () => (
-  <Treemap.Container data={data} width={600} height={300}>
+export const Basic = (args: any) => (
+  <Treemap.Container data={data} {...args}>
     <Treemap.Tile />
     <Treemap.Legend />
   </Treemap.Container>

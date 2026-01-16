@@ -4,6 +4,20 @@ import AreaChart from "../components/AreaChart";
 export default {
   title: "Charts/AreaChart",
   component: AreaChart.Container,
+  argTypes: {
+    width: { control: "number", description: "Width of the chart" },
+    height: { control: "number", description: "Height of the chart" },
+    variant: {
+      control: "radio",
+      options: ["spread", "stacked"],
+      description: "Chart variant: spread or stacked",
+    },
+  },
+  args: {
+    width: 600,
+    height: 260,
+    variant: "spread",
+  },
 };
 
 const series = {
@@ -11,8 +25,8 @@ const series = {
   b: { data: Array.from({ length: 10 }, (_, i) => ({ x: i + 1, y: Math.round(Math.random() * 40 + 5) })), color: "#16a34a", label: "B" },
 };
 
-export const Basic = () => (
-  <AreaChart.Container data={series} width={600} height={260}>
+export const Basic = (args: any) => (
+  <AreaChart.Container data={series} {...args}>
     <AreaChart.Area dataKey="a" />
     <AreaChart.Area dataKey="b" />
     <AreaChart.XAxis />
