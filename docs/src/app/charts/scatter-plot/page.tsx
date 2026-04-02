@@ -9,8 +9,9 @@ import {
   TabsTrigger,
 } from "@/app/components/Tabs";
 import { CodeBlock } from "@/app/components/CodeBlock";
-import ScatterPlotExample from "./ScatterPlotExample";
+import { ScatterPlotExample } from "./ScatterPlotExample";
 import { code } from "./ScatterCode";
+import { ChartShowcase } from "@/app/components/ChartShowcase";
 
 // Dynamically read source file
 const filePath = path.join(process.cwd(), "../components/ScatterPlot.tsx");
@@ -21,7 +22,7 @@ export default function ScatterPlotDocsPage() {
     <div className="mx-auto max-w-3xl space-y-12">
       <PageHeader
         title="Scatter Plot"
-        subtitle="A scatter plot built with D3 primitives and React."
+        subtitle="A flexible and composable scatter plot built with D3 primitives and React."
       />
 
       {/* Example */}
@@ -32,9 +33,9 @@ export default function ScatterPlotDocsPage() {
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 flex justify-center">
+            <ChartShowcase title="Scatter Plot" description="Explore correlations between variables and identify patterns.">
               <ScatterPlotExample />
-            </div>
+            </ChartShowcase>
           </TabsContent>
           <TabsContent value="code">
             <CodeBlock title="Example Usage" code={code} />

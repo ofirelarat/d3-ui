@@ -2,7 +2,7 @@
 import * as d3 from "d3";
 import React, { createContext, useContext, useMemo, ReactNode } from "react";
 import { Axis } from "./primitives/Axis";
-import { Legend } from "./primitives/Legend";
+import { Legend, LegendProps } from "./primitives/Legend";
 import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
 import { useD3Transition } from "./hooks/useTransition";
@@ -266,7 +266,7 @@ const ChartYAxis = () => {
   );
 };
 
-const ChartLegend = () => {
+const ChartLegend = (props: Partial<LegendProps>) => {
   const { data } = useAreaChart();
   return (
     <Legend
@@ -274,6 +274,7 @@ const ChartLegend = () => {
         label,
         color,
       }))}
+      {...props}
     />
   );
 };

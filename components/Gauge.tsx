@@ -1,7 +1,7 @@
 "use client";
 import * as d3 from "d3";
 import React, { createContext, useContext, useMemo, ReactNode } from "react";
-import { Legend } from "./primitives/Legend";
+import { Legend, LegendProps } from "./primitives/Legend";
 import { TooltipProvider } from "./primitives/Tooltip";
 import { useD3Transition } from "./hooks/useTransition";
 import { Label } from "./primitives/Label";
@@ -213,10 +213,13 @@ const GaugeLabel = ({ value, formatter, color = "#333" }: GaugeLabelProps) => {
 };
 
 // ---- Legend ----
-const GaugeLegend = () => {
+const GaugeLegend = (props: Partial<LegendProps>) => {
   const { data } = useGaugeChart();
   return (
-    <Legend items={data.map((d) => ({ label: d.label, color: d.color }))} />
+    <Legend
+      items={data.map((d) => ({ label: d.label, color: d.color }))}
+      {...props}
+    />
   );
 };
 

@@ -11,6 +11,7 @@ import {
 import { CodeBlock } from "@/app/components/CodeBlock";
 import { LineChartExample } from "./LineChartExample";
 import { code } from "./LineCode";
+import { ChartShowcase } from "@/app/components/ChartShowcase";
 
 // Dynamically read source file
 const lineChartFile = path.join(process.cwd(), "../components/LineChart.tsx");
@@ -32,9 +33,9 @@ export default function LineChartDocsPage() {
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 flex justify-center">
+            <ChartShowcase title="Line Chart" description="Track trends over time with smooth, responsive line charts.">
               <LineChartExample />
-            </div>
+            </ChartShowcase>
           </TabsContent>
           <TabsContent value="code">
             <CodeBlock

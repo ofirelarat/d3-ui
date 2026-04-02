@@ -11,6 +11,7 @@ import {
 import { HeatmapExample } from "./HeatmapExample";
 import { CodeBlock } from "@/app/components/CodeBlock";
 import { code } from "./HeatmapCode";
+import { ChartShowcase } from "@/app/components/ChartShowcase";
 
 // Dynamically read source file
 const filePath = path.join(process.cwd(), "../components/Heatmap.tsx");
@@ -21,7 +22,7 @@ export default function HeatmapPage() {
     <div className="mx-auto max-w-3xl space-y-12">
       <PageHeader
         title="Heatmap"
-        subtitle="A heatmap chat built with D3 primitives and React."
+        subtitle="A flexible and composable heatmap built with D3 primitives and React."
       />
 
       {/* Example */}
@@ -32,9 +33,9 @@ export default function HeatmapPage() {
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 flex flex-col items-center gap-8">
+            <ChartShowcase title="Heatmap" description="Visualize dense datasets with color-coded matrices and interactive tiles.">
               <HeatmapExample />
-            </div>
+            </ChartShowcase>
           </TabsContent>
           <TabsContent value="code">
             <CodeBlock title="Example Usage" code={code} />

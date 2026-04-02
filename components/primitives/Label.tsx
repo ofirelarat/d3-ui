@@ -70,9 +70,9 @@ export const Label: React.FC<LabelProps> = ({
           <text
             x={x + (offset.x ?? 0)}
             y={y + (offset.y ?? 0)}
-            fill={"black"}
+            fill="currentColor"
             fontSize={12}
-            className={cn("select-none", className)}
+            className={cn("select-none fill-foreground/80 dark:fill-slate-400 font-sans", className)}
           >
             {value}
           </text>

@@ -1,7 +1,7 @@
 "use client";
 import * as d3 from "d3";
 import React, { createContext, useContext, useMemo, ReactNode } from "react";
-import { Legend } from "./primitives/Legend";
+import { Legend, LegendProps } from "./primitives/Legend";
 import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
 import { useD3GroupTransition } from "./hooks/useGroupTransition";
@@ -175,7 +175,7 @@ const Tile = ({ dataKey, label }: TileProps) => {
   );
 };
 
-const ChartLegend = () => {
+const ChartLegend = (props: Partial<LegendProps>) => {
   const { data } = useHeatmap();
   return (
     <Legend
@@ -183,6 +183,7 @@ const ChartLegend = () => {
         label,
         color,
       }))}
+      {...props}
     />
   );
 };

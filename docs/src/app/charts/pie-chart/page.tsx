@@ -11,6 +11,7 @@ import {
 import { CodeBlock } from "@/app/components/CodeBlock";
 import { PieChartExample } from "./PieExample";
 import { code } from "./PieCode";
+import { ChartShowcase } from "@/app/components/ChartShowcase";
 
 const pieChartFile = path.join(process.cwd(), "../components/PieChart.tsx");
 const pieChartCode = fs.readFileSync(pieChartFile, "utf-8");
@@ -20,7 +21,7 @@ export default function PieChartDocsPage() {
     <div className="mx-auto max-w-3xl py-16 px-6 space-y-12">
       <PageHeader
         title="Pie Chart"
-        subtitle="A composable pie chart built with D3.js arcs and Tailwind styling."
+        subtitle="A colorful and interactive pie/donut chart built with D3.js and styled using Tailwind."
       />
 
       <Section title="Example">
@@ -30,9 +31,9 @@ export default function PieChartDocsPage() {
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 flex justify-center">
+            <ChartShowcase title="Pie Chart" description="Visualize proportions and parts-of-a-whole with smooth donut charts.">
               <PieChartExample />
-            </div>
+            </ChartShowcase>
           </TabsContent>
           <TabsContent value="code">
             <CodeBlock defaultExpanded title="Example Usage" code={code} />

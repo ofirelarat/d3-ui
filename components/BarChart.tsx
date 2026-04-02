@@ -2,7 +2,7 @@
 import * as d3 from "d3";
 import React, { createContext, useContext, useMemo, ReactNode } from "react";
 import { Axis } from "./primitives/Axis";
-import { Legend } from "./primitives/Legend";
+import { Legend, LegendProps } from "./primitives/Legend";
 import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
 import { useD3GroupTransition } from "./hooks/useGroupTransition";
@@ -451,22 +451,15 @@ const ChartYAxis = ({ tickFormat }: { tickFormat?: (d: any) => string }) => {
 };
 
 // Legend
-const ChartLegend = ({
-  className,
-  itemClassName,
-}: {
-  className?: string;
-  itemClassName?: string;
-}) => {
+const ChartLegend = (props: Partial<LegendProps>) => {
   const { data } = useBarChart();
   return (
     <Legend
-      className={className}
-      itemClassName={itemClassName}
       items={Object.entries(data).map(([_, { label, color }]) => ({
         label,
         color,
       }))}
+      {...props}
     />
   );
 };

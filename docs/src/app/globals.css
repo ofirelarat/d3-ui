@@ -1,93 +1,117 @@
 /* --- Tailwind v4 --- */
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Inter", "Geist Sans", system-ui, sans-serif;
+  --font-mono: "Geist Mono", "Fira Code", monospace;
+}
+
 /* --- THEME VARIABLES --- */
-/* Light theme */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f172a;
 
-  --primary: #0ea5e9;
-  --primary-dark: #0284c7;
-  --secondary: #64748b;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
 
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+
+  --chart-axis: #94a3b8;
+  --chart-grid: #f1f5f9;
+
+  /* Theme Palettes (Default/Material) */
+  --palette-1: #3b82f6;
+  --palette-2: #ec4899;
+  --palette-3: #f59e0b;
+  --palette-4: #10b981;
+  --palette-5: #8b5cf6;
 }
 
-/* Dark theme — activated when <html class="dark"> */
 .dark {
-  --background: #0f172a;
-  --foreground: #f1f5f9;
+  --background: #020617;
+  --foreground: #f8fafc;
 
-  --primary: #0284c7;
-  --primary-dark: #0369a1;
-  --secondary: #94a3b8;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+
+  --muted: #0f172a;
+  --muted-foreground: #94a3b8;
+
+  --border: #1e293b;
+  --input: #1e293b;
+
+  --chart-axis: #475569;
+  --chart-grid: #0f172a;
 }
 
-/* Optional: Tailwind-compatible CSS variables */
-@layer base {
-  :root {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-  }
-  .dark {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-  }
+/* --- NEON THEME --- */
+[data-chart-theme="neon"] {
+  --palette-1: #00f3ff;
+  --palette-2: #ff00c1;
+  --palette-3: #00ff9f;
+  --palette-4: #ffea00;
+  --palette-5: #9d00ff;
+
+  --chart-axis: #2dd4bf;
+  --chart-grid: rgba(45, 212, 191, 0.05);
+}
+
+.dark [data-chart-theme="neon"] {
+  --background: #000000;
+  --chart-grid: rgba(255, 255, 255, 0.03);
 }
 
 /* --- Base styles --- */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
+/* Immersive background for chart showcases */
+.immersive-bg {
+  background: radial-gradient(circle at 50% 0%, var(--muted), transparent);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  line-height: 1.5;
+.dark .immersive-bg {
+  background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.1), transparent);
+}
+
+/* Neon glow effect */
+.neon-glow {
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+/* Glassmorphism */
+.glass-panel {
+  @apply bg-white/70 dark:bg-slate-900/40 backdrop-blur-md border border-white/20 dark:border-white/5;
 }
 
 /* --- Code blocks --- */
-code {
-  font-family: 'Fira Code', 'Monaco', monospace;
-  font-size: 0.9em;
+pre {
+  @apply rounded-xl border bg-slate-950 p-4 overflow-x-auto;
 }
 
-pre {
-  overflow-x: auto;
+code {
+  @apply font-mono text-sm;
 }
 
 /* --- Scrollbar --- */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
-/* Dark theme scrollbar */
-.dark ::-webkit-scrollbar-thumb {
-  background: #475569;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+  @apply bg-slate-300 dark:bg-slate-700 rounded-full border-4 border-transparent bg-clip-padding hover:bg-slate-400 dark:hover:bg-slate-600;
 }

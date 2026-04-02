@@ -7,7 +7,7 @@ import React, {
   ReactNode,
   useRef,
 } from "react";
-import { Legend } from "./primitives/Legend";
+import { Legend, LegendProps } from "./primitives/Legend";
 import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
 import { useD3Transition } from "./hooks/useTransition";
@@ -161,7 +161,7 @@ const Tile = ({ label }: TileProps) => {
   );
 };
 
-const TreemapLegend = () => {
+const TreemapLegend = (props: Partial<LegendProps>) => {
   const { originalData } = useTreemap();
 
   // ✅ Use the *original* top-level data, not the processed hierarchy
@@ -171,7 +171,7 @@ const TreemapLegend = () => {
       color: child.color || "#ccc",
     })) || [];
 
-  return <Legend items={legendItems} />;
+  return <Legend items={legendItems} {...props} />;
 };
 
 // ---- Export Compound Component ----

@@ -11,6 +11,7 @@ import {
 import { CodeBlock } from "@/app/components/CodeBlock";
 import { GaugeChartExample } from "./GaugeExample";
 import { code } from "./GaugeCode";
+import { ChartShowcase } from "@/app/components/ChartShowcase";
 
 const gaugeChartFile = path.join(process.cwd(), "../components/Gauge.tsx");
 const gaugeChartCode = fs.readFileSync(gaugeChartFile, "utf-8");
@@ -31,9 +32,9 @@ export default function GaugeChartDocsPage() {
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 flex justify-center">
+            <ChartShowcase title="Gauge Chart" description="Visualize values on a semi-circular gauge with interactive needles.">
               <GaugeChartExample />
-            </div>
+            </ChartShowcase>
           </TabsContent>
           <TabsContent value="code">
             <CodeBlock
