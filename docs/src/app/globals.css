@@ -10,16 +10,16 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
-  
+
   --primary: #3b82f6;
   --primary-foreground: #ffffff;
-  
+
   --muted: #f1f5f9;
   --muted-foreground: #64748b;
-  
+
   --border: #e2e8f0;
   --input: #e2e8f0;
-  
+
   --chart-axis: #94a3b8;
   --chart-grid: #f1f5f9;
 
@@ -34,16 +34,16 @@
 .dark {
   --background: #020617;
   --foreground: #f8fafc;
-  
+
   --primary: #3b82f6;
   --primary-foreground: #ffffff;
-  
+
   --muted: #0f172a;
   --muted-foreground: #94a3b8;
-  
+
   --border: #1e293b;
   --input: #1e293b;
-  
+
   --chart-axis: #475569;
   --chart-grid: #0f172a;
 }
@@ -55,7 +55,7 @@
   --palette-3: #00ff9f;
   --palette-4: #ffea00;
   --palette-5: #9d00ff;
-  
+
   --chart-axis: #2dd4bf;
   --chart-grid: rgba(45, 212, 191, 0.05);
 }
@@ -67,10 +67,6 @@
 
 /* --- Base styles --- */
 @layer base {
-  * {
-    @apply border-border;
-  }
-  
   body {
     background-color: var(--background);
     color: var(--foreground);
