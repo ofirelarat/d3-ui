@@ -11,6 +11,7 @@ import {
 import { CodeBlock } from "@/app/components/CodeBlock";
 import { AreaChartExample } from "./AreaExample";
 import { code } from "./AreaCode";
+import { ChartShowcase } from "@/app/components/ChartShowcase";
 
 const areaChartFile = path.join(process.cwd(), "../components/AreaChart.tsx");
 const areaChartCode = fs.readFileSync(areaChartFile, "utf-8");
@@ -30,9 +31,9 @@ export default function AreaChartDocsPage() {
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 flex justify-center">
+            <ChartShowcase title="Area Chart" description="Visualize trends with stacked or overlapping areas.">
               <AreaChartExample />
-            </div>
+            </ChartShowcase>
           </TabsContent>
           <TabsContent value="code">
             <CodeBlock defaultExpanded title="Example Usage" code={code} />

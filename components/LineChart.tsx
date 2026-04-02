@@ -199,7 +199,7 @@ const ChartYAxis = () => {
   );
 };
 
-const ChartLegend = () => {
+const ChartLegend = (props: any) => {
   const { data } = useLineChart();
   return (
     <Legend
@@ -207,6 +207,7 @@ const ChartLegend = () => {
         label,
         color,
       }))}
+      {...props}
     />
   );
 };

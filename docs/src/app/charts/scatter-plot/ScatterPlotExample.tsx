@@ -1,36 +1,38 @@
 "use client";
+
 import ScatterPlot from "@d3-ui/ScatterPlot";
+import { useChartTheme } from "@/app/components/ChartShowcase";
 
-// Generate some random data
-const generateData = (length: number, offset = 0) =>
-  Array.from({ length }, () => ({
-    x: Math.random() * 100 + offset,
-    y: Math.random() * 100 + offset,
-  }));
+export function ScatterPlotExample() {
+  const { colors } = useChartTheme();
+  
+  const data = {
+    series1: {
+      data: Array.from({ length: 20 }, (_, i) => ({
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+      })),
+      color: colors[0],
+      label: "Series 1",
+    },
+    series2: {
+      data: Array.from({ length: 20 }, (_, i) => ({
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+      })),
+      color: colors[1],
+      label: "Series 2",
+    },
+  };
 
-// Example data structure for the scatter plot
-const exampleData = {
-  series1: {
-    data: generateData(50),
-    color: "#f87171",
-    label: "Series 1",
-  },
-  series2: {
-    data: generateData(50, 20),
-    color: "#60a5fa",
-    label: "Series 2",
-  },
-};
-
-export default function ScatterPlotExample() {
   return (
-    <div className="flex flex-col items-center gap-8">
-      <ScatterPlot.Container data={exampleData} width={600} height={400}>
-        <ScatterPlot.Dots dataKey="series1" />
-        <ScatterPlot.Dots dataKey="series2" />
+    <div className="flex flex-col items-center w-full max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 mt-4">
+      <ScatterPlot.Container data={data} width={600} height={350}>
         <ScatterPlot.XAxis />
         <ScatterPlot.YAxis />
-        <ScatterPlot.Legend />
+        <ScatterPlot.Dots dataKey="series1" />
+        <ScatterPlot.Dots dataKey="series2" />
+        <ScatterPlot.Legend className="mt-8 scale-110" />
       </ScatterPlot.Container>
     </div>
   );

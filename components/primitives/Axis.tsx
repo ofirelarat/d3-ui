@@ -32,8 +32,24 @@ export function Axis<Scale extends d3.AxisScale<any>>({
       axisGenerator.tickFormat(tickFormat as any);
     } 
 
-    d3.select(ref.current).call(axisGenerator as any);
+    const svgElement = d3.select(ref.current);
+    svgElement.call(axisGenerator as any);
+
+    // Apply theme-aware styles to the axis elements
+    svgElement.selectAll(".domain")
+      .attr("stroke", "var(--chart-axis)")
+      .attr("stroke-width", "1");
+    
+    svgElement.selectAll(".tick line")
+      .attr("stroke", "var(--chart-axis)")
+      .attr("stroke-opacity", "0.2");
+    
+    svgElement.selectAll(".tick text")
+      .attr("fill", "var(--chart-axis)")
+      .attr("font-size", "11px")
+      .attr("font-family", "var(--font-mono)");
+
   }, [scale, orient, ticks, tickFormat]);
 
-  return <g ref={ref} transform={transform} />;
+  return <g ref={ref} transform={transform} className="chart-axis" />;
 }

@@ -266,7 +266,7 @@ const ChartYAxis = () => {
   );
 };
 
-const ChartLegend = () => {
+const ChartLegend = (props: any) => {
   const { data } = useAreaChart();
   return (
     <Legend
@@ -274,6 +274,7 @@ const ChartLegend = () => {
         label,
         color,
       }))}
+      {...props}
     />
   );
 };

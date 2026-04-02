@@ -11,17 +11,19 @@ import {
 import { CodeBlock } from "@/app/components/CodeBlock";
 import { BarChartExample } from "./BarExample";
 import { code } from "./BarCode";
+import { ChartShowcase } from "@/app/components/ChartShowcase";
 
 const barChartFile = path.join(process.cwd(), "../components/BarChart.tsx");
 const barChartCode = fs.readFileSync(barChartFile, "utf-8");
 
 export default function BarChartDocsPage() {
   return (
-    <div className="mx-auto max-w-3xl py-16 px-6 space-y-12">
+    <div className="mx-auto max-w-4xl py-16 px-6 space-y-16">
       <PageHeader
         title="Bar Chart"
         subtitle="A composable and responsive bar chart built with D3.js and Tailwind CSS."
       />
+
 
       <Section title="Example">
         <Tabs defaultValue="preview" className="w-full">
@@ -30,14 +32,40 @@ export default function BarChartDocsPage() {
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 flex justify-center">
+            <ChartShowcase
+              title="Customizable Bar Chart"
+              description="Experiment with different themes and watch the chart transform."
+            >
               <BarChartExample />
-            </div>
+            </ChartShowcase>
           </TabsContent>
           <TabsContent value="code">
             <CodeBlock defaultExpanded title="Example Usage" code={code} />
           </TabsContent>
         </Tabs>
+      </Section>
+
+      <Section title="Installation">
+        <Tabs defaultValue="manual" className="w-full">
+          <TabsList>
+            <TabsTrigger value="manual">Manual</TabsTrigger>
+            <TabsTrigger value="cli">CLI</TabsTrigger>
+          </TabsList>
+          <TabsContent value="manual">
+            <CodeBlock
+              defaultExpanded={false}
+              title="./components/charts/BarChart.tsx"
+              code={barChartCode}
+            />
+          </TabsContent>
+          <TabsContent value="cli">
+            <CodeBlock title="Coming Soon..." code="Coming Soon..." />
+          </TabsContent>
+        </Tabs>
+      </Section>
+
+      <Section title="Usage">
+        <CodeBlock defaultExpanded title="Example Usage" code={code} />
       </Section>
 
       <Section title="Installation">

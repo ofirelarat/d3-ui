@@ -208,7 +208,7 @@ const CenterLabel = ({ children, className }: CenterLabelProps) => {
 };
 
 // Legend
-const ChartLegend = () => {
+const ChartLegend = (props: any) => {
   const { data } = usePieChart();
   return (
     <Legend
@@ -216,6 +216,7 @@ const ChartLegend = () => {
         label,
         color,
       }))}
+      {...props}
     />
   );
 };

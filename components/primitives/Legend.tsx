@@ -20,10 +20,13 @@ export function Legend({ items, className, itemClassName }: LegendProps) {
           className={cn("flex items-center gap-2", itemClassName)}
         >
           <span
-            className="block w-4 h-4 rounded-sm "
-            style={{ backgroundColor: item.color }}
+            className="block w-3.5 h-3.5 ring-2 ring-white dark:ring-slate-800"
+            style={{ 
+              backgroundColor: item.color,
+              borderRadius: "var(--tooltip-radius, 50%)" 
+            }}
           ></span>
-          <span className="text-sm">
+          <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
             {item.label}
           </span>
         </div>

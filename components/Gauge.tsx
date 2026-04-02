@@ -213,10 +213,13 @@ const GaugeLabel = ({ value, formatter, color = "#333" }: GaugeLabelProps) => {
 };
 
 // ---- Legend ----
-const GaugeLegend = () => {
+const GaugeLegend = (props: any) => {
   const { data } = useGaugeChart();
   return (
-    <Legend items={data.map((d) => ({ label: d.label, color: d.color }))} />
+    <Legend
+      items={data.map((d) => ({ label: d.label, color: d.color }))}
+      {...props}
+    />
   );
 };
 

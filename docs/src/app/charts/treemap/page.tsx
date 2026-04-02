@@ -11,17 +11,18 @@ import {
 import { TreemapExample } from "./TreemapExample";
 import { CodeBlock } from "@/app/components/CodeBlock";
 import { code } from "./TreemapCode";
+import { ChartShowcase } from "@/app/components/ChartShowcase";
 
 // Dynamically read source file
 const filePath = path.join(process.cwd(), "../components/Treemap.tsx");
 const sourceCode = fs.readFileSync(filePath, "utf-8");
 
-export default function HeatmapPage() {
+export default function TreemapPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-12">
       <PageHeader
         title="Treemap"
-        subtitle="A treemap chart built with D3 primitives and React."
+        subtitle="A flexible and composable treemap built with D3 primitives and React."
       />
 
       {/* Example */}
@@ -32,9 +33,9 @@ export default function HeatmapPage() {
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 flex flex-col items-center gap-8">
+            <ChartShowcase title="Treemap" description="Visualize hierarchical data using nested rectangles.">
               <TreemapExample />
-            </div>
+            </ChartShowcase>
           </TabsContent>
           <TabsContent value="code">
             <CodeBlock title="Example Usage" code={code} />
@@ -51,7 +52,7 @@ export default function HeatmapPage() {
           <TabsContent value="manual">
             <CodeBlock
               defaultExpanded={false}
-              title="components/charts/Heatmap.tsx"
+              title="components/charts/Treemap.tsx"
               code={sourceCode}
             />
           </TabsContent>
@@ -61,19 +62,11 @@ export default function HeatmapPage() {
       {/* How it works */}
       <Section title="How It Works">
         <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-          The Heatmap is built using a compound component pattern that allows
-          for multiple heatmap tiles to be displayed in a single visualization.
-          Each <code>Heatmap.Tile</code> component manages its own color scale
-          and data visualization, while sharing the same container dimensions.
-          The <code>Tooltip</code> primitive provides interactive data display
-          on hover, and the <code>Legend</code> component shows all the
-          different heatmap tiles and their corresponding colors.
-        </p>
-        <p className="text-gray-700 dark:text-gray-300 leading-relaxed mt-4">
-          The component accepts a data structure where each key represents a
-          different heatmap tile, containing its own data array, color, and
-          label. This allows for easy comparison between different datasets in
-          the same visualization space.
+          The Treemap uses <code>d3.hierarchy</code> and <code>d3.treemap</code> 
+          to calculate the spatial distribution of nested rectangles. Each leaf
+          node represents a data point, and its area is proportional to its value.
+          The <code>useD3Transition</code> hook ensures smooth transitions when
+          data changes.
         </p>
       </Section>
     </div>

@@ -161,7 +161,7 @@ const Tile = ({ label }: TileProps) => {
   );
 };
 
-const TreemapLegend = () => {
+const TreemapLegend = (props: any) => {
   const { originalData } = useTreemap();
 
   // ✅ Use the *original* top-level data, not the processed hierarchy
@@ -171,7 +171,7 @@ const TreemapLegend = () => {
       color: child.color || "#ccc",
     })) || [];
 
-  return <Legend items={legendItems} />;
+  return <Legend items={legendItems} {...props} />;
 };
 
 // ---- Export Compound Component ----

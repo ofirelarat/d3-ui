@@ -179,7 +179,7 @@ const ChartYAxis = () => {
   );
 };
 
-const ChartLegend = () => {
+const ChartLegend = (props: any) => {
   const { data } = useScatterPlot();
   return (
     <Legend
@@ -187,6 +187,7 @@ const ChartLegend = () => {
         label,
         color,
       }))}
+      {...props}
     />
   );
 };

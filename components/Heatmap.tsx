@@ -175,7 +175,7 @@ const Tile = ({ dataKey, label }: TileProps) => {
   );
 };
 
-const ChartLegend = () => {
+const ChartLegend = (props: any) => {
   const { data } = useHeatmap();
   return (
     <Legend
@@ -183,6 +183,7 @@ const ChartLegend = () => {
         label,
         color,
       }))}
+      {...props}
     />
   );
 };
