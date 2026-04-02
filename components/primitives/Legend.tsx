@@ -1,11 +1,11 @@
 import { cn } from "../lib/utils";
 
-interface LegendItem {
+export interface LegendItem {
   label: string;
   color: string;
 }
 
-interface LegendProps {
+export interface LegendProps {
   className?: string;
   itemClassName?: string;
   items: LegendItem[];

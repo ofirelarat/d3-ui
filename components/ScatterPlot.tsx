@@ -2,7 +2,7 @@
 import * as d3 from "d3";
 import React, { createContext, useContext, useMemo, ReactNode } from "react";
 import { Axis } from "./primitives/Axis";
-import { Legend } from "./primitives/Legend";
+import { Legend, LegendProps } from "./primitives/Legend";
 import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
 import { useD3GroupTransition } from "./hooks/useGroupTransition";
@@ -179,7 +179,7 @@ const ChartYAxis = () => {
   );
 };
 
-const ChartLegend = (props: any) => {
+const ChartLegend = (props: Partial<LegendProps>) => {
   const { data } = useScatterPlot();
   return (
     <Legend

@@ -1,7 +1,7 @@
 "use client";
 import * as d3 from "d3";
 import React, { createContext, useContext, useMemo, ReactNode } from "react";
-import { Legend } from "./primitives/Legend";
+import { Legend, LegendProps } from "./primitives/Legend";
 import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
 import { useD3GroupTransition } from "./hooks/useGroupTransition";
@@ -208,7 +208,7 @@ const CenterLabel = ({ children, className }: CenterLabelProps) => {
 };
 
 // Legend
-const ChartLegend = (props: any) => {
+const ChartLegend = (props: Partial<LegendProps>) => {
   const { data } = usePieChart();
   return (
     <Legend
