@@ -7,21 +7,9 @@ import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
 import { useD3Transition } from "./hooks/useTransition";
 
-// Types
-type DataPoint = { x: number; y: number };
-type AreaData = {
-  [key: string]: {
-    data: DataPoint[];
-    color: string;
-    label: string;
-  };
-};
+import { DataPoint, AreaData, BaseContainerProps, BaseSeriesProps } from "./types";
 
-interface ContainerProps {
-  data: AreaData;
-  width?: number;
-  height?: number;
-  children: ReactNode;
+interface ContainerProps extends BaseContainerProps<AreaData> {
   variant?: "spread" | "stacked"; // 👈 Added variant
 }
 
@@ -157,14 +145,7 @@ const Container = ({
   );
 };
 
-interface AreaProps {
-  dataKey: string;
-  label?: {
-    labelFormatter?: (value: any) => React.ReactNode;
-    variant?: LabelProps["variant"];
-    className?: string;
-  };
-}
+interface AreaProps extends BaseSeriesProps {}
 
 const Area = ({ dataKey, label }: AreaProps) => {
   const { data, xScale, yScale, height, margin, variant } = useAreaChart();

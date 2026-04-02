@@ -7,31 +7,11 @@ import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
 import { useD3GroupTransition } from "./hooks/useGroupTransition";
 
-// Types
-type DataPoint = { x: number; y: number };
-type ScatterData = {
-  [key: string]: {
-    data: DataPoint[];
-    color: string;
-    label: string;
-  };
-};
+import { DataPoint, ScatterData, BaseContainerProps, BaseSeriesProps } from "./types";
 
-interface ContainerProps {
-  data: ScatterData;
-  width?: number;
-  height?: number;
-  children: ReactNode;
-}
+interface ContainerProps extends BaseContainerProps<ScatterData> {}
 
-interface DotsProps {
-  dataKey: string;
-  label?: {
-    labelFormatter?: (value: any) => React.ReactNode;
-    variant?: LabelProps["variant"];
-    className?: string;
-  };
-}
+interface DotsProps extends BaseSeriesProps {}
 
 // Context
 type ScatterPlotContext = {
