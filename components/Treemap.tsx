@@ -13,38 +13,18 @@ import { Label, LabelProps } from "./primitives/Label";
 import { useD3Transition } from "./hooks/useTransition";
 import { useD3GroupTransition } from "./hooks/useGroupTransition";
 
-// ---- Types ----
-interface NodeData {
-  name: string;
-  value?: number;
-  color?: string;
-  children?: NodeData[];
-}
+import { TreemapData, TreemapNodeData, BaseContainerProps, ChartLabelProps } from "./types";
 
-interface TreemapData {
-  name: string;
-  children: NodeData[];
-}
-
-interface ContainerProps {
-  data: TreemapData;
-  width?: number;
-  height?: number;
-  children: ReactNode;
-}
+interface ContainerProps extends BaseContainerProps<TreemapData> {}
 
 interface TileProps {
-  label?: {
-    labelFormatter?: (value: any) => React.ReactNode;
-    variant?: LabelProps["variant"];
-    className?: string;
-  };
+  label?: ChartLabelProps;
 }
 
 // ---- Context ----
 type TreemapContext = {
-  root: d3.HierarchyNode<NodeData>;
-  treemapLayout: d3.TreemapLayout<NodeData>;
+  root: d3.HierarchyNode<TreemapNodeData>;
+  treemapLayout: d3.TreemapLayout<TreemapNodeData>;
   width: number;
   height: number;
   originalData: TreemapData; // <-- keep original data for legend
@@ -70,14 +50,14 @@ const Container = ({
 }: ContainerProps) => {
   const root = useMemo(() => {
     const hierarchy = d3
-      .hierarchy<NodeData>(data)
+      .hierarchy<TreemapNodeData>(data)
       .sum((d) => d.value || 0)
       .sort((a, b) => (b.value || 0) - (a.value || 0));
     return hierarchy;
   }, [data]);
 
   const treemapLayout = useMemo(
-    () => d3.treemap<NodeData>().size([width, height]).padding(2).round(true),
+    () => d3.treemap<TreemapNodeData>().size([width, height]).padding(2).round(true),
     [width, height]
   );
 
@@ -133,7 +113,7 @@ const Tile = ({ label }: TileProps) => {
     <g ref={groupRef}>
       {treemapData.leaves().map((leaf, i) => {
         // Walk up hierarchy to find nearest color
-        let node: d3.HierarchyNode<NodeData> | null = leaf;
+        let node: d3.HierarchyNode<TreemapNodeData> | null = leaf;
         let color: string | undefined;
         while (node && !color) {
           color = node.data.color;

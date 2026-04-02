@@ -6,21 +6,10 @@ import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
 import { useD3GroupTransition } from "./hooks/useGroupTransition";
 
-// Types
-type PieData = {
-  [key: string]: {
-    value: number;
-    color: string;
-    label: string;
-  };
-};
+import { PieData, BaseContainerProps, ChartLabelProps } from "./types";
 
-interface ContainerProps {
-  data: PieData;
-  width?: number;
-  height?: number;
+interface ContainerProps extends BaseContainerProps<PieData> {
   innerRadius?: number; // 👈 added for donut
-  children: ReactNode;
 }
 
 type PieDataEntry = [string, { value: number; color: string; label: string }];
@@ -116,11 +105,7 @@ const Container = ({
 
 // Slice
 interface SliceProps {
-  label?: {
-    labelFormatter?: (value: any) => React.ReactNode;
-    variant?: LabelProps["variant"];
-    className?: string;
-  };
+  label?: ChartLabelProps;
 }
 
 const Slice = ({ label }: SliceProps) => {

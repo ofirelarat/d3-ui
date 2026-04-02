@@ -6,30 +6,11 @@ import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
 import { useD3GroupTransition } from "./hooks/useGroupTransition";
 
-// Types
-type HeatmapData = {
-  [key: string]: {
-    data: number[][];
-    color: string;
-    label: string;
-  };
-};
+import { HeatmapData, BaseContainerProps, BaseSeriesProps } from "./types";
 
-interface ContainerProps {
-  data: HeatmapData;
-  width?: number;
-  height?: number;
-  children: ReactNode;
-}
+interface ContainerProps extends BaseContainerProps<HeatmapData> {}
 
-interface TileProps {
-  dataKey: string;
-  label?: {
-    labelFormatter?: (value: any) => React.ReactNode;
-    variant?: LabelProps["variant"];
-    className?: string;
-  };
-}
+interface TileProps extends BaseSeriesProps {}
 
 // Context
 type HeatmapContext = {

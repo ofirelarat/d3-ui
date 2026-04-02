@@ -7,23 +7,11 @@ import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
 import { useD3GroupTransition } from "./hooks/useGroupTransition";
 
-// Types
-type DataPoint = { x: string | number | Date; y: number };
-type BarData = {
-  [key: string]: {
-    data: DataPoint[];
-    color: string;
-    label: string;
-  };
-};
+import { DataPoint, BarData, BaseContainerProps, BaseSeriesProps } from "./types";
 
-interface ContainerProps {
-  data: BarData;
-  width?: number;
-  height?: number;
+interface ContainerProps extends BaseContainerProps<BarData> {
   variant?: "spread" | "stacked";
   orientation?: "vertical" | "horizontal";
-  children: ReactNode;
 }
 
 // Context
@@ -39,7 +27,7 @@ type BarChartContext = {
   groupScale?: d3.ScaleBand<string> | null;
   stackedData?: d3.Series<Record<string, number>, string>[] | null;
   seriesKeys: string[];
-  allPoints: DataPoint[];
+  allPoints: DataPoint<string | number | Date, number>[];
 };
 
 const BarChartContext = createContext<BarChartContext | null>(null);
@@ -191,14 +179,7 @@ const Container = ({
 };
 
 // Bar
-interface BarProps {
-  dataKey: string;
-  label?: {
-    labelFormatter?: (value: any) => React.ReactNode;
-    variant?: LabelProps["variant"];
-    className?: string;
-  };
-}
+interface BarProps extends BaseSeriesProps {}
 
 const Bar = ({ dataKey, label }: BarProps) => {
   const {

@@ -7,26 +7,9 @@ import { TooltipProvider, useTooltip } from "./primitives/Tooltip";
 import { Label, LabelProps } from "./primitives/Label";
 import { useD3Transition } from "./hooks/useTransition";
 
-// Types
-type DataPoint = { x: number; y: number };
-type LineData = {
-  [key: string]: {
-    data: DataPoint[];
-    color: string;
-    label: string;
-  };
-};
+import { DataPoint, LineData, BaseContainerProps, BaseSeriesProps } from "./types";
 
-interface ContainerProps {
-  data: LineData;
-  width?: number;
-  height?: number;
-  children: ReactNode;
-}
-
-interface LineProps {
-  dataKey: string;
-}
+interface ContainerProps extends BaseContainerProps<LineData> {}
 
 // Context
 type LineChartContext = {
@@ -123,14 +106,7 @@ const Container = ({
   );
 };
 
-interface LineProps {
-  dataKey: string;
-  label?: {
-    labelFormatter?: (value: any) => React.ReactNode;
-    variant?: LabelProps["variant"];
-    className?: string;
-  };
-}
+interface LineProps extends BaseSeriesProps {}
 
 const Line = ({ dataKey, label }: LineProps) => {
   // const pathRef = React.useRef<SVGPathElement | null>(null);

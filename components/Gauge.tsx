@@ -6,12 +6,7 @@ import { TooltipProvider } from "./primitives/Tooltip";
 import { useD3Transition } from "./hooks/useTransition";
 import { Label } from "./primitives/Label";
 
-// ---- Types ----
-export interface GaugeData {
-  label: string;
-  value: number;
-  color: string;
-}
+import { GaugeData } from "./types";
 
 interface ContainerProps {
   data: GaugeData[];
