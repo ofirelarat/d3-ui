@@ -119,8 +119,8 @@ const Tile = ({ dataKey, label }: TileProps) => {
     .interpolator((t) => {
       const adjustedT = Math.pow(t, 0.4);
       return d3.interpolate(
-        d3.rgb(seriesData.color).brighter(2),
-        d3.rgb(seriesData.color)
+        d3.rgb(seriesData.color || "#ccc").brighter(2),
+        d3.rgb(seriesData.color || "#ccc")
       )(adjustedT);
     })
     .domain([min, max]);

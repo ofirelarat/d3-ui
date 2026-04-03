@@ -12,7 +12,7 @@ interface ContainerProps extends BaseContainerProps<PieData> {
   innerRadius?: number; // 👈 added for donut
 }
 
-type PieDataEntry = [string, { value: number; color: string; label: string }];
+type PieDataEntry = [string, { value: number; color?: string; label: string }];
 type PieChartContext = {
   data: PieData;
   width: number;

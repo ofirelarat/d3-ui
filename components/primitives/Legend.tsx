@@ -2,18 +2,29 @@ import { cn } from "../lib/utils";
 
 export interface LegendItem {
   label: string;
-  color: string;
+  color?: string;
 }
 
 export interface LegendProps {
   className?: string;
   itemClassName?: string;
   items: LegendItem[];
+  orientation?: "horizontal" | "vertical";
+  position?: "top" | "bottom" | "left" | "right";
 }
 
-export function Legend({ items, className, itemClassName }: LegendProps) {
+export function Legend({ 
+  items, 
+  className, 
+  itemClassName,
+  orientation = "horizontal" 
+}: LegendProps) {
   return (
-    <div className={cn("flex flex-wrap gap-4 mt-4", className)}>
+    <div className={cn(
+      "flex flex-wrap gap-4 mt-4",
+      orientation === "vertical" ? "flex-col items-start" : "flex-row items-center justify-center",
+      className
+    )}>
       {items.map((item) => (
         <div
           key={item.label}
