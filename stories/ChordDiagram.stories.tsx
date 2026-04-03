@@ -68,7 +68,44 @@ export const Default: Story = {
 
 export const Directed: Story = {
   args: {
-    data: DATA_SAMPLE,
+    data: [
+      {
+        label: "Category A",
+        color: "#3b82f6",
+        ribbons: [
+          { label: "Category B", value: 5 },
+          { label: "Category C", value: 8 },
+          { label: "Category D", value: 2 },
+        ],
+      },
+      {
+        label: "Category B",
+        color: "#ef4444",
+        ribbons: [
+          { label: "Category A", value: 2 },
+          { label: "Category C", value: 4 },
+          { label: "Category D", value: 6 },
+        ],
+      },
+      {
+        label: "Category C",
+        color: "#10b981",
+        ribbons: [
+          { label: "Category A", value: 5 },
+          { label: "Category B", value: 4 },
+          { label: "Category D", value: 8 },
+        ],
+      },
+      {
+        label: "Category D",
+        color: "#f59e0b",
+        ribbons: [
+          { label: "Category A", value: 1 },
+          { label: "Category B", value: 2 },
+          { label: "Category C", value: 4 },
+        ],
+      },
+    ],
     width: 600,
     height: 600,
     directed: true,

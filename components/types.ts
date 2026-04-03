@@ -55,12 +55,10 @@ export interface TreemapData {
 }
 
 // 8. Chord Diagram Data
-export interface ChordRibbon {
-  label: string; // Target category
-  sourceValue: number; // Flow from source group to target group
-  targetValue: number; // Flow from target group to source group
-  color?: string; // Optional custom color for this connection
-}
+export type ChordRibbon =
+  | (SeriesBase & { value: number; sourceValue?: never; targetValue?: never })
+  | (SeriesBase & { sourceValue: number; targetValue: number; value?: never });
+
 
 export interface ChordSeries extends SeriesBase {
   ribbons: ChordRibbon[];

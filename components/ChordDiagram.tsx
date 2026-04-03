@@ -68,10 +68,19 @@ const Container = ({
       series.ribbons.forEach((ribbon) => {
         const j = labelList.indexOf(ribbon.label);
         if (j !== -1) {
-          matrix[i][j] = ribbon.sourceValue;
-          matrix[j][i] = ribbon.targetValue;
+          // For directed charts, each ribbon object should only represent ONE flow direction (i -> j).
+          // For undirected charts, it represents both flows between i and j.
+          const sVal = ribbon.value ?? ribbon.sourceValue ?? 0;
+          const tVal = ribbon.targetValue ?? 0;
+          
+          matrix[i][j] += sVal;
+          if (!directed && i !== j && tVal > 0) {
+            matrix[j][i] += tVal;
+          }
+          
           if (ribbon.color) {
-            ribbonColorsMap[`${i}-${j}`] = ribbon.color;
+            const key = i < j ? `${i}-${j}` : `${j}-${i}`;
+            ribbonColorsMap[key] = ribbon.color;
           }
         }
       });
@@ -246,9 +255,12 @@ const Ribbons = () => {
     <g ref={ribbonRef} className="ribbons">
       {ribbons.map((ribbon, i) => {
         const { show, hide } = useTooltip();
-        const sourceLabel = labels[ribbon.source.index];
-        const targetLabel = labels[ribbon.target.index];
-        const customColor = ribbonColors[`${ribbon.source.index}-${ribbon.target.index}`];
+        const sIdx = ribbon.source.index;
+        const tIdx = ribbon.target.index;
+        const sourceLabel = labels[sIdx];
+        const targetLabel = labels[tIdx];
+        const colorKey = sIdx < tIdx ? `${sIdx}-${tIdx}` : `${tIdx}-${sIdx}`;
+        const customColor = ribbonColors[colorKey];
         const sourceColor = customColor || colorScale(sourceLabel);
         const targetColor = customColor || colorScale(targetLabel);
         
@@ -258,16 +270,26 @@ const Ribbons = () => {
         return (
           <g 
             key={i}
-            onMouseEnter={(e: React.MouseEvent) =>
+            onMouseEnter={(e: React.MouseEvent) => {
+              const currentSeries = data[ribbon.source.index];
+              const ribbonData = currentSeries.ribbons.find(r => r.label === targetLabel);
+              const sourceVal = ribbonData?.value ?? ribbonData?.sourceValue ?? 0;
+              
+              const targetSeries = data[ribbon.target.index];
+              const reverseRibbon = targetSeries.ribbons.find(r => r.label === sourceLabel);
+              const targetVal = reverseRibbon?.value ?? reverseRibbon?.sourceValue ?? 0;
+
               show(
                 {
-                  title: `${sourceLabel} ↔ ${targetLabel}`,
-                  content: `From ${sourceLabel}: ${ribbon.source.value.toLocaleString()}\nFrom ${targetLabel}: ${ribbon.target.value.toLocaleString()}`,
+                  title: directed ? `${sourceLabel} → ${targetLabel}` : `${sourceLabel} ↔ ${targetLabel}`,
+                  content: directed 
+                   ? `Flow to ${targetLabel}: ${sourceVal.toLocaleString()}`
+                   : `From ${sourceLabel}: ${sourceVal.toLocaleString()}\nFrom ${targetLabel}: ${targetVal.toLocaleString()}`,
                   color: sourceColor,
                 },
                 e
-              )
-            }
+              );
+            }}
             onMouseLeave={hide}
             className="cursor-pointer transition-opacity-300"
           >
