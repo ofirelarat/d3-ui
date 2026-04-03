@@ -30,6 +30,7 @@ const navGroups: NavGroup[] = [
       { label: "Heatmap", href: "/charts/heatmap" },
       { label: "Treemap", href: "/charts/treemap" },
       { label: "Gauge", href: "/charts/gauge" },
+      { label: "Chord Diagram", href: "/charts/chord-diagram" },
     ],
   },
   {

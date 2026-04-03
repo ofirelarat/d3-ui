@@ -9,7 +9,7 @@ export type DataPoint<X = number, Y = number> = {
 
 // 2. Base Series (Color & Label)
 export interface SeriesBase {
-  color: string;
+  color?: string;
   label: string;
 }
 
@@ -54,7 +54,19 @@ export interface TreemapData {
   children: TreemapNodeData[];
 }
 
-// 8. Shared Props
+// 8. Chord Diagram Data
+export type ChordRibbon =
+  | (SeriesBase & { value: number; sourceValue?: never; targetValue?: never })
+  | (SeriesBase & { sourceValue: number; targetValue: number; value?: never });
+
+
+export interface ChordSeries extends SeriesBase {
+  ribbons: ChordRibbon[];
+}
+
+export type ChordData = ChordSeries[];
+
+// 9. Shared Props
 export interface ChartLabelProps {
   labelFormatter?: (value: any) => ReactNode;
   variant?: LabelProps["variant"];
